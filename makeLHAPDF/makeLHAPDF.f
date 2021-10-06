@@ -89,7 +89,7 @@ c - run the loop, write all the data and close the file
           do j = 1, lenQArr
 
             X = XArr(i)
-            Q2 = QArr(j)!*QArr(j)
+            Q2 = QArr(j)*QArr(j)
 
 c           call the subroutine from grvphoton.f
             call GRVGLO (X, Q2, UL, DL, SL, CL, BL, GL)
