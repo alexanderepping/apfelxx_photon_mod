@@ -6,8 +6,7 @@
 #  Convenient program to change the currently used installation of Apfel++.                                 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #  - Furthermore it will save the current state of the .bash_aliases file in a backup file                  #
-#  - The .bash_aliases file should be constucted in a similar way to the one below to work properly.        #
-#    My current .bash_aliases file can be also found in the Github.                                         #
+#  - The .bash_aliases file should be constucted in a similar way to the one found in the Github.           #
 #  - The paths obiously should be changed accordingly.                                                      # 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -83,52 +82,3 @@ fi
 
 # delete the temporary file
 rm $temp 
-
-
-
-
-
-
-# backup of file, 06.10.2021 14:28
-
-
-#std, mod
-# apfelInstallation="mod"
-# lhapdfInstallation="std"
-
-
-
-###################
-# apfelxx
-###################
-# case $apfelInstallation in
-#     "std")
-#     export LD_LIBRARY_PATH=/local0/a_eppi01/myapfel/lib:$LD_LIBRARY_PATH
-#     export PATH=/local0/a_eppi01/myapfel/bin:$PATH
-#     export CURRENT_APFEL=/local0/a_eppi01/myapfel ;;
-
-#     "mod")
-#     export LD_LIBRARY_PATH=/local0/a_eppi01/myApfelModified/lib:$LD_LIBRARY_PATH
-#     export PATH=/local0/a_eppi01/myApfelModified/bin:$PATH
-#     export CURRENT_APFEL=/local0/a_eppi01/myApfelModified;;
-# esac
-
-
-
-###################
-# lhapdf
-###################
-# case $lhapdfInstallation in
-#     "std")
-#     export LD_LIBRARY_PATH=/local0/a_eppi01/myLHAPDF/lib:$LD_LIBRARY_PATH
-#     export PATH=/local0/a_eppi01/myLHAPDF/bin:$PATH
-#     export CURRENT_LHAPDF=/local0/a_eppi01/myLHAPDF ;;
-
-#     "mod")
-#     export LD_LIBRARY_PATH=/local0/a_eppi01/myLHAPDFModified/lib:$LD_LIBRARY_PATH
-#     export PATH=/local0/a_eppi01/myLHAPDFModified/bin:$PATH
-#     export CURRENT_LHAPDF=/local0/a_eppi01/myLHAPDFModified;;
-# esac
-# maybe needed:
-# export PYTHONPATH=$PYTHONPATH:/foo/lhapdf/lib/python3.9/site-packages
-
