@@ -3,6 +3,15 @@ Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code
 
 Done in the course of writing my master thesis.
 
+## compiling
+in the main folder use
+```
+cmake .
+make
+```
+- fresh installation: remove `CMakeCache.txt` and the folder `CMakeFiles`
+- executables can be added in the `CMakeLists.txt` 
+- to switch the `LHAPDF`-installation just change your `PATH` variable to point to the correct `lhapdf-config`
 
 ## folders:
 
