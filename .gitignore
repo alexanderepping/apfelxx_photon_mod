@@ -1,3 +1,43 @@
+####
+# my own things
+####
+
+# myapfel folder since it is just the standard version
+myapfel/*
+
+# myLHAPDF folder since it is just the standard version
+myLHAPDF/*
+
+# myLHAPDFModified folder
+myLHAPDFModified/*
+
+# test_calculations folder since the files are just the unmodified versions
+test_calculations/*
+
+# unnsecessary things from myApfelModified
+myApfelModified/bin/*
+myApfelModified/include/*
+myApfelModified/lib/*
+myApfelModified/apfelxx/bin/*
+myApfelModified/apfelxx/build/*
+myApfelModified/apfelxx/docs/*
+myApfelModified/apfelxx/lib/*
+myApfelModified/apfelxx/resources/*
+myApfelModified/apfelxx/tests/*
+myApfelModified/apfelxx/CMakeLists.txt
+myApfelModified/apfelxx/LICENSE
+myApfelModified/apfelxx/README.md
+
+# VSCode Workspace Thinkpad Alex
+apfelxx_photon_mod_Lenovo.code-workspace
+settings.json
+
+
+
+#####
+# added by Peter
+####
+
 lib/
 bin/
 cmake_install.cmake
@@ -6,3 +46,100 @@ Makefile
 CMakeCache.txt
 paths.cmake
 .vscode/
+
+
+
+#####
+# things from the apfel .gitignore
+####
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Generated files
+inc/apfel/version.h
+bin/apfelxx-config
+
+# Jupyter checkpoints
+*.ipynb_checkpoints/
+
+# Python
+__pycache__
+
+# Build directory
+build
+
+# cmake related
+install_manifest.txt
+CMakeCache.txt
+CMakeFiles
+CTestTestfile.cmake
+Makefile
+Testing/
+apfelxx.i
+cmake_install.cmake
+src/Makefile
+src/cmake_install.cmake
+tests/CTestTestfile.cmake
+tests/Makefile
+tests/cmake_install.cmake
+tests/grid_test
+tests/memcheck.tmp
+tests/memcheck.xml
+tests/test1
+tests/subgrid_test
+tests/interpolation_test
+tests/integrator_test
+tests/operator_test
+tests/distribution_test
+tests/coupling_test
+tests/structurefunction_test
+tests/qgrid_test
+tests/set_test
+tests/cache_test
+tests/qgriddist_test
+tests/dglap_test
+tests/ogata_test
+tests/gpd_test
+tests/polylog_test
+tests/expansion_test
+tests/siaxsec_test
+docs/latex/src/codes/FOvsAsy
+docs/latex/src/codes/FONLL
+docs/latex/src/codes/logs
+docs/latex/src/codes/EvolutionFactor
+docs/latex/src/codes/LeptonicModulation
+docs/latex/src/codes/PhaseSpaceRedFactor
+docs/latex/src/codes/NewPrescription
+docs/latex/src/codes/PhaseSpacePowerCorrs
+docs/latex/src/codes/Alphas
+docs/latex/src/codes/InterpolationFunctions
+docs/latex/src/codes/PDFs
+docs/latex/src/codes/Yterm
