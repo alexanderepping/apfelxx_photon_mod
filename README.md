@@ -3,6 +3,8 @@ Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code
 
 Done in the course of writing my master thesis.
 
+Branch first_approach_mod follows the approach of just adding the pointlike contribution directly into the Derivate function. Not followed further.
+
 ## compiling
 in the main folder use
 ```
