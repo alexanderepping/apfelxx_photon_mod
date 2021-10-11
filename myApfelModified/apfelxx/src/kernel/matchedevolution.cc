@@ -17,11 +17,11 @@ namespace apfel
 {
   //_________________________________________________________________________
   template<class T>
-  MatchedEvolution<T>::MatchedEvolution(T                   const& ObjRef,// is of type T = Set<Distribution>
+  MatchedEvolution<T>::MatchedEvolution(T                   const& ObjRef,
                                         double              const& MuRef,
                                         std::vector<double> const& Thresholds,
                                         int                 const& nsteps):
-    _ObjRef(ObjRef),// is of type T = Set<Distribution>
+    _ObjRef(ObjRef),
     _MuRef(MuRef),
     _Thresholds(Thresholds),
     _nsteps(nsteps)
@@ -48,24 +48,14 @@ namespace apfel
   //_________________________________________________________________________________
   template<class T>
   T MatchedEvolution<T>::EvolveObject(int const& nf, double const& t0, double const& t1, T const& Obj0) const
-  // Obj0 is of type T = Set<Distribution>, therefore the return is also of T = Set<Distribution>
-  // t0 and t1 are the initial and final scale (ln(Q^2)) of the evolution
   {
     // Return immediately "Obj0" if "t0" and "t1" are equal.
     if (t0 == t1)
-      return Obj0;// Obj0 is of type T = Set<Distribution>
+      return Obj0;
 
     // Numerical solution of the evolution equation with fourth-order
     // Runge-Kutta.
-    // The output of rk4  is std::function<U(double const&, U const&, double const&)>,
-    // meaning a function of double const& t, T const& Obj and double const& dt.
-    // It takes std::function<U(double const& t, U const& Obj)> const& f as an input,
-    // meaning it requires an const& f of the type function<U(double const& t, U const& Obj)>,
-    // where the function is the lambda function, the U in front of the brackets means 
-    // the output type of the function and t and Obj are the inputs.
     const auto dObj = rk4<T>([&] (double const& t, T const& Obj) -> T{ return Derivative(nf, t, Obj); });
-    // T is obviously the same as U. The type of the input object is T = Set<Distribution>,
-    // meaning the function Derivative also returns a Set<Distribution>.
 
     // Use "_nsteps" steps for the evolution.
     double t        = t0;
@@ -76,13 +66,12 @@ namespace apfel
         Obj += dObj(t, Obj, dt);
         t   += dt;
       }
-
     return Obj;
   }
 
   //_________________________________________________________________________
   template<class T>
-  T MatchedEvolution<T>::Evaluate(double const& mu) const // result will be T = Set<Distribution>
+  T MatchedEvolution<T>::Evaluate(double const& mu) const
   {
     const double mu2  = pow(mu,2);
     const double lmu2 = log(mu2);
