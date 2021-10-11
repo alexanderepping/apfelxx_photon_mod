@@ -17,8 +17,6 @@ namespace apfel
 {
   //_________________________________________________________________________________
   template<class T>
-  // in Evolution.cc: TabulateObject<apfel::Set<apfel::Distribution>>
-  // would mean, that Object is MatchedEvolution<Set<Distribution>>
   TabulateObject<T>::TabulateObject(MatchedEvolution<T>      & Object,
                                     int                 const& nQ,
                                     double              const& QMin,
@@ -47,7 +45,7 @@ namespace apfel
     // Loop on "_Qg" below "MuRef".
     for (int iQ = tQ; iQ >= 0; iQ--)
       {
-        const T o = Object.Evaluate(this->_Qg[iQ]); // result will be T = Set<Distribution>
+        const T o = Object.Evaluate(this->_Qg[iQ]);
         this->_GridValues.push_back(o);
         Object.SetObjectRef(o);
         Object.SetMuRef(this->_Qg[iQ]);
