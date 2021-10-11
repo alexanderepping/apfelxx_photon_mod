@@ -66,7 +66,6 @@ namespace apfel
         Obj += dObj(t, Obj, dt);
         t   += dt;
       }
-
     return Obj;
   }
 

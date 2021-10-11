@@ -4,15 +4,19 @@
 
 # myapfel folder since it is just the standard version
 myapfel/*
-
 # myLHAPDF folder since it is just the standard version
 myLHAPDF/*
-
-# myLHAPDFModified folder
-myLHAPDFModified/*
-
 # test_calculations folder since the files are just the unmodified versions
 test_calculations/*
+
+# testModifiedApfel executable
+testModifiedApfel/Evolution
+
+# myLHAPDFModified folder standard things
+myLHAPDFModified/bin/*
+myLHAPDFModified/include/*
+myLHAPDFModified/LHAPDF-6.4.0/*
+myLHAPDFModified/lib/*
 
 # unnsecessary things from myApfelModified
 myApfelModified/bin/*
@@ -28,9 +32,12 @@ myApfelModified/apfelxx/CMakeLists.txt
 myApfelModified/apfelxx/LICENSE
 myApfelModified/apfelxx/README.md
 
-# VSCode Workspace Thinkpad Alex
-apfelxx_photon_mod_Lenovo.code-workspace
+# VSCode Workspace
+*.code-workspace
 settings.json
+
+# DEADJOE (some Linux specific file)
+DEADJOE
 
 
 
