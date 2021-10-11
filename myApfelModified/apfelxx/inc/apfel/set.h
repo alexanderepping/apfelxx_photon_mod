@@ -112,7 +112,10 @@ namespace apfel
    */
   ///@{
   template<class A, class B>
-  Set<B> operator * (Set<A> lhs, Set<B> const& rhs) { return lhs *= rhs; }
+  // operator makes an object of type Set<B>, which is the one on the rhs
+  // lhs *= rhs similar to rhs.*=(lhs) 
+  Set<B> operator * (Set<A> lhs, Set<B> const& rhs) { return lhs *= rhs; } 
+ 
 
   // other operators
   template<class T>
