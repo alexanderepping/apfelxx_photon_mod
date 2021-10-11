@@ -11,14 +11,16 @@ namespace apfel
 {
   //_________________________________________________________________________________
   template<class T>
-  Dglap<T>::Dglap(std::function<Set<Operator>(int const&, double const&)> const& SplittingFunctions,
-                  std::function<Set<Operator>(bool const&, int const&)>   const& MatchingConditions,
-                  Set<T>                                                  const& ObjRef,
-                  double                                                  const& MuDistRef,
-                  std::vector<double>                                     const& Thresholds,
-                  int                                                     const& nsteps):
+  Dglap<T>::Dglap(std::function<Set<Operator>(int const&, double const&)>     const& SplittingFunctions,
+                  std::function<Set<Distribution>(int const&, double const&)> const& PointlikeContribts, /*addition*/
+                  std::function<Set<Operator>(bool const&, int const&)>       const& MatchingConditions,
+                  Set<T>                                                      const& ObjRef,
+                  double                                                      const& MuDistRef,
+                  std::vector<double>                                         const& Thresholds,
+                  int                                                         const& nsteps):
     MatchedEvolution<Set<T>>(ObjRef, MuDistRef, Thresholds, nsteps),
                           _SplittingFunctions(SplittingFunctions),
+                          _PointlikeContribts(PointlikeContribts), /*addition*/
                           _MatchingConditions(MatchingConditions)
   {
   }
@@ -44,8 +46,18 @@ namespace apfel
   //_________________________________________________________________________________
   template<class T>
   Set<T> Dglap<T>::Derivative(int const& nf, double const& t, Set<T> const& f) const
+  // The function Derivative returns a Set<Distribution>. This means, that T = Distribution.
+  // SplittingFunctions is function<Set<Operator>(int const&, double const&)> (same as _SplittingFunctions)
+  // since we input specific parameters, it returns a value. This value is of the type Set<Distribution>.// the multiplicative operation can be found in set.h, line 115:
+  // Set<B> operator * (Set<A> lhs, Set<B> const& rhs) { return lhs *= rhs; }
+  // This means that the type of the retun is the type of the f, meaning Set<Distributions>
+  // Meaning: _PointlikeContribts should be also of the type Set<Distribution>
+  //
+  // The addition is defined, but they have to have the same convolution map.
   {
-    return _SplittingFunctions(nf, exp(t / 2)) * f;
+    //return _SplittingFunctions(nf, exp(t / 2)) * f;
+    return _PointlikeContribts(nf, exp(t/2)) + _SplittingFunctions(nf, exp(t / 2)) * f; /*addition*/
+    
   }
 
   // Fixed template types.

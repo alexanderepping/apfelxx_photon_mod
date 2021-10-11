@@ -95,7 +95,7 @@ namespace apfel
     /**
      * @brief Function that returns the number of steps.
      */
-    int GetNumberOfSteps() const { return _nsteps; }
+    int GetNumberOfSteps() const {return _nsteps; }
     ///@}
 
     /**

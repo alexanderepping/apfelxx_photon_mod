@@ -294,6 +294,8 @@ namespace apfel
     t.stop();
 
     return DglapObj;
+    // DglapObj(Sf({pto, Set<Operator>{EvolutionBasisQCD{nf}, OpMapLO.at(nf)}}), 
+    //          MC)
   }
 
   //_____________________________________________________________________________
@@ -1061,6 +1063,45 @@ namespace apfel
       throw std::runtime_error(error("SplittingFunctions","Perturbative order not allowed."));
   }
 
+  //_____________________________________________________________________________ /*addition*/
+  std::function<Set<Distribution>(int const&, double const&)> PointlikeContribts(std::map<int, DglapObjects>         const& DglapObj,
+                                                                                int                                  const& PerturbativeOrder,
+                                                                                std::function<double(double const&)> const& Alphas)
+  {
+    if (PerturbativeOrder == 0)
+      return [=] (int const& nf, double const& mu) -> Set<Distribution>
+      {
+        const double ce= 1/137 / FourPi; /*why is it 4*pi and not 2*pi?*/ // ce for electomagnetic constant, alpha_e should be defined better somewhere
+        const double cp = Alphas(mu) / FourPi; //cp probably for perturbative constant
+        return ce * DglapObj.at(nf).PointlikeContribts.PointlikeContribts.at(0);
+      };
+    else if (PerturbativeOrder == 1)
+      return [=] (int const& nf, double const& mu) -> Set<Distribution>
+      {
+        const double ce= 1/137 / FourPi; /*why is it 4*pi and not 2*pi?*/ // ce for electomagnetic constant, alpha_e should be defined better somewhere
+        const double cp = Alphas(mu) / FourPi; //cp probably for perturbative constant
+        const auto sf = DglapObj.at(nf).PointlikeContribts;
+        return ce * ( sf.at(0) + cp * sf.at(1) );
+      };
+    // else if (PerturbativeOrder == 2)
+    //   return [=] (int const& nf, double const& mu) -> Set<Operator>
+    //   {
+    //     const double cp = Alphas(mu) / FourPi;
+    //     const auto sf = DglapObj.at(nf).PointlikeContribts;
+    //     return cp * ( sf.at(0) + cp * ( sf.at(1) + cp * sf.at(2) ) );
+    //   };
+    // else if (PerturbativeOrder == 3)
+    //   return [=] (int const& nf, double const& mu) -> Set<Operator>
+    //   {
+    //     const double cp = Alphas(mu) / FourPi;
+    //     const auto sf = DglapObj.at(nf).PointlikeContribts;
+    //     return cp * ( sf.at(0) + cp * ( sf.at(1) + cp * ( sf.at(2) + cp * sf.at(3) ) ) );
+    //   };
+    else
+      // throw std::runtime_error(error("PointlikeContribts","Perturbative order not allowed."));
+      throw std::runtime_error(error("PointlikeContribts","Perturbative order not yet implemented."));
+  }
+
   //_____________________________________________________________________________
   std::function<Set<Operator>(bool const&, int const&)> MatchingConditions(std::map<int, DglapObjects>          const& DglapObj,
                                                                            int                                  const& PerturbativeOrder,
@@ -1132,6 +1173,7 @@ namespace apfel
 
     // Initialize DGLAP evolution.
     return std::unique_ptr<Dglap<Distribution>>(new Dglap<Distribution> {SplittingFunctions(DglapObj, PerturbativeOrder, Alphas),
+                                                                         PointlikeContribts(DglapObj, PerturbativeOrder, Alphas),
                                                                          MatchingConditions(DglapObj, PerturbativeOrder, Alphas), InPDFs, MuRef, Thresholds, nsteps
                                                                         });
   }

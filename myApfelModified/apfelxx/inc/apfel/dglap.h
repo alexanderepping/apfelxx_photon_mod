@@ -26,18 +26,20 @@ namespace apfel
     /**
      * @brief Dglap constructor.
      * @param SplittingFunctions: set of splitting functions
+     * @param PointlikeContribts: set of pointlike contributions
      * @param MatchingConditions: set od matching conditions
      * @param ObjRef: reference object to be evolved
      * @param MuRef: reference scale from which the evolution starts
      * @param Thresholds: vector of the heavy quark thresholds
      * @param nsteps: number of steps of the ODE solver (default: 10)
      */
-    Dglap(std::function<Set<Operator>(int const&, double const&)> const& SplittingFunctions,
-          std::function<Set<Operator>(bool const&, int const&)>   const& MatchingConditions,
-          Set<T>                                                  const& ObjRef,
-          double                                                  const& MuRef,
-          std::vector<double>                                     const& Thresholds,
-          int                                                     const& nsteps = 10);
+    Dglap(std::function<Set<Operator>(int const&, double const&)>     const& SplittingFunctions,
+          std::function<Set<Distribution>(int const&, double const&)> const& PointlikeContribts, /*addition*/
+          std::function<Set<Operator>(bool const&, int const&)>       const& MatchingConditions,
+          Set<T>                                                      const& ObjRef,
+          double                                                      const& MuRef,
+          std::vector<double>                                         const& Thresholds,
+          int                                                         const& nsteps = 10);
 
     /**
      * @brief Function that matches the evolved object at the thresholds.
@@ -88,7 +90,8 @@ namespace apfel
     void SetInitialDistributions(std::function<std::map<int, double>(double const&, double const&)> const& InDistFunc, double const& mu);
     ///@}
   private:
-    std::function<Set<Operator>(int const&,double const&)> _SplittingFunctions;
-    std::function<Set<Operator>(bool const&,int const&)>   _MatchingConditions;
+    std::function<Set<Operator>(int const&,double const&)>      _SplittingFunctions;
+    std::function<Set<Distribution>(int const&, double const&)> _PointlikeContribts; /*addition*/
+    std::function<Set<Operator>(bool const&,int const&)>        _MatchingConditions;
   };
 }
