@@ -21,5 +21,11 @@ Some useful bash files I use to run the programs and/or change between different
 ### makeLHAPDF
 Fortran program to write the GRVCustomSet_0000.dat file in the LHAPDF fromat and related files.
 
+### myApfelModified/apfelxx
+Folder containing the changed source code and headers of the apfelxx program.
+
+### myLHAPDFModified/share/LHAPDF/
+Folder containing folders with the used LHAPDF data sets.
+
 ### testModifiedApfel
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
