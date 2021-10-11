@@ -35,6 +35,7 @@ namespace apfel
   std::function<U(double const&, U const&, double const&)>
   rk4(std::function<U(double const& t, U const& Obj)> const& f)
   {
+    //std::cout << "\nNEW STEP\n"; //debug
     // *INDENT-OFF*
     return
       [       f            ] (double const& t, U const& y,  double const& dt) -> U{ return

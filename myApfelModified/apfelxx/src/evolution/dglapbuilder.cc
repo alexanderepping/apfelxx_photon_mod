@@ -76,11 +76,17 @@ namespace apfel
     std::map<int, std::map<int, Operator>> OpMapLO;
     const Operator O0ns{g, P0ns{}, IntEps};
     const Operator O0gq{g, P0gq{}, IntEps};
+    //std::cout << "\nEvolutionBasisQCD::PNSP" << std::to_string(EvolutionBasisQCD::PNSP) << "\n"; //debug
     for (int nf = nfi; nf <= nff; nf++)
       {
         const Operator O0qg{g, P0qg{nf}, IntEps};
         const Operator O0gg{g, P0gg{nf}, IntEps};
+        // const Operator O0Kns{g, P0Kns{nf}, IntEps};  //addition
+        // const Operator O0Kq{g, P0Kq{nf}, IntEps}; //addition
         std::map<int, Operator> OM;
+        // PNSP and the others are enumerators ranging from 0-6 and defined as 
+        // enum Operand: int {PNSP, PNSM, PNSV, PQQ, PQG, PGQ, PGG};
+        // in evolutionbasisqcd.h
         OM.insert({EvolutionBasisQCD::PNSP, O0ns});
         OM.insert({EvolutionBasisQCD::PNSM, O0ns});
         OM.insert({EvolutionBasisQCD::PNSV, O0ns});
@@ -88,6 +94,8 @@ namespace apfel
         OM.insert({EvolutionBasisQCD::PQG,                O0qg});
         OM.insert({EvolutionBasisQCD::PGQ,  ( nf / 6. ) * O0gq});
         OM.insert({EvolutionBasisQCD::PGG,                O0gg});
+        // OM.insert({EvolutionBasisQCD::KNS,                O0Kns});//addition
+        // OM.insert({EvolutionBasisQCD::KQ,                 O0Kq}); //addition 
         OpMapLO.insert({nf, OM});
       }
 
@@ -269,6 +277,7 @@ namespace apfel
         obj.Threshold = Thresholds[nf-1];
         if (OpEvol)
           {
+            //                                 Set<T>{ConvolutionMap  _map, std::map<int, T>  _objects}
             obj.SplittingFunctions.insert({ 0, Set<Operator>{EvolutionOperatorBasisQCD{nf}, OpMapLO.at(nf)}});
             obj.SplittingFunctions.insert({ 1, Set<Operator>{EvolutionOperatorBasisQCD{nf}, OpMapNLO.at(nf)}});
             obj.SplittingFunctions.insert({ 2, Set<Operator>{EvolutionOperatorBasisQCD{nf}, OpMapNNLO.at(nf)}});
@@ -294,6 +303,47 @@ namespace apfel
     t.stop();
 
     return DglapObj;
+    /*
+    DglapObj(SplittingFunctions({ 0, Set<Operator>{EvolutionBasisQCD{nf}, OpMapLO.at(nf)}},
+                                { 1, Set<Operator>{EvolutionBasisQCD{nf}, OpMapNLO.at(nf)}},
+                                { 2, Set<Operator>{EvolutionBasisQCD{nf}, OpMapNNLO.at(nf)}},
+                                { 3, Set<Operator>{EvolutionBasisQCD{nf}, OpMapNNNLO.at(nf)}}),
+             MatchingConditions({ 0, Set<Operator>{MatchingBasisQCD{nf},  MatchLO}},
+                                { 1, Set<Operator>{MatchingBasisQCD{nf},  MatchNLO.at(nf)}},
+                                { 2, Set<Operator>{MatchingBasisQCD{nf},  MatchNNLO.at(nf)}},
+                                {-2, Set<Operator>{MatchingBasisQCD{nf},  MatchNNLOb.at(nf)}}))
+
+
+    where for example OpMapLO is given by:
+
+    for (int nf = nfi; nf <= nff; nf++)
+      {
+        const Operator O0ns{g, P0ns{}, IntEps};
+        const Operator O0gq{g, P0gq{}, IntEps};
+        const Operator O0qg{g, P0qg{nf}, IntEps};
+        const Operator O0gg{g, P0gg{nf}, IntEps};
+        OM.insert({EvolutionBasisQCD::PNSP, O0ns});
+        OM.insert({EvolutionBasisQCD::PNSM, O0ns});
+        OM.insert({EvolutionBasisQCD::PNSV, O0ns});
+        OM.insert({EvolutionBasisQCD::PQQ,  ( nf / 6. ) * O0ns});
+        OM.insert({EvolutionBasisQCD::PQG,                O0qg});
+        OM.insert({EvolutionBasisQCD::PGQ,  ( nf / 6. ) * O0gq});
+        OM.insert({EvolutionBasisQCD::PGG,                O0gg});
+        OpMapLO.insert({nf, OM});
+      }
+
+
+    All in all:
+
+// DglapObj( SF/MC(nf, 
+//                 SetOfOperators( EvolutionBasisQCD{nf},                      //some rules at nf
+//                                 map(  EvolutionBasisQCD::Enumerator, 
+//                                       Operator( grid, 
+//                                                 splittingfunction{nf}, 
+//                                                 IntEps)))))
+// SetOfOperators: Set<T>{ConvolutionMap  _map, std::map<int, T>  _objects} (not sure)
+
+    */
   }
 
   //_____________________________________________________________________________
@@ -1029,6 +1079,12 @@ namespace apfel
   std::function<Set<Operator>(int const&, double const&)> SplittingFunctions(std::map<int, DglapObjects>          const& DglapObj,
                                                                              int                                  const& PerturbativeOrder,
                                                                              std::function<double(double const&)> const& Alphas)
+// DglapObj( SF/MC(nf, 
+//                 SetOfOperators( EvolutionBasisQCD{nf},                      //some rules at nf
+//                                 map(  EvolutionBasisQCD::Enumerator, 
+//                                       Operator( grid, 
+//                                                 splittingfunction{nf}, 
+//                                                 IntEps)))))
   {
     if (PerturbativeOrder == 0)
       return [=] (int const& nf, double const& mu) -> Set<Operator>

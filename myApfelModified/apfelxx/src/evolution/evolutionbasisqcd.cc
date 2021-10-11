@@ -12,15 +12,20 @@ namespace apfel
   EvolutionBasisQCD::EvolutionBasisQCD(int const& nf):
     ConvolutionMap{"EvolutionBasisQCD_" + std::to_string(nf)}
   {
-    _rules[GLUON] = { {PGG, GLUON, 1}, {PGQ, SIGMA, 1} };
+    // structure of the rules: _rules[pdf_lhs] = {P_{lhs, rhs}/operand, pdf_rhs/object, coefficient}
+    _rules[GLUON] = { {PGG, GLUON, 1}, {PGQ, SIGMA, 1}};
+    //_rules[GLUON] = { {PGG, GLUON, nf}, {PGQ, SIGMA, nf} }; //debug
     for (int j = nf + 1; j <= 6; j++)
-      _rules[GLUON].push_back({PGQ, 2 * j - 1, 6. / j / ( j - 1 )});
+      // push_back just appends the element to the end of the vector
+      _rules[GLUON].push_back({PGQ, 2 * j - 1, 6. / j / ( j - 1 )}); 
 
     _rules[SIGMA]   = { {PQG, GLUON, 1}, {PQQ, SIGMA, 1} };
+    //_rules[SIGMA]   = { {PQG, GLUON, nf}, {PQQ, SIGMA, nf} }; //debug
     for (int j = nf + 1; j <= 6; j++)
       _rules[SIGMA].push_back({PQQ, 2 * j - 1, 6. / j / ( j - 1 )});
 
     _rules[VALENCE] = { {PNSV, VALENCE, 1} };
+    //_rules[VALENCE] = { {PNSV, VALENCE, nf} }; //debug
 
     for (int i = 2; i <= nf; i++)
       {

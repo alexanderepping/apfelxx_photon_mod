@@ -53,6 +53,12 @@ namespace apfel
     virtual double Local(double const&) const { return 0; }
 
     /**
+     * @brief Virtual pointlike term.
+     * @return The pointlike term at x
+     */
+    virtual double Pointlike(double const&) const { return 0; } //addition
+
+    /**
      * @brief Virtual local term for principal valued integrals.
      * @return The local term at x
      */

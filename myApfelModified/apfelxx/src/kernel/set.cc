@@ -36,13 +36,40 @@ namespace apfel
   //_________________________________________________________________________
   template<class T>
   template<class V> Set<V> Set<T>::operator *= (Set<V> const& d) const
+  // gets called for specific nf and Q
+  // Set<Operators> *= Set<Distribution>
+  // Set<Distribution>.*=(Set<Operators>)
+  // V = Operators
+
+// DglapObj( SF/MC(nf, 
+//                 SetOfOperators( EvolutionBasisQCD{nf},                      //some rules at nf
+//                                 map(  EvolutionBasisQCD::Enumerator, 
+//                                       Operator( grid, 
+//                                                 splittingfunction{nf}, 
+//                                                 IntEps)))))
+// SetOfOperators: Set<T>{ConvolutionMap  _map, std::map<int, T>  _objects} (not sure)
+
   {
+    //std::cout << "\nused operator *="; //debug
     if (_map.GetName() != d.GetMap().GetName())
       throw std::runtime_error(error("Set::operator *=", "Convolution Map does not match"));
 
     std::map<int, V> mmap;
-    for (auto item = _map.GetRules().begin(); item != _map.GetRules().end(); item++)
+    // loop through all rules
+    // item points to _rules[xy], where xy is running
+    for (auto item = _map.GetRules().begin(); item != _map.GetRules().end(); item++) 
+    // for the rules, see evolutionbasisqcd.cc
+    // structure of the rules: _rules[pdf_lhs] = {P_{lhs, rhs}/operand, pdf_rhs/object, coefficient}
       {
+        // if (item == _map.GetRules().begin())
+        //   {std::cout << "\nitem: " << std::to_string(item) << "\n";}
+        // Produced: 
+        // no known conversion for argument 1 from 
+        // ‘std::_Rb_tree_const_iterator<std::pair<const int, std::vector<apfel::ConvolutionMap::rule> > >’ 
+        // to ‘long double’
+        // wichtiger teil: pair<int, vector<rule>>
+        // where std::map<int, std::vector<rule>> _rules; are the rules. 
+
         // If an element of the map with the same rules has already
         // been computed, retrieve it and use it.
         bool cycle = false;
@@ -51,19 +78,45 @@ namespace apfel
             {
               mmap.insert({item->first, mmap.at(it->first)});
               cycle = true;
-              break;
+              break; //break stops the for loop with it
             }
         if (cycle)
-          continue;
+          continue; // jump to closing bracket } of for loop
 
         // Get set of distributions.
         const auto& dist = d.GetObjects();
 
         // Start with the first object of the vector of rules. If it
         // does not exist continue.
-        auto o = std::begin(item->second);
+        auto o = std::begin(item->second); // o runs through the different rules/possibilities for producing the particle on the lhs of dglap
+
+        // multiply the splitting function/operator with the fitting pdf
+        // _objects refers to map(EvolutionBasisQCD::Enumerator, Operator),
+        // therefore _objects.at(o->operand) gives out the operator corresponding to
+        // the operator / splitting function
+        std::string a_SplittingFunctions[9] = {"PNSP", "PNSM", "PNSV", "PQQ", "PQG", "PGQ", "PGG", "KNS", "KQ"}; //debug
+        std::string a_Particles[14] = {"GLUON", "SIGMA", "VALENCE", "T3", "V3", "T8", "V8", "T15", "V15", "T24", "V24", "T35", "V35", "UNITY"}; //debug
+        
+        //std::cout << "\nmultiplying " << a_SplittingFunctions[o->operand] << " with " << a_Particles[o->object] << " with a coefficient of " << std::to_string(o->coefficient); //debug
+
+        /*
+        //addition ->
+        //check for case of pointlike contribution
+        V result = _objects.at(o->operand);
+
+        if (o->object != 13) 
+          {
+            if (dist.count(o->object) == 0)
+                continue;
+            else 
+                result *= dist.at(o->object);
+          }
+        //addition <-
+        
+        // should be changed back */
         if (dist.count(o->object) == 0)
           continue;
+
         V result = _objects.at(o->operand) * dist.at(o->object);
 
         // Multiply by the numerical coefficient only if it is
@@ -75,9 +128,10 @@ namespace apfel
         // Continue with the following objects of the vector of rules.
         for (auto end = std::end(item->second); o != end; o++)
           {
+
             // If the distribution does not exist skip it.
             if (dist.count(o->object) == 0)
-              continue;
+             continue;
 
             // Multiply by the numerical coefficient only if it is
             // different from one.
@@ -87,6 +141,25 @@ namespace apfel
               result += o->coefficient * _objects.at(o->operand) * dist.at(o->object);
             else
               result += _objects.at(o->operand) * dist.at(o->object);
+
+            /*
+            //addition ->
+            if (o->object == 13)
+                result += _objects.at(o->operand);
+            else 
+              {
+                if (dist.count(o->object) == 0)
+                    continue;
+                else 
+                    if(o->coefficient == 0)
+                      continue;
+                    else if(o->coefficient != 1)
+                      result += o->coefficient * _objects.at(o->operand) * dist.at(o->object);
+                    else
+                      result += _objects.at(o->operand) * dist.at(o->object);
+              }
+            //addition <-
+            */
           }
         mmap.insert({item->first, result});
       }

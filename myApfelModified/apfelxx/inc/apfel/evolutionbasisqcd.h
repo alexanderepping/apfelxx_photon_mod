@@ -62,8 +62,10 @@ namespace apfel
      * @brief The map enumerators for the operands and the
      * distributions.
      */
-    enum Operand: int {PNSP, PNSM, PNSV, PQQ, PQG, PGQ, PGG};
-    enum Object:  int {GLUON, SIGMA, VALENCE, T3, V3, T8, V8, T15, V15, T24, V24, T35, V35};
+    //enum Operand: int {PNSP, PNSM, PNSV, PQQ, PQG, PGQ, PGG};
+    enum Operand: int {PNSP, PNSM, PNSV, PQQ, PQG, PGQ, PGG, KNS, KQ}; //addition
+    //enum Object:  int {GLUON, SIGMA, VALENCE, T3, V3, T8, V8, T15, V15, T24, V24, T35, V35};
+    enum Object:  int {GLUON, SIGMA, VALENCE, T3, V3, T8, V8, T15, V15, T24, V24, T35, V35, UNITY};//addition
 
     /**
      * @brief The EvolutionBasisQCD constructor for the DGLAP

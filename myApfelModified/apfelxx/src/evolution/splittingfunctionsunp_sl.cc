@@ -71,6 +71,32 @@ namespace apfel
     return 4 * CA * log( 1 - x ) - 2 / 3. * _nf + 11 / 3. * CA;
   }
 
+  //_________________________________________________________________________________
+  P0Kns::P0Kns(int const& nf): //addition
+    Expression(),
+    _nf(nf)
+  {
+  }
+  double P0Kns::Pointlike(double const& x) const
+  {
+    const double eExp2 = 10. / 9. / 4. ;
+    const double eExp4 = 34. / 81. / 4. ; 
+    return 3 * _nf * ( eExp4 - eExp2 * eExp2 ) * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+  
+  }
+
+  //_________________________________________________________________________________
+  P0Kq::P0Kq(int const& nf): //addition
+    Expression(),
+    _nf(nf)
+  {
+  }
+  double P0Kq::Pointlike(double const& x) const
+  {
+    const double eExp2 = 10. / 9. / 4. ;
+    return 3 * _nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+  }
+
   /**
    * @brief The NLO space-like splitting function classes
    */

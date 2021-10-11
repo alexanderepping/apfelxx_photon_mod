@@ -86,6 +86,30 @@ namespace apfel
   private:
     int const _nf;
   };
+
+  /**
+   * @brief Pointlike part of the Photon PDF for the non-singlet part.
+   */
+  class P0Kns: public Expression //addition
+  {
+  public:
+    P0Kns(int const& nf);
+    double Pointlike(double const& x)  const;
+  private:
+    int const _nf;
+  };
+
+  /**
+   * @brief Pointlike part of the Photon PDF for the quark part.
+   */
+  class P0Kq: public Expression //addition
+  {
+  public:
+    P0Kq(int const& nf);
+    double Pointlike(double const& x)  const;
+  private:
+    int const _nf;
+  };
   ///@}
 
   /**

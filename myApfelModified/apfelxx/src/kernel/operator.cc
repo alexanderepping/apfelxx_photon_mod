@@ -22,6 +22,10 @@ namespace apfel
   Operator::Operator(Grid const& gr, Expression const& expr, double const& eps):
     _grid(gr)
   {
+    // const double debugVar = expr.Pointlike(1); //debug
+    // if (debugVar != 1) std::cout << "\ndebugVar = " << debugVar; //debug
+    if (expr.Pointlike(1) != 0) std::cout << "\nPointlike term "; //debug
+
     // Interpolator object for the interpolating functions
     const LagrangeInterpolator li{_grid};
 
@@ -61,7 +65,8 @@ namespace apfel
         for (int beta = 0; beta < (int) _Operator[ig].size(0); beta++)
           {
             // Log of the lower bound
-            const double lxe = ( beta - nx ) * s - log(eta);
+            // see page 15 last line (Apfel pdf)
+            const double lxe = ( beta - nx ) * s - log(eta); 
 
             // Loop over the index alpha
             for (int alpha = beta; alpha < (int) _Operator[ig].size(1); alpha++)
