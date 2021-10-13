@@ -3,7 +3,7 @@ Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code
 
 Done in the course of writing my master thesis.
 
-The second_approach_mod branch follows the approach of changing the rules in EvolutionBasisQCD to include the pointlike contribution in the SplittingFunctions function. Done by adding a pointlike term explicitly as pointlike term.
+The third_approach_mod branch follows the approach of changing the rules in EvolutionBasisQCD to include the pointlike contribution in the SplittingFunctions function. Done by adding pointlike term in SF as local term.
 
 ## compiling
 in the main folder use

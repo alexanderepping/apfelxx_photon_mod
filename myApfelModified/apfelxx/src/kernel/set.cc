@@ -34,12 +34,15 @@ namespace apfel
   }
 
   //_________________________________________________________________________
+  // Set<Distribution> operator * (Set<Operator> lhs, Set<Distribution> const& rhs) { return lhs *= rhs; }
+  // template<class Distribution> Set<Distribution> Set<Operator>::operator *= (Set<Distribution> const& d) const
   template<class T>
   template<class V> Set<V> Set<T>::operator *= (Set<V> const& d) const
   // gets called for specific nf and Q
   // Set<Operators> *= Set<Distribution>
-  // Set<Distribution>.*=(Set<Operators>)
-  // V = Operators
+  // Set<Operator>.*=(Set<Distribution>)
+  // SplittingFinctions.*=(PDF)
+  // V = Distribution
 
 // DglapObj( SF/MC(nf, 
 //                 SetOfOperators( EvolutionBasisQCD{nf},                      //some rules at nf
@@ -99,7 +102,7 @@ namespace apfel
         
         //std::cout << "\nmultiplying " << a_SplittingFunctions[o->operand] << " with " << a_Particles[o->object] << " with a coefficient of " << std::to_string(o->coefficient); //debug
 
-        
+        /*
         //addition ->
         //check for case of pointlike contribution
         V result = _objects.at(o->operand);
@@ -112,15 +115,25 @@ namespace apfel
                 result *= dist.at(o->object);
           }
         //addition <-
+        */
         
         /*
-        // to be commented out g->
+        if (o->object == 13) //debug
+          {
+            std::cout << "\nUNITY!";
+            continue;
+          }
+        */
+        
+        // to be commented out ->
         if (dist.count(o->object) == 0)
           continue;
 
+        // _objects.at(o->operand): const apfel::Operator
+        // dist.at(o->object):      const apfel::Distribution
         V result = _objects.at(o->operand) * dist.at(o->object);
         // to be commented out <-
-        */
+        
 
         // Multiply by the numerical coefficient only if it is
         // different from one.
@@ -132,6 +145,13 @@ namespace apfel
         for (auto end = std::end(item->second); o != end; o++)
           {
             /*
+            if (o->object == 13) //debug
+              {
+                std::cout << "\nUNITY!";
+                continue;
+              }
+            */
+
             // to be commented out ->
             // If the distribution does not exist skip it.
             if (dist.count(o->object) == 0)
@@ -146,8 +166,8 @@ namespace apfel
             else
               result += _objects.at(o->operand) * dist.at(o->object);
             // to be commented out <-
-            */
             
+            /*
             //addition ->
             if (o->object == 13)
                 result += _objects.at(o->operand);
@@ -164,7 +184,7 @@ namespace apfel
                       result += _objects.at(o->operand) * dist.at(o->object);
               }
             //addition <-
-            
+            */
           }
         mmap.insert({item->first, result});
       }

@@ -13,7 +13,8 @@ namespace apfel
     ConvolutionMap{"EvolutionBasisQCD_" + std::to_string(nf)}
   {
     // structure of the rules: _rules[pdf_lhs] = {P_{lhs, rhs}/operand, pdf_rhs/object, coefficient}
-    _rules[GLUON] = { {PGG, GLUON, 1}, {PGQ, SIGMA, 1}};
+    _rules[GLUON] = { {PGG, GLUON, 1}, {PGQ, SIGMA, 1} };
+    //_rules[GLUON] = { {PGG, GLUON, 1}, {PGQ, SIGMA, 1}, {PGG, UNITY, 1} };
     //_rules[GLUON] = { {PGG, GLUON, nf}, {PGQ, SIGMA, nf} }; //debug
     for (int j = nf + 1; j <= 6; j++)
       // push_back just appends the element to the end of the vector

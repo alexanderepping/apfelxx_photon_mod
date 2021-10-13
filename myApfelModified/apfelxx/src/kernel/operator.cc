@@ -24,7 +24,7 @@ namespace apfel
   {
     // const double debugVar = expr.Pointlike(1); //debug
     // if (debugVar != 1) std::cout << "\ndebugVar = " << debugVar; //debug
-    if (expr.Pointlike(1) != 0) std::cout << "\nPointlike term "; //debug
+    // if (expr.Pointlike(1) != 0) std::cout << "\nPointlike term "; //debug
 
     // Interpolator object for the interpolating functions
     const LagrangeInterpolator li{_grid};

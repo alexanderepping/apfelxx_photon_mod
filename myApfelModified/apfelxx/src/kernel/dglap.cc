@@ -49,6 +49,7 @@ namespace apfel
   // since we input specific parameters, it returns a value. This value is of the type Set<Distribution>.
   // the multiplicative operation can be found in set.h, line 115:
   // Set<B> operator * (Set<A> lhs, Set<B> const& rhs) { return lhs *= rhs; }
+  // A = Operator, B = Distribution
   // This means that the type of the retun is the type of the f, meaning Set<Distributions>
   {
     return _SplittingFunctions(nf, exp(t / 2)) * f;

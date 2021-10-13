@@ -81,8 +81,8 @@ namespace apfel
       {
         const Operator O0qg{g, P0qg{nf}, IntEps};
         const Operator O0gg{g, P0gg{nf}, IntEps};
-        // const Operator O0Kns{g, P0Kns{nf}, IntEps};  //addition
-        // const Operator O0Kq{g, P0Kq{nf}, IntEps}; //addition
+        const Operator O0Kns{g, P0Kns{nf}, IntEps};  //addition
+        const Operator O0Kq{g, P0Kq{nf}, IntEps}; //addition
         std::map<int, Operator> OM;
         // PNSP and the others are enumerators ranging from 0-6 and defined as 
         // enum Operand: int {PNSP, PNSM, PNSV, PQQ, PQG, PGQ, PGG};
@@ -94,8 +94,8 @@ namespace apfel
         OM.insert({EvolutionBasisQCD::PQG,                O0qg});
         OM.insert({EvolutionBasisQCD::PGQ,  ( nf / 6. ) * O0gq});
         OM.insert({EvolutionBasisQCD::PGG,                O0gg});
-        // OM.insert({EvolutionBasisQCD::KNS,                O0Kns});//addition
-        // OM.insert({EvolutionBasisQCD::KQ,                 O0Kq}); //addition 
+        OM.insert({EvolutionBasisQCD::KNS,                O0Kns});//addition
+        OM.insert({EvolutionBasisQCD::KQ,                 O0Kq}); //addition 
         OpMapLO.insert({nf, OM});
       }
 

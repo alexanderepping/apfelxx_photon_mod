@@ -94,7 +94,7 @@ namespace apfel
   {
   public:
     P0Kns(int const& nf);
-    double Pointlike(double const& x)  const;
+    double Local(double const& x)  const;
   private:
     int const _nf;
   };
@@ -106,7 +106,7 @@ namespace apfel
   {
   public:
     P0Kq(int const& nf);
-    double Pointlike(double const& x)  const;
+    double Local(double const& x)  const;
   private:
     int const _nf;
   };
