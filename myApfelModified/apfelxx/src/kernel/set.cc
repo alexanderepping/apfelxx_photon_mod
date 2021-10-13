@@ -99,7 +99,7 @@ namespace apfel
         
         //std::cout << "\nmultiplying " << a_SplittingFunctions[o->operand] << " with " << a_Particles[o->object] << " with a coefficient of " << std::to_string(o->coefficient); //debug
 
-        /*
+        
         //addition ->
         //check for case of pointlike contribution
         V result = _objects.at(o->operand);
@@ -113,11 +113,14 @@ namespace apfel
           }
         //addition <-
         
-        // should be changed back */
+        /*
+        // to be commented out g->
         if (dist.count(o->object) == 0)
           continue;
 
         V result = _objects.at(o->operand) * dist.at(o->object);
+        // to be commented out <-
+        */
 
         // Multiply by the numerical coefficient only if it is
         // different from one.
@@ -128,7 +131,8 @@ namespace apfel
         // Continue with the following objects of the vector of rules.
         for (auto end = std::end(item->second); o != end; o++)
           {
-
+            /*
+            // to be commented out ->
             // If the distribution does not exist skip it.
             if (dist.count(o->object) == 0)
              continue;
@@ -141,8 +145,9 @@ namespace apfel
               result += o->coefficient * _objects.at(o->operand) * dist.at(o->object);
             else
               result += _objects.at(o->operand) * dist.at(o->object);
-
-            /*
+            // to be commented out <-
+            */
+            
             //addition ->
             if (o->object == 13)
                 result += _objects.at(o->operand);
@@ -159,7 +164,7 @@ namespace apfel
                       result += _objects.at(o->operand) * dist.at(o->object);
               }
             //addition <-
-            */
+            
           }
         mmap.insert({item->first, result});
       }
