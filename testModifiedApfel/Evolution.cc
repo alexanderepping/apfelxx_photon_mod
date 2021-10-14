@@ -1,3 +1,5 @@
+#include<fstream>
+
 // LHAPDF libs
 #include "LHAPDF/LHAPDF.h"
 
@@ -13,7 +15,7 @@ LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
 int main()
 {
   // Final scale
-  double mu = 100;
+  double mu = 10;
 
   // Retrieve evolution parameters from the LHAPDF set
   const int    pto          = dist->orderQCD();
@@ -91,13 +93,29 @@ int main()
 
     // Vector of test values of x
     std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
+    std::vector<double> xlha2{1e-09, 2e-09, 3.0000000000000004e-09, 4e-09, 5e-09, 6.000000000000001e-09, 7.000000000000001e-09, 8e-09, 9.000000000000001e-09, 1e-08, 2e-08, 3.0000000000000004e-08, 4e-08, 5e-08, 6.000000000000001e-08, 7e-08, 8e-08, 9e-08, 1e-07, 2e-07, 3e-07, 4e-07, 5e-07, 6e-07, 7e-07, 8e-07, 9e-07, 1e-06, 2e-06, 3e-06, 4e-06, 4.9999999999999996e-06, 6e-06, 7e-06, 8e-06, 9e-06, 1e-05, 2e-05, 3.0000000000000004e-05, 4e-05, 5e-05, 6.000000000000001e-05, 7.000000000000001e-05, 8e-05, 9e-05, 0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9, };
+
+    //addition ->
+    std::ofstream file;
+    file.open("/local0/a_eppi01/apfelxx_photon_mod/plottingPython/data_Evolution.txt");//addition 
+    for (double x : xlha2)
+    {
+      file << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+    }
+    file.close();
+    //addition <-
 
     // Print down PDF at "mu"
     std::cout << "\n     x             APFEL++           LHAPDF" << std::endl;
     for (double x : xlha)
-        std::cout << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+      std::cout << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+        
     std::cout << "\n";
     std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\n";
+    
+
+    
+
   }
   else {
     // Print results
@@ -108,7 +126,8 @@ int main()
     std::cout << "LHAPDF:  AlphaQCD(Q) = " << dist->alphasQ(mu) << std::endl;
 
     // Vector of test values of x
-    std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
+    //std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
+    std::vector<double> xlha{1e-09, 2e-09, 3.0000000000000004e-09, 4e-09, 5e-09, 6.000000000000001e-09, 7.000000000000001e-09, 8e-09, 9.000000000000001e-09, 1e-08, 2e-08, 3.0000000000000004e-08, 4e-08, 5e-08, 6.000000000000001e-08, 7e-08, 8e-08, 9e-08, 1e-07, 2e-07, 3e-07, 4e-07, 5e-07, 6e-07, 7e-07, 8e-07, 9e-07, 1e-06, 2e-06, 3e-06, 4e-06, 4.9999999999999996e-06, 6e-06, 7e-06, 8e-06, 9e-06, 1e-05, 2e-05, 3.0000000000000004e-05, 4e-05, 5e-05, 6.000000000000001e-05, 7.000000000000001e-05, 8e-05, 9e-05, 0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9, };
 
     // Print down PDF at "mu"
     std::cout << "\n     x           LHAPDF" << std::endl;

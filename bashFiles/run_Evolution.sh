@@ -86,5 +86,11 @@ rm $voidOutput
 echo "Used Apfel++ Installation : "$CURRENT_APFEL
 echo "Used LHAPDF Installation  : "$CURRENT_LHAPDF
 
+cd /local0/a_eppi01/apfelxx_photon_mod/plottingPython/
+python3 plottingEvolution.py &
+
+
 echo ""
 echo "Finished!!!"
+
+cd /local0/a_eppi01/apfelxx_photon_mod/

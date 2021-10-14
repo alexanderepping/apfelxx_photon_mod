@@ -37,12 +37,19 @@ namespace apfel
   template<class T>
   template<class V> Set<V> Set<T>::operator *= (Set<V> const& d) const
   {
+    bool debug = false;//debug
+
     if (_map.GetName() != d.GetMap().GetName())
       throw std::runtime_error(error("Set::operator *=", "Convolution Map does not match"));
 
     std::map<int, V> mmap;
     for (auto item = _map.GetRules().begin(); item != _map.GetRules().end(); item++)
       {
+
+        std::string a_SplittingFunctions[9] = {"PNSP", "PNSM", "PNSV", "PQQ ", "PQG ", "PGQ ", "PGG ", "KNS ", "KQ  "}; //debug
+        std::string a_Particles[14] = {"GLUON  ", "SIGMA  ", "VALENCE", "T3     ", "V3     ", "T8     ", "V8     ", "T15    ", "V15    ", "T24    ", "V24    ", "T35    ", "V35    ", "UNITY"}; //debug
+        
+
         // If an element of the map with the same rules has already
         // been computed, retrieve it and use it.
         bool cycle = false;
@@ -65,6 +72,9 @@ namespace apfel
         if (dist.count(o->object) == 0)
           continue;
         V result = _objects.at(o->operand) * dist.at(o->object);
+        
+        if (debug)  
+          std::cout << "\n" << a_Particles[item->first] << " = " << a_SplittingFunctions[o->operand] << " * " << a_Particles[o->object];//debug
 
         // Multiply by the numerical coefficient only if it is
         // different from one.
@@ -78,6 +88,10 @@ namespace apfel
             // If the distribution does not exist skip it.
             if (dist.count(o->object) == 0)
               continue;
+            
+
+            if (debug)
+              std::cout << " + " << a_SplittingFunctions[o->operand] << " * " << a_Particles[o->object];//debug
 
             // Multiply by the numerical coefficient only if it is
             // different from one.
@@ -88,9 +102,11 @@ namespace apfel
             else
               result += _objects.at(o->operand) * dist.at(o->object);
           }
+          //std::cout << "\nitem->first: " << std::to_string(item->first);//debug
         mmap.insert({item->first, result});
       }
-
+    if (debug)
+      std::cout << "\n";//debug
     return Set<V> {d.GetMap(), mmap};
   }
 

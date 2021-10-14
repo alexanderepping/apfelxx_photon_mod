@@ -5,6 +5,7 @@
 //
 
 #pragma once
+#include <typeinfo>
 
 namespace apfel
 {
@@ -34,7 +35,13 @@ namespace apfel
   template<class U>
   std::function<U(double const&, U const&, double const&)>
   rk4(std::function<U(double const& t, U const& Obj)> const& f)
+  // U is probably Set<Distribution>
   {
+    //std::cout << typeid(f).name() << std::endl;//debug
+    //std::cout << "\nCalled rk4";//debug
+    //std::cout << "\n" << std::to_string(f);//debug
+
+
     // *INDENT-OFF*
     return
       [       f            ] (double const& t, U const& y,  double const& dt) -> U{ return

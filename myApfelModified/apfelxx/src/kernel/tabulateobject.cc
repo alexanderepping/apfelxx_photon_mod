@@ -47,6 +47,8 @@ namespace apfel
     // Loop on "_Qg" below "MuRef".
     for (int iQ = tQ; iQ >= 0; iQ--)
       {
+
+        //std::cout << "\nCalling Evaluate with iQ="<<std::to_string(iQ);//debug
         const T o = Object.Evaluate(this->_Qg[iQ]); // result will be T = Set<Distribution>
         this->_GridValues.push_back(o);
         Object.SetObjectRef(o);
@@ -61,6 +63,7 @@ namespace apfel
     Object.SetMuRef(MuRef);
     for (int iQ = tQ + 1; iQ < (int) this->_Qg.size(); iQ++)
       {
+        //std::cout << "\nCalling Evaluate with iQ="<<std::to_string(iQ);//debug
         const T o = Object.Evaluate(this->_Qg[iQ]);
         this->_GridValues.push_back(o);
         Object.SetObjectRef(o);
