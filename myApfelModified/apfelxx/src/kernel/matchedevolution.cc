@@ -11,7 +11,6 @@
 #include "apfel/ode.h"
 #include "apfel/doubleobject.h"
 #include "apfel/evolutionbasisqcd.h"
-#include "apfel/test.cc"
 
 #include <cmath>
 #include <algorithm>

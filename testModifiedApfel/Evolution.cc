@@ -1,3 +1,4 @@
+// used to write files
 #include<fstream>
 
 // LHAPDF libs
@@ -15,7 +16,8 @@ LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
 int main()
 {
   // Final scale
-  double mu = 10;
+  //double mu = 100;
+  double mu = 10; 
 
   // Retrieve evolution parameters from the LHAPDF set
   const int    pto          = dist->orderQCD();
@@ -103,7 +105,7 @@ int main()
       file << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
     }
     file.close();
-    //addition <-
+    //addition <-a
 
     // Print down PDF at "mu"
     std::cout << "\n     x             APFEL++           LHAPDF" << std::endl;
@@ -111,7 +113,7 @@ int main()
       std::cout << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
         
     std::cout << "\n";
-    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\n";
+    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\nUsed Mu                   : "+std::to_string(mu)+"\n";
     
 
     
@@ -134,7 +136,7 @@ int main()
     for (double x : xlha)
         std::cout << x << "\t" << dist->xfxQ(1, x, mu) << std::endl;
     std::cout << "\n";
-    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\n";
+    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\nUsed Mu                   : "+std::to_string(mu)+"\n";
   }
 
   return 0;
