@@ -89,9 +89,11 @@ namespace apfel
             case EvolutionBasisQCD::Object::SIGMA:
               {
                 Distribution rhsParicular(rhsGrid, [&] (double const& x) -> double  { const double eExp2    = 10. / 9. / 4. ;
-                                                                                      const double alphaQED = 1./137.;
-                                                                                      const double k0q      = 3 * nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
-                                                                                      return alphaQED / (2 * M_PI) * k0q; });
+                                                                                      //const double alphaQED = 1./137.;
+                                                                                      const double k0q      = x * 3 * nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+                                                                                      //return alphaQED / (2 * M_PI) * k0q; });
+                                                                                      //return alphaQED*alphaQED / (2 * M_PI) * k0q; });
+                                                                                      return 1 / (2 * M_PI) * k0q; });
 
                 // insert general + particular solution into tempMap
                 tempMap.insert({it, rhsGeneral.GetObjects().at(it) + rhsParicular});
@@ -101,9 +103,11 @@ namespace apfel
               {
                 Distribution rhsParicular(rhsGrid, [&] (double const& x) -> double {  const double eExp2    = 10. / 9. / 4. ;
                                                                                       const double eExp4    = 34. / 81. / 4. ; 
-                                                                                      const double alphaQED = 1./137.;
-                                                                                      const double k0ns     = 3 * nf * ( eExp4 - eExp2 * eExp2 ) * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
-                                                                                      return alphaQED / (2 * M_PI) * k0ns; });
+                                                                                      //const double alphaQED = 1./137.;
+                                                                                      const double k0ns     = x * 3 * nf * ( eExp4 - eExp2 * eExp2 ) * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+                                                                                      //return alphaQED / (2 * M_PI) * k0ns; });
+                                                                                      //return alphaQED*alphaQED / (2 * M_PI) * k0ns; });
+                                                                                      return 1 / (2 * M_PI) * k0ns; });
 
                 // insert general + particular solution into tempMap
                 tempMap.insert({it, rhsGeneral.GetObjects().at(it) + rhsParicular});
