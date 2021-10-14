@@ -18,6 +18,16 @@ int main()
   // Final scale
   double mu = 100;
 
+  // used particle for output
+  int flavor = 0;
+  
+  // flavor number with corresponding flavor
+  std::map<int, std::string> mapFlavors {{-6, "tbar"}, {-5, "bbar"}, {-4, "cbar"}, {-3, "sbar"}, {-2, "ubar"}, {-1, "dbar"},
+                                      {0, "gluon"}, {1, "d"}, {2, "u"}, {3, "s"}, {4, "c"}, {5, "b"}, {6, "t"}};
+  
+  // include Apfel or just show LHAPDF results?
+  const bool   includeApfel = true;
+
   // Retrieve evolution parameters from the LHAPDF set
   const int    pto          = dist->orderQCD();
   const double Qref         = 91.1876;
@@ -26,7 +36,6 @@ int main()
   const double mb           = dist->quarkThreshold(5);
   const double mt           = dist->quarkThreshold(6);
   const double Qin          = dist->qMin();
-  const bool   includeApfel = true;
 
 
   if ( includeApfel ) {
@@ -99,9 +108,10 @@ int main()
     //addition ->
     std::ofstream file;
     file.open("/local0/a_eppi01/apfelxx_photon_mod/plottingPython/data_Evolution.txt");//addition 
+    file << mapFlavors.at(flavor) << std::endl;
     for (double x : xlha2)
     {
-      file << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+      file << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << std::endl;
     }
     file.close();
     //addition <-a
@@ -109,10 +119,13 @@ int main()
     // Print down PDF at "mu"
     std::cout << "\n     x             APFEL++           LHAPDF" << std::endl;
     for (double x : xlha)
-      std::cout << x << "\t" << tpdfs.at(1).Evaluate(x) << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+      std::cout << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << std::endl;
         
     std::cout << "\n";
-    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\nUsed Mu                   : "+std::to_string(mu)+"\n";
+    std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;
+    std::cout << "\nUsed Perturbative Order   : " << std::to_string(pto);
+    std::cout << "\nUsed Mu                   : " << std::to_string(mu);
+    std::cout << "\nShown particle:           : " << mapFlavors.at(flavor) << "\n";
     
 
     
@@ -133,9 +146,12 @@ int main()
     // Print down PDF at "mu"
     std::cout << "\n     x           LHAPDF" << std::endl;
     for (double x : xlha)
-        std::cout << x << "\t" << dist->xfxQ(1, x, mu) << std::endl;
+        std::cout << x << "\t" << dist->xfxQ(flavor, x, mu) << std::endl;
     std::cout << "\n";
-    std::cout <<  "\nUsed LHAPDF Set           : "+NameLHAPDFSet+"\nUsed Perturbative Order   : "+std::to_string(pto)+"\nUsed Mu                   : "+std::to_string(mu)+"\n";
+    std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;
+    std::cout << "\nUsed Perturbative Order   : " << std::to_string(pto);
+    std::cout << "\nUsed Mu                   : " << std::to_string(mu);
+    std::cout << "\nShown particle:           : " << mapFlavors.at(flavor) << "\n";
   }
 
   return 0;
