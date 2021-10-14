@@ -3,6 +3,8 @@ Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code
 
 Done in the course of writing my master thesis.
 
+This approach just implements the pointlike term directly into EvolveObject.
+
 ## compiling
 in the main folder use
 ```
@@ -26,6 +28,9 @@ Folder containing the changed source code and headers of the apfelxx program.
 
 ### myLHAPDFModified/share/LHAPDF/
 Folder containing folders with the used LHAPDF data sets.
+
+### plottingPython
+Folder containing various python files to plot the data collected from the Evolution.cc program. It also contains a program to make an array of logarithmic values.
 
 ### testModifiedApfel
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
