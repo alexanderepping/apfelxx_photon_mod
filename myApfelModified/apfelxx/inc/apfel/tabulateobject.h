@@ -38,6 +38,25 @@ namespace apfel
      * @param QMin: the lower bound of the grid in Q
      * @param QMax: the upper bound of the grid in Q
      * @param InterDegree: the interpolation degree on the grid in Q
+     * @param Alphas: the function returning the strong coupling
+     * @param Lambda: the value of the parameter in the function ln(ln(Q<SUP>2</SUP>/&Lambda;<SUP>2</SUP>)) used for the tabulation (default: 0.25)
+     */
+    TabulateObject(MatchedEvolution<T>                       & Object,
+                   int                                  const& nQ,
+                   double                               const& QMin,
+                   double                               const& QMax,
+                   int                                  const& InterDegree,
+                   std::function<double(double const&)> const& Alphas,
+                   double                               const& Lambda = 0.25);
+                   
+    /**
+     * @brief The TabulateObject constructor for an "evolving"
+     * object (MatchedEvolution).
+     * @param Object: the MatchedEvolution type object to be tabulated in Q
+     * @param nQ: the number of on nodes of the grid in Q
+     * @param QMin: the lower bound of the grid in Q
+     * @param QMax: the upper bound of the grid in Q
+     * @param InterDegree: the interpolation degree on the grid in Q
      * @param Lambda: the value of the parameter in the function ln(ln(Q<SUP>2</SUP>/&Lambda;<SUP>2</SUP>)) used for the tabulation (default: 0.25)
      */
     TabulateObject(MatchedEvolution<T>      & Object,

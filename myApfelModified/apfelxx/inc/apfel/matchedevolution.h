@@ -6,6 +6,14 @@
 
 #pragma once
 
+#include "apfel/constants.h"
+#include "apfel/operator.h"
+#include "apfel/set.h"
+#include "apfel/ode.h"
+#include "apfel/doubleobject.h"
+#include "apfel/evolutionbasisqcd.h"
+
+#include <functional>
 #include <cmath>
 #include <vector>
 
@@ -22,6 +30,7 @@ namespace apfel
   class MatchedEvolution
   {
   public:
+    
     MatchedEvolution() = delete;
 
     virtual ~MatchedEvolution() = default;
@@ -47,6 +56,16 @@ namespace apfel
      * @return the object evolved at the scale mu2
      */
     virtual T EvolveObject(int const& nf, double const& mu02, double const& mu2, T const& Obj0) const;
+    /**
+     * @brief Virtual function for the computation of the evolution. //addition
+     * @param nf: the number of active flavours
+     * @param Obj0: the starting object
+     * @param mu02: the squared starting scale
+     * @param mu2: the squared final scale
+     * @param Alphas: the function returning the strong coupling
+     * @return the object evolved at the scale mu2
+     */
+    virtual T EvolveObject(int const& nf, double const& mu02, double const& mu2, T const& Obj0, std::function<double(double const&)> const& Alphas) const;
 
     /**
      * @brief Pure virtual function for the computation of the matching.
@@ -72,6 +91,14 @@ namespace apfel
      * @return the evolved object.
      */
     T Evaluate(double const& mu) const;
+
+    /**
+     * @brief Function that returns the evolved object. //addition
+     * @param mu: the final scale
+     * @param Alphas: the function returning the strong coupling
+     * @return the evolved object.
+     */
+    T Evaluate(double const& mu, std::function<double(double const&)> const& Alphas) const;
 
     /**
      * @name Getters
