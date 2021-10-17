@@ -5,6 +5,7 @@
 //
 
 #include "apfel/tabulateobject.h"
+#include "apfel/tabulateobject_custom.h"
 #include "apfel/distribution.h"
 #include "apfel/operator.h"
 #include "apfel/doubleobject.h"

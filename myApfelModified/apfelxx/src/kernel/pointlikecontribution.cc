@@ -14,44 +14,39 @@
 
 namespace apfel 
 {
-    const std::function<double(double const&)> PointlikeContribution(int const& particle,
-                                                                     int const& PerturbativeOrderPointlike, 
-                                                                     int const& nf)
+    std::function<double(double const&)> PointlikeContribution (int                                  const& particle,
+                                                                int                                  const& ptoPL, 
+                                                                int                                  const& nf,
+                                                                std::function<double(double const&)> const& Alphas) const
     {
-        switch (particle)
-        {
-        case EvolutionBasisQCD::Object::GLUON:
-            return GluonPointlike(PerturbativeOrderPointlike, nf);
-            break;
-        case EvolutionBasisQCD::Object::SIGMA:
-            return SigmaPointlike(PerturbativeOrderPointlike, nf);
-            break
-        default:
-            return NonSingletPointlike(PerturbativeOrderPointlike, nf);
-            break;
-        }
-    }
+        return [&] (double const& x) -> double 
+            {
+                double result = 0;
+                //for (int i = 0; i<= ptoPL; i++){result = result + PointlikeMap.at(particle).at(0)(x, nf) * coeffQED * pow(coeffQCD(Alphas, x), i);}; //here we shouldn't use x in Alphas
+                for (int i = 0; i<= ptoPL; i++){result = result + PointlikeMap.at(particle).at(0)(x, nf) * coeffQED;};
+                return result;
+            };
+    };
 
-    const std::function<double(double const&)> SigmaPointlike(int const& PerturbativeOrderPointlike, 
-                                                              int const& nf) // viellelicht einfach für alle gleich machen? also mit map. die vorfaktoren sind gleich
-    {
-        if (PerturbativeOrderPointlike == 0)
-            return [&] (double const& x) -> double {return coeffQED * k0q(x, nf);};
+    const std::map<int, std::function<double(double const&, double const&)>> GluonMap   = {{0, [&] (double const& x, double const& nf) -> double {
+                                                                                                return 0;}} //k0g
+                                                                                          };
 
-        else if (PerturbativeOrderPointlike == 1)
-            return [&] (double const& x) -> double {return coeffQED * ( k0q(x, nf) + coeffQCD * k1q(x, nf) );};
-    }
+    const std::map<int, std::function<double(double const&, double const&)>> SigmaMap   = {{0, [&] (double const& x, double const& nf) -> double {
+                                                                                                return 3 * nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );}} //k0q
+                                                                                          };
 
+    const std::map<int, std::function<double(double const&, double const&)>> ValenceMap = {{0, [&] (double const& x, double const& nf) -> double {
+                                                                                                return 3 * nf * ( eExp4 - eExp2 * eExp2 ) * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );}} //k0ns
+                                                                                          };
 
-    double k0q(double const& x, int const& nf)
-    {
-        return x * 3 * nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
-    }
-
-    double k1q(double const& x, int const& nf)
-    {
-        return x * 3 * nf * eExp2 * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );
-    }
+    const std::map<int, std::function<double(double const&, double const&)>> NSMap      = {{0, [&] (double const& x, double const& nf) -> double {
+                                                                                                return 3 * nf * ( eExp4 - eExp2 * eExp2 ) * 2 * ( x * x + ( 1 - x ) * ( 1 - x ) );}} //k0ns
+                                                                                          };
+                                                    
+    const std::map<int, std::map<int, std::function<double(double const&, double const&)>>> PointlikeMap = {{ 0, GluonMap}, { 1, SigmaMap}, { 2, ValenceMap},
+                                                                                                            { 3, NSMap}, { 4, NSMap}, { 5, NSMap}, { 6, NSMap}, { 7, NSMap}, 
+                                                                                                            { 8, NSMap}, { 9, NSMap}, {10, NSMap}, {11, NSMap}, {12, NSMap}};
 
 
 

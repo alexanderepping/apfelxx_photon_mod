@@ -26,39 +26,9 @@ namespace apfel
   // The reason for that is that Set<Distribution> could also be e.g. double which doesn't have the .GetObjects() function.
   // The EvolveObject function adds the pointlike term to the rhs of the dglap evolution equqation. 
 {
-  //_________________________________________________________________________
-  template<>
-  MatchedEvolution<Set<Distribution>>::MatchedEvolution(Set<Distribution>   const& ObjRef,// is of type Set<Distribution> = Set<Distribution>
-                                                        double              const& MuRef,
-                                                        std::vector<double> const& Thresholds,
-                                                        int                 const& nsteps):
-    _ObjRef(ObjRef),// is of type Set<Distribution> = Set<Distribution>
-    _MuRef(MuRef),
-    _Thresholds(Thresholds),
-    _nsteps(nsteps)
-  {
-    // Compute squared reference scale.
-    _MuRef2 = pow(MuRef,2);
-
-    // Compute log of the squared final scale.
-    _LogMuRef2 = log(_MuRef2);
-
-    // Compute squared thresholds.
-    for (auto const& th : Thresholds)
-      {
-        const double th2 = pow(th, 2);
-        _Thresholds2.push_back(th2);
-        _LogThresholds2.push_back(( th2 > 0 ? log(th2) : -100));
-      }
-
-    // Sort the quark thresholds and logs.
-    if (_Thresholds2.size() > 1)
-      std::sort(_Thresholds2.begin(), _Thresholds2.end());
-  }
-
   //_________________________________________________________________________________
   template<>
-  Set<Distribution> MatchedEvolution<Set<Distribution>>::EvolveObject(int const& nf, double const& t0, double const& t1, Set<Distribution> const& Obj0) const
+  Set<Distribution> MatchedEvolution<Set<Distribution>>::EvolveObject(int const& nf, double const& t0, double const& t1, Set<Distribution> const& Obj0, std::function<double(double const&)> const& Alphas) const
   // Obj0 is of type Set<Distribution> = Set<Distribution>, therefore the return is also of Set<Distribution> = Set<Distribution>
   // t0 and t1 are the initial and final scale (ln(Q^2)) of the evolution
   {
@@ -81,16 +51,13 @@ namespace apfel
         for (int particle=0; particle!=static_cast<int>(rhsGeneral.GetObjects().size()); ++particle)
           {
             Grid const& rhsGrid = rhsGeneral.GetObjects().at(particle).GetGrid();
-        /*
-            Distribution rhsParticular(rhsGrid, PointlikeContribution(particle, PerturbativeOrderPointlike, nf, x));
+
+            Distribution rhsParticular(rhsGrid, PointlikeContribution(particle, ptoPL, nf, Alphas));
+
             tempMap.insert({particle, rhsGeneral.GetObjects().at(particle) + rhsParticular});
-            }
 
 
-        rhsGeneral.SetObjects(tempMap);
-        return rhsGeneral;
-        */
-
+            /*
             switch (particle)
             {
             case EvolutionBasisQCD::Object::GLUON:
@@ -127,6 +94,7 @@ namespace apfel
                 break;
               }
             }
+            */
           }
                     
         rhsGeneral.SetObjects(tempMap);
@@ -155,7 +123,7 @@ namespace apfel
 
   //_________________________________________________________________________
   template<>
-  Set<Distribution> MatchedEvolution<Set<Distribution>>::Evaluate(double const& mu) const // result will be Set<Distribution> = Set<Distribution>
+  Set<Distribution> MatchedEvolution<Set<Distribution>>::Evaluate(double const& mu, std::function<double(double const&)> const& Alphas) const // result will be Set<Distribution> = Set<Distribution>
   {
     //std::cout << "\nCalled Evaluate";//debug
     const double mu2  = pow(mu,2);
@@ -168,7 +136,7 @@ namespace apfel
     // Don't do the matching is initial and final number of flavours
     // are equal.
     if (nfi == nff)
-      return EvolveObject(nfi, _LogMuRef2, lmu2, _ObjRef);
+      return EvolveObject(nfi, _LogMuRef2, lmu2, _ObjRef, Alphas);
 
     // Direction of the evolution
     const bool sgn = std::signbit(nfi - nff);
@@ -185,12 +153,12 @@ namespace apfel
         const double tf = _LogThresholds2[(sgn ? inf : inf - 1)];
 
         // Do the matching
-        vobj = MatchObject(sgn, inf, EvolveObject(inf, ti, tf, vobj));
+        vobj = MatchObject(sgn, inf, EvolveObject(inf, ti, tf, vobj, Alphas));
 
         // Update initial scale and displace particle by "eps8" to make sure
         // to be above (below) the threshold
         ti = tf * ( 1 + (sgn ? 1 : -1) * eps8 );
       }
-    return EvolveObject(nff, ti, lmu2, vobj);
+    return EvolveObject(nff, ti, lmu2, vobj, Alphas);
   }
 }
