@@ -109,11 +109,11 @@ int main()
 
     //addition ->
     std::ofstream file;
-    file.open("/local0/a_eppi01/apfelxx_photon_mod/plottingPython/data_Evolution.txt");//addition 
+    file.open("/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_Evolution.txt");//addition 
     file << mapFlavors.at(flavor) << std::endl;
     for (double x : xlha2)
     {
-      file << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << std::endl;
+      file << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << "\t" << tpdfs.at(flavor).Evaluate(x)/dist->xfxQ(flavor, x, mu) << std::endl;
     }
     file.close();
     //addition <-a

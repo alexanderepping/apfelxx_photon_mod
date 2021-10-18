@@ -37,6 +37,8 @@ namespace apfel
 
     double coeffQCD(double const& alphasAtQ){ return alphasAtQ / (2. * M_PI); };
 
+    double coeffGeneral(double const& x){ return x / alphaQED; };
+
 
 
     std::function<double(double const&)> PointlikeContribution (int    const& particle,
@@ -47,7 +49,7 @@ namespace apfel
         return [&] (double const& x) -> double 
             {
                 double result = 0;
-                for (int i = 0; i<= ptoPL; i++){result = result + PointlikeMap.at(particle).at(i)(x, nf) * coeffQED * pow(coeffQCD(alphasAtQ), i);};
+                for (int i = 0; i<= ptoPL; i++){result = result + coeffGeneral(x) * PointlikeMap.at(particle).at(i)(x, nf) * coeffQED * pow(coeffQCD(alphasAtQ), i);};
                 return result;
             };
     };

@@ -98,12 +98,12 @@ c           call the subroutine from grvphoton.f
             call GRVGLO (X, Q2, UL, DL, SL, CL, BL, GL)
 
 c           grvglo returns 1 / alphaQED * X * PDF ->
-            GL = GL * alphaQED / X
-            BL = BL * alphaQED / X
-            CL = CL * alphaQED / X
-            SL = SL * alphaQED / X
-            DL = DL * alphaQED / X
-            UL = UL * alphaQED / X
+c            GL = GL * alphaQED / X
+c            BL = BL * alphaQED / X
+c            CL = CL * alphaQED / X
+c            SL = SL * alphaQED / X
+c            DL = DL * alphaQED / X
+c            UL = UL * alphaQED / X
 c           grvglo returns 1 / alphaQED * X * PDF <-
 
             write(2,"(10(es12.6, 1x), es12.6)") BL, CL, SL, DL, UL, UL, 

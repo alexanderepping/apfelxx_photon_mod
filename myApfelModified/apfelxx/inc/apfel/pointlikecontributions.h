@@ -38,6 +38,12 @@ namespace apfel
     double coeffQCD(double const& alphasAtQ);
     
     /**
+     * @brief general coefficient
+     * @param x: x-value
+     */
+    double coeffGeneral(double const& x);
+    
+    /**
      * @brief Expectation value of the squared quark charge, eq^2. nf = 4 assumed.
      */
     const double eExp2    = 10. / 9. / 4. ;
