@@ -20,7 +20,7 @@ int main()
   double mu = 10; 
 
   // used particle for output
-  int flavor = 0;
+  int flavor = 2;
   
   // flavor number with corresponding flavor
   std::map<int, std::string> mapFlavors {{-6, "tbar"}, {-5, "bbar"}, {-4, "cbar"}, {-3, "sbar"}, {-2, "ubar"}, {-1, "dbar"},
@@ -119,9 +119,9 @@ int main()
     //addition <-a
 
     // Print down PDF at "mu"
-    std::cout << "\n     x             APFEL++           LHAPDF" << std::endl;
+    std::cout << "\n     x             APFEL++           LHAPDF           ratio" << std::endl;
     for (double x : xlha)
-      std::cout << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << std::endl;
+      std::cout << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << "\t" << tpdfs.at(flavor).Evaluate(x)/dist->xfxQ(flavor, x, mu) << std::endl;
         
     std::cout << "\n";
     std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;

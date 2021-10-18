@@ -47,7 +47,7 @@ namespace apfel
         return [&] (double const& x) -> double 
             {
                 double result = 0;
-                for (int i = 0; i<= ptoPL; i++){result = result + PointlikeMap.at(particle).at(0)(x, nf) * coeffQED * pow(coeffQCD(alphasAtQ), i);};
+                for (int i = 0; i<= ptoPL; i++){result = result + PointlikeMap.at(particle).at(i)(x, nf) * coeffQED * pow(coeffQCD(alphasAtQ), i);};
                 return result;
             };
     };

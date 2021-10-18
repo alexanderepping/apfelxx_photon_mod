@@ -134,6 +134,7 @@ namespace apfel
     const double dt = ( t1 - t0 ) / _nsteps;
     for (int k = 0; k < _nsteps; k++)
       {
+        //std::cout << "Q = " << std::to_string(exp(t/2)) << " - nf = " << std::to_string(nf) << std::endl;//addition//debug
         Obj += dObj(t, Obj, dt);
         t   += dt;
       }
