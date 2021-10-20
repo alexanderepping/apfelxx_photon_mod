@@ -43,10 +43,14 @@ namespace apfel
                 // loop through all active quark flavors and add their squared charges together, following the QCD evolution basis
                 result += quarkCharges2.at(i_nf) * (1 + rulesMultiplication.at(particle).at(0)) * rulesMultiplication.at(particle).at(i_nf);
             };
-        /*//debug:
+        //debug:
         std::string a_Particles[13] = {"GLUON  ", "SIGMA  ", "VALENCE", "T3     ", "V3     ", "T8     ", "V8     ", "T15    ", "V15    ", "T24    ", "V24    ", "T35    ", "V35    "};
-        std::cout << "<e²> of " << a_Particles[particle] << result << std::endl;
-        //:debug*/
+        if (particle == 1)
+        {
+            std::cout << "<e²> of " << a_Particles[particle] << result << std::endl;
+        }
+        
+        //:debug
         return result;
     };
 

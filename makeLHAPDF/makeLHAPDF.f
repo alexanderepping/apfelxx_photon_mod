@@ -78,7 +78,7 @@ c       read the next two lines into the array
         
 c - open the output file and write the first lines
 
-        open(2, file = output_file, status="unknown", action="write")
+        open(2, file=output_file, status="unknown", action="write")
 
         write(2,'(A)') trim(lineOne)
         write(2,'(A)') trim(lineTwo)
@@ -97,17 +97,8 @@ c - run the loop, write all the data and close the file
 c           call the subroutine from grvphoton.f
             call GRVGLO (X, Q2, UL, DL, SL, CL, BL, GL)
 
-c           grvglo returns 1 / alphaQED * X * PDF ->
-c            GL = GL * alphaQED / X
-c            BL = BL * alphaQED / X
-c            CL = CL * alphaQED / X
-c            SL = SL * alphaQED / X
-c            DL = DL * alphaQED / X
-c            UL = UL * alphaQED / X
-c           grvglo returns 1 / alphaQED * X * PDF <-
-
-            write(2,"(10(es12.6, 1x), es12.6)") BL, CL, SL, DL, UL, UL, 
-     >       DL, SL, CL, BL, GL
+            write(2,"(10(es12.6, 1x), es12.6)") BL, CL, SL, UL, DL, DL, 
+     >       UL, SL, CL, BL, GL
           end do
         end do 
 

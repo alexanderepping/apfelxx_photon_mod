@@ -18,12 +18,15 @@ LDFLAGS  += $(LHAPDFINCS) $(APFELPPINCS)
 CLIBS += $(LHAPDFLIBS) $(APFELPPLIBS)
 
 install : all
-all : Evolution StructureFunctions
+all : Evolution StructureFunctions EvolutionFlavors
 
 Evolution: Evolution.o 
 	$(CXX) $(LDFLAGS) -o $@ $< $(CLIBS)
 
 StructureFunctions: StructureFunctions.o 
+	$(CXX) $(LDFLAGS) -o $@ $< $(CLIBS)
+
+EvolutionFlavors: EvolutionFlavors.o 
 	$(CXX) $(LDFLAGS) -o $@ $< $(CLIBS)
 
 .SUFFIXES : .cc .o .f .c
@@ -35,5 +38,5 @@ StructureFunctions: StructureFunctions.o
 	$(F77)  -c $< 
 
 clean:
-	rm -rf *.lo *.o *.la Evolution StructureFunctions *~
+	rm -rf *.lo *.o *.la Evolution StructureFunctions EvolutionFlavors *~
 
