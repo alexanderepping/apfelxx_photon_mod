@@ -1,51 +1,115 @@
-// used to write files
-#include<fstream>
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* EvolutionFlavors.cc                                                                                                     */
+/* modified by: Alexander Epping: a_eppi01@uni-muenster.de                                                                 */
+/* GitHub: https://github.com/alexanderepping/apfelxx_photon_mod                                                           */
+/* 22 Oct 2021                                                                                                             */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* original file: https://github.com/vbertone/APFEL_Examples                                                               */
+/* original author: Valerio Bertone: valerio.bertone@cern.ch                                                               */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Program to evolve the PDFs with given initial conditions and print out the results for multiple energies and particles. */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* This program takes a LHAPDF set as input and evolves the PDFs using the DGLAP evolution, starting at an initial         */
+/* energy. The evolved PDFs are then output to a file and the terminal at multiple final energies (mu) and for different   */
+/* quark flavors as well as for the gluon.                                                                                 */
+/*                                                                                                                         */
+/* The output file can be read by plottingEvolutionFlavors.py in the plottingPython directory.                             */
+/*                                                                                                                         */
+/* This program and the plottingEvolutionFlavors program can be run by using the run_EvolutionFlavors.sh file              */
+/* in the bashFiles directory.                                                                                             */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+
+///////////////////////////////////////
+// imports
+///////////////////////////////////////
 
 // LHAPDF libs
 #include "LHAPDF/LHAPDF.h"
 
 // APFEL++ libs
-#include "apfel/apfelxx.h"
+#include "apfel/apfelxx.h" 
 
-// Name of the used LHAPDF set
-const std::string NameLHAPDFSet = "GRVCustomSet";
+// used to write to files
+#include<fstream>
+
+
+
+///////////////////////////////////////
+// definitions; can be changed by user
+///////////////////////////////////////
 
 // Name of the output file
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
-// Open LHAPDF set
-LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
+// name of the used LHAPDF set
+const std::string NameLHAPDFSet = "GRVCustomSet";
 
+// array of final scale values for which data should be output
+double arr_mu[] = {1.295, 4, 10, 20}; 
+
+// Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)
+std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
+std::vector<double> xlha2{0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9};
+
+
+
+///////////////////////////////////////
+// main program
+///////////////////////////////////////
 int main()
-{
-  // Final scale
-  //double mu = 100;
-  double arr_mu[] = {1.295, 10}; 
+{ 
+  ///////////////////////////////////////
+  // opening and preparing output file
+  ///////////////////////////////////////
 
-  // include Apfel or just show LHAPDF results?
-  const bool   includeApfel = true;
+  // opening output file
+  std::ofstream file;
+  file.open(OutputFile);
+
+  // print basic information () on the following data
+  file << "# mu values:" << std::endl;
+
+  for (double mu : arr_mu) 
+  {
+    if (mu == arr_mu[0])
+      file << std::to_string(mu);
+    else
+      file << ", " << std::to_string(mu);
+  }
   
+  file << "\n# num_x_vals\n" << xlha2.size() << "\n# x, apfel++, lhapdf, ratio" << std::endl;
+
+
+
+  /////////////////////////////////////
+  // definitions
+  /////////////////////////////////////
+
   // flavor number with corresponding flavor
   std::map<int, std::string> mapFlavors {{-6, "tbar"}, {-5, "bbar"}, {-4, "cbar"}, {-3, "sbar"}, {-2, "ubar"}, {-1, "dbar"},
-                                      {0, "gluon"}, {1, "d"}, {2, "u"}, {3, "s"}, {4, "c"}, {5, "b"}, {6, "t"}};
+                                         {0, "gluon"}, {1, "d"}, {2, "u"}, {3, "s"}, {4, "c"}, {5, "b"}, {6, "t"}};
+
   
+  // Open LHAPDF set
+  LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
   
+
   // Retrieve evolution parameters from the LHAPDF set
   const int    pto          = dist->orderQCD();
-  const double Qref         = 91.1876;
-  // 0.128 given by GRV
-  const double asref        = 0.128;//dist->alphasQ(Qref);
+  const double Qref         = 91.1876; // mass of the z-boson
+  const double asref        = 0.128;  // 0.128 given by GRV  //dist->alphasQ(Qref);
   const double mc           = dist->quarkThreshold(4);
   const double mb           = dist->quarkThreshold(5);
   const double mt           = dist->quarkThreshold(6);
   const double Qin          = dist->qMin();
+  
 
-  std::ofstream file;
-  file.open(OutputFile);//addition 
-
-  /////////////////////
+ 
+  /////////////////////////////////////
   // Initialise APFEL++
-  /////////////////////
+  /////////////////////////////////////
 
   // Define grid in terms of subgrids. Each subgrid is constructed
   // through apfel::SubGrid{nx, xmin, id} and has "nx" intervals, is
@@ -71,8 +135,6 @@ int main()
   const apfel::TabulateObject<double> Alphas{a, 100, 0.9, 1001, 3};
   const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
 
-
-
   // Define input PDFs as a lambda function using the LHAPDF
   // set. Notice that APFEL++ takes PDFs in the QCD evolution basis
   // (g, Sigma, V, T3, V3, T8, V8, T15, V15, T24, V24, T35, V35). The
@@ -92,9 +154,25 @@ int main()
   //const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3};
   const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, as};
 
+
+
+  /////////////////////////////////////
+  // output results
+  /////////////////////////////////////
+
   for (int i_mu=0; i_mu<sizeof(arr_mu)/sizeof(arr_mu[0]); i_mu++)
   {
     double mu = arr_mu[i_mu];
+
+    std::cout << std::scientific;
+
+    // terminal output:
+    // print alphas from APFEL++, and LHAPDF only once per mu
+    std::cout << "____________________________________________________________" << std::endl;
+    std::cout << "____________________________________________________________" << std::endl;
+    std::cout << "\nmu = " << mu << " GeV\n" << std::endl;
+    std::cout << "APFEL++: AlphaQCD(Q) = " << Alphas.Evaluate(mu) << std::endl;
+    std::cout << "LHAPDF:  AlphaQCD(Q) = " << dist->alphasQ(mu) << std::endl;
 
     for (int flavor=0; flavor<=6; flavor++)
     {
@@ -105,39 +183,34 @@ int main()
       // "QCDEvToPhys".
       const std::map<int, apfel::Distribution> tpdfs = apfel::QCDEvToPhys(TabulatedPDFs.Evaluate(mu).GetObjects());
 
-      // Print results
-      std::cout << std::scientific;
 
-      // Print alphas from APFEL++, and LHAPDF
-      std::cout << "____________________________________________________________" << std::endl;
-      std::cout << "\nmu = " << mu << " GeV\n" << std::endl;
-      std::cout << "APFEL++: AlphaQCD(Q) = " << Alphas.Evaluate(mu) << std::endl;
-      std::cout << "LHAPDF:  AlphaQCD(Q) = " << dist->alphasQ(mu) << std::endl;
-
-      // Vector of test values of x
-      std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
-      std::vector<double> xlha2{0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9};
-
-      // write data to file
-      for (double x : xlha2)
-      {
-        file << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << "\t" << tpdfs.at(flavor).Evaluate(x)/dist->xfxQ(flavor, x, mu) << std::endl;
-      }
-
+      // terminal output:
       // Print down PDF at "mu"
-      std::cout << "\n     x             APFEL++           LHAPDF           ratio" << std::endl;
+      std::cout << "____________________________________________________________" << std::endl << std::endl;
+      std::cout << "Shown particle:           : " << mapFlavors.at(flavor) << std::endl;
+      std::cout << "Used Mu                   : " << mu <<  " GeV" << std::endl << std::endl;
+      std::cout << "     x             APFEL++           LHAPDF           ratio" << std::endl;
       for (double x : xlha)
         std::cout << x << "\t" << tpdfs.at(flavor).Evaluate(x) << "\t" << dist->xfxQ(flavor, x, mu) << "\t" << tpdfs.at(flavor).Evaluate(x)/dist->xfxQ(flavor, x, mu) << std::endl;
-          
-      std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;
-      std::cout << "\nUsed Perturbative Order   : " << std::to_string(pto);
-      std::cout << "\nUsed Mu                   : " << mu <<  " GeV";
-      std::cout << "\nShown particle:           : " << mapFlavors.at(flavor) << "\n";
-    }
 
+
+      // file output:
+      // Print down PDF at "mu"
+      for (double x : xlha2)
+        file << x << ", " << tpdfs.at(flavor).Evaluate(x) << ", " << dist->xfxQ(flavor, x, mu) << ", " << tpdfs.at(flavor).Evaluate(x)/dist->xfxQ(flavor, x, mu) << std::endl;
+    }
   }
+
+  // terminal output:
+  // print perturbative order and name of LHAPDF-Set
+  std::cout << "____________________________________________________________" << std::endl;
+  std::cout << "____________________________________________________________\n" << std::endl;
+  std::cout << "Used Perturbative Order   : " << std::to_string(pto) << std::endl;
+  std::cout << "Used LHAPDF Set           : " << NameLHAPDFSet << std::endl;
   
+  // close output file
   file.close();
+
   return 0;
 }
 

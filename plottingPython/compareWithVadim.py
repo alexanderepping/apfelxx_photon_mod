@@ -1,3 +1,11 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#  compareWithVadim.py                                                                              #
+#  Author: Alexander Epping: a_eppi01@uni-muenster.de                                               #
+#  22 Oct 2021                                                                                      #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#  Quick program to compare Vadims and my data. Not very useful anymore.                            #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -24,7 +32,8 @@ for i in range(len(apfel_alex100)):
         apfel2_alex100 = np.append(apfel2_alex100, apfel_alex100[i])
         x2_alex100 = np.append(x2_alex100, x_alex100[i])
 
-    
+
+# plot the data for Q² = 4    
 plt.plot(x_vadim4, lhapdf_vadim4, label="vadim4")
 plt.plot(x_alex4, lhapdf_alex4, label="lhapdf_alex4")
 plt.plot(x2_alex4, apfel2_alex4, label="apfel_alex4")
@@ -36,6 +45,7 @@ plt.xlim(right=1, left=x_vadim4[0])
 plt.show()
 
     
+# plot the data for Q² = 100   
 plt.plot(x_vadim100, lhapdf_vadim100, label="vadim100")
 plt.plot(x_alex100, lhapdf_alex100, label="lhapdf_alex100")
 plt.plot(x2_alex100, apfel2_alex100, label="apfel_alex100")

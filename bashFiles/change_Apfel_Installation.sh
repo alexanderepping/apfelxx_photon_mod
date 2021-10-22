@@ -3,15 +3,16 @@
 #  Author: Alexander Epping: a_eppi01@uni-muenster.de                                                       #
 #  6 Oct 2021                                                                                               #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-#  Convenient program to change the currently used installation of Apfel++.                                 #
+#  Convenient program to change the currently used installation of Apfel++ on my ThinkPad.                  #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  - Furthermore it will save the current state of the .bash_aliases file in a backup file                  #
-#  - The .bash_aliases file should be constucted in a similar way to the one found in the Github.           #
+#  - Furthermore it will save the current state of the .bash_aliases_apfel file in a backup file            #
+#  - The .bash_aliases_apfel file should be constucted in a similar way to the one found in the Github.     #
+#    It should be included into the .bash_aliases file.                                                     #
 #  - The paths obiously should be changed accordingly.                                                      # 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-# line in the .bash_aliases file in wich the varibale for Apfel is saved
+# line in the .bash_aliases_apfel file in wich the varibale for Apfel is saved
 changeLine=2
 programName="Apfel++"
 
@@ -20,14 +21,14 @@ programName="Apfel++"
 var=${1:-change}
 
 
-# change to the folder with .bash_aliases
-cd /home/users/a_eppi01
-
+# change to the folder with .bash_aliases_apfel
+# cd /home/users/a_eppi01
+cd /home/alexander
 # bash file to be changed
-file='.bash_aliases'
+file='.bash_aliases_apfel'
 
 # temporary file to copy contents of 'file' to
-temp='temp_bash_aliases.txt'
+temp='temp_bash_aliases_apfel.txt'
 
 i=1
 while read line; do
@@ -60,7 +61,7 @@ while read line; do
 done < $file
 
 # backup file of 'file'
-fileBackup='backup_bash_aliases'
+fileBackup='backup_bash_aliases_apfel'
 
 # make backup from file to fileBackup
 cat $file > $fileBackup

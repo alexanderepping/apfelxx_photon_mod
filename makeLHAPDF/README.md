@@ -1,6 +1,8 @@
 # makeLHAPDF
 Fortran program to write the GRVCustomSet_0000.dat file in the LHAPDF fromat and related files.
 
+The program can be run by running the bashFiles/makeLHAPDF.sh program, which will also copy the GRVCustomSet_0000.dat directly into the LHAPDF share directory.
+
 ## makeLHAPDF.f
 Program to write a GRVCustomSet_0000.dat file in the LHAPDF fromat.
 
