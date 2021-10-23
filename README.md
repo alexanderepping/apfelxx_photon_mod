@@ -32,3 +32,8 @@ Folder containing various python files to plot the data collected from the Evolu
 
 ### testModifiedApfel
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
+
+## to-dos:
+- make minimal branch that only contains the minimal number of neccessary files (modified files in apfel)
+- merge main branch and fourth_approach_mod
+- maybe write runthrough of changes I made and work routine?!
