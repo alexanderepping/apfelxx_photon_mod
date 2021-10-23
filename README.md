@@ -5,16 +5,6 @@ Done in the course of writing my master thesis.
 
 This approach just implements the pointlike term directly into EvolveObject.
 
-## compiling
-in the main folder use
-```
-cmake .
-make
-```
-- fresh installation: remove `CMakeCache.txt` and the folder `CMakeFiles`
-- executables can be added in the `CMakeLists.txt` 
-- to switch the `LHAPDF`-installation just change your `PATH` variable to point to the correct `lhapdf-config`
-
 ## folders:
 
 ### bashFiles
@@ -26,6 +16,19 @@ Fortran program to write the GRVCustomSet_0000.dat file in the LHAPDF fromat and
 ### myApfelModified/apfelxx
 Folder containing the changed source code and headers of the apfelxx program.
 
+Changed files: 
+- matchedevolution.cc/.h: 
+    - Removed Set<Distribution> as template class
+    - Manually added MatchedEvolution<Set<Distribution>>
+    - Added Evaluate and EvolveObject functions with additional Alphas input parameter. The EvolveObject function ( for <Set<Distribution>) with Alphas input includes the pointlike contribution into the evolution.
+- tabulateobjects.cc/.h:
+    - added functions that can pass the Alphas through to the functions of matchedevolution
+
+added files: 
+- pointlikecontributions.cc/.h: 
+    - functions etc. to include the pointlike contribution of the photon into the evolution 
+
+
 ### myLHAPDFModified/share/LHAPDF/
 Folder containing folders with the used LHAPDF data sets.
 
@@ -34,3 +37,14 @@ Folder containing various python files to plot the data collected from the Evolu
 
 ### testModifiedApfel
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
+
+
+## compiling using cmake
+in the main folder use
+```
+cmake .
+make
+```
+- fresh installation: remove `CMakeCache.txt` and the folder `CMakeFiles`
+- executables can be added in the `CMakeLists.txt` 
+- to switch the `LHAPDF`-installation just change your `PATH` variable to point to the correct `lhapdf-config`
