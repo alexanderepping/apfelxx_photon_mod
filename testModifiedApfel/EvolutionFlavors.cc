@@ -44,7 +44,7 @@
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
 // name of the used LHAPDF set
-const std::string NameLHAPDFSet = "GRVCustomSet";
+const std::string NameLHAPDFSet = "GRVCustomSetLO";
 
 // array of final scale values for which data should be output
 double arr_mu[] = {1.295, 4, 10, 20}; 

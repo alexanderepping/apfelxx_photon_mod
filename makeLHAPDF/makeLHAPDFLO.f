@@ -1,9 +1,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*  makeLHAPDF.f                                                                                                     *
+*  makeLHAPDFLO.f                                                                                                   *
 *  Author: Alexander Epping: a_eppi01@uni-muenster.de                                                               *
 *  6 Oct 2021                                                                                                       *         
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*  Program to write a GRVCustomSet_0000.dat file in the LHAPDF fromat.                                              *            
+*  Program to write a GRVCustomSetLO_0000.dat file in the LHAPDF fromat.                                            *            
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 *  The program takes a template file and copies the first three lines.                                              *
 *  Then it reads the x- (4th line) and Q-values (5th line) and saves them.                                          *
@@ -11,7 +11,7 @@
 *  These values are then written to the output file.                                                                *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-      program makeLHAPDF 
+      program makeLHAPDFLO 
         implicit none
 
 c       file, which has the same X- and Q-values as the one we want to create    
@@ -19,7 +19,7 @@ c       the file should be in a LHAPDF format
         character(len=19) :: template_file = 'LHAPDF_template.dat'
 
 c       file, which we want to create in the LHAPDF format
-        character(len=21) :: output_file = 'GRVCustomSet_0000.dat'
+        character(len=21) :: output_file = 'GRVCustomSetLO_0000.dat'
 
         integer :: lenXArr, lenQArr
         character(len=99999) :: lineOne, lineTwo, lineThree
