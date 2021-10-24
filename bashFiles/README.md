@@ -16,8 +16,8 @@ Program to make and run the EvolutionFlavors program and possibly reinstall the 
 - The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.
 - The variable $$CURRENT_APFEL_TEST should point to the folder with the EvolutionFlavors.cc and its respective Makefile inside.    
 
-## makeLHAPDF.sh
-Quick program to run the makeLHAPDF.f program and copy the file into the LHAPDF share directory.
+## makeLHAPDFLO.sh
+Quick program to run the makeLHAPDFLO.f program and copy the file into the LHAPDF share directory.
 
 ## change_Apfel_Installation.sh
 Convenient program to change the currently used installation of Apfel++.
