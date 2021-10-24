@@ -1,9 +1,9 @@
 # apfelxx_photon_mod
 Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code to allow the calculation of photon PDFs.
 
-Done in the course of writing my master thesis.
+Final branch for leading order contributions.
 
-This approach just implements the pointlike term directly into EvolveObject.
+Done in the course of writing my master thesis.
 
 ## folders:
 
