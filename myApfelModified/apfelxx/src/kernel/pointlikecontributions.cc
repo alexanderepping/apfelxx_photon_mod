@@ -35,7 +35,7 @@ namespace apfel
 
 
 // stuff used to calculate the expectation value of the squared quark charge
-    double nfExpE2(int const& particle, int const& nf)
+    double ExpE2(int const& particle, int const& nf)
     {
         double result = 0.; 
         for (int i_nf = 1; i_nf<= nf; i_nf++)
@@ -51,16 +51,23 @@ namespace apfel
         }
         
         //:debug*/
-        return result;
+        return 1 / nf * result;
     };
 
 
 
 
 // functions used to actually calculate the pointlike contributions
-    double k0(double const& x)
+    double k0(double const& x, int const& particle, int const& nf)
     {
-        return 3 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+        return nf * ExpE2(particle, nf) * 3 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+    };
+
+
+    double k1g(double const& x, int const& particle, int const& nf)
+    {
+        std::cout << "\nk1g\n" << std::endl;
+        return nf * ExpE2(particle, nf) * 3 * 4 / 3 * (-16 + 8 * x + 20 / 3 * x * x + 4 / (3 * x) -(6 + 10 * x) * log(x) - 2 * (1 + x) * log(x) * log(x));
     };
 
 
@@ -69,11 +76,11 @@ namespace apfel
         if (particle == GLUON)
         {
             return {{0, 0*x*nf*particle}, // k0g
-                    {1, 0*x*nf*particle}};// k1g
+                    {1, k1g(x, particle, nf)}};// k1g
         }
         else
         {           
-            return {{0, k0(x) * nfExpE2(particle,nf)},  // k0q
+            return {{0, k0(x, particle, nf)},  // k0q
                     {1, 0 * nf * x * particle       }}; // k1q
         }
     };

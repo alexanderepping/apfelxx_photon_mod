@@ -76,26 +76,27 @@ namespace apfel
      * rulesMultiplication.at(particle).at(0) is the sign of the q; +1 for q+qbar, -1 for q-qbar.
      * The following numbers are the coefficients of the quarks:             d,  u,  s,  c,  b,  t. 
      */                                             
-    const std::map<int, std::vector<int>> rulesMultiplication = {{SIGMA,   {+1,  1,  1,  1,  1,  1,  1}},
-                                                           {VALENCE, {-1,  1,  1,  1,  1,  1,  1}},
-                                                           {T3,      {+1, -1,  1,  0,  0,  0,  0}},
-                                                           {V3,      {-1, -1,  1,  0,  0,  0,  0}},
-                                                           {T8,      {+1,  1,  1, -2,  0,  0,  0}},
-                                                           {V8,      {-1,  1,  1, -2,  0,  0,  0}},
-                                                           {T15,     {+1,  1,  1,  1, -3,  0,  0}},
-                                                           {V15,     {-1,  1,  1,  1, -3,  0,  0}},
-                                                           {T24,     {+1,  1,  1,  1,  1, -4,  0}},
-                                                           {V24,     {-1,  1,  1,  1,  1, -4,  0}},
-                                                           {T35,     {+1,  1,  1,  1,  1,  1, -5}},
-                                                           {V35,     {-1,  1,  1,  1,  1,  1, -5}}};
+    const std::map<int, std::vector<int>> rulesMultiplication = {{GLUON,   {+1,  1,  1,  1,  1,  1,  1}},
+                                                                 {SIGMA,   {+1,  1,  1,  1,  1,  1,  1}},
+                                                                 {VALENCE, {-1,  1,  1,  1,  1,  1,  1}},
+                                                                 {T3,      {+1, -1,  1,  0,  0,  0,  0}},
+                                                                 {V3,      {-1, -1,  1,  0,  0,  0,  0}},
+                                                                 {T8,      {+1,  1,  1, -2,  0,  0,  0}},
+                                                                 {V8,      {-1,  1,  1, -2,  0,  0,  0}},
+                                                                 {T15,     {+1,  1,  1,  1, -3,  0,  0}},
+                                                                 {V15,     {-1,  1,  1,  1, -3,  0,  0}},
+                                                                 {T24,     {+1,  1,  1,  1,  1, -4,  0}},
+                                                                 {V24,     {-1,  1,  1,  1,  1, -4,  0}},
+                                                                 {T35,     {+1,  1,  1,  1,  1,  1, -5}},
+                                                                 {V35,     {-1,  1,  1,  1,  1,  1, -5}}};
     
 
     /**
-     * @brief calculation of nf*<e²>
+     * @brief calculation of *<e²>
      * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
      * @param nf: number of active flavours
      */
-    double nfExpE2(int const& particle, int const& nf);
+    double ExpE2(int const& particle, int const& nf);
 
 
 
@@ -103,10 +104,18 @@ namespace apfel
 // functions used to actually calculate the pointlike contributions
     /**
      * @brief k0-function, used with all 0th order pointlike contributions.
-     * k0(x) = N_c * (x²+(1-x)²)
+     * k0(x) = n_f * <e²> * N_c * (x²+(1-x)²)
      * @param x: x-value
      */
-    double k0(double const& x);
+    double k0(double const& x, int const& particle, int const& nf);
+
+
+    /**
+     * @brief k1g-function, used by the 1st order pointlike contribution of the gluon.
+     * k1g(x) = n_f * <e²> * N_c * 4/3 * [-16 + 8*x + 12/3*x² + 4/(3x) -(6 + 10x)*ln(x) -2(1+x)ln²(x)]
+     * @param x: x-value
+     */
+    double k1g(double const& x, int const& particle, int const& nf);
 
 
     /**

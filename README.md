@@ -11,7 +11,7 @@ This approach just implements the pointlike term directly into EvolveObject.
 Some useful bash files I use to run the programs and/or change between different installations of Apfel++ and the LHAPDF library.
 
 ### makeLHAPDF
-Fortran program to write the GRVCustomSet_0000.dat file in the LHAPDF fromat and related files.
+Fortran program to write GRVCustomSet_0000.dat files in the LHAPDF fromat and related files.
 
 ### myApfelModified/apfelxx
 Folder containing the changed source code and headers of the apfelxx program.
