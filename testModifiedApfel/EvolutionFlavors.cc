@@ -99,7 +99,7 @@ int main()
   // Retrieve evolution parameters from the LHAPDF set
   const int    pto          = dist->orderQCD();
   const double Qref         = 91.1876; // mass of the z-boson
-  const double asref        = 0.128;  // 0.128 given by GRV  //dist->alphasQ(Qref);
+  const double asref        = dist->alphasQ(Qref);
   const double mc           = dist->quarkThreshold(4);
   const double mb           = dist->quarkThreshold(5);
   const double mt           = dist->quarkThreshold(6);
@@ -205,7 +205,14 @@ int main()
   // print perturbative order and name of LHAPDF-Set
   std::cout << "____________________________________________________________" << std::endl;
   std::cout << "____________________________________________________________\n" << std::endl;
-  std::cout << "Used Perturbative Order   : " << std::to_string(pto) << std::endl;
+  std::cout << std::defaultfloat;
+  std::cout << "Used Perturbative Order   : " << std::to_string(pto) << "\n" << std::endl;
+  std::cout << "Used ZBoson Mass          : " << Qref << " GeV" << std::endl;
+  std::cout << "Used alphas @ ZBoson Mass : " << asref << "\n" << std::endl;
+  std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
+  std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
+  std::cout << "Used Bottom Quark Mass    : " << mb << " GeV" << std::endl;
+  std::cout << "Used Top Quark Mass       : " << mt << " GeV\n" << std::endl;
   std::cout << "Used LHAPDF Set           : " << NameLHAPDFSet << std::endl;
   
   // close output file
