@@ -80,6 +80,9 @@ make Evolution > $voidOutput
 # Running Evolution program
 ./Evolution
 
+# Deleting previous Evolution program
+make clean > $voidOutput
+
 rm $voidOutput
 
 

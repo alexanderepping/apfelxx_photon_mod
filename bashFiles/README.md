@@ -14,10 +14,21 @@ Program to make and run the EvolutionFlavors program and possibly reinstall the 
 - The program also outputs the path of the currently used Apfel++ and LHAPDF Installation. This output is aligned with he information output of the EvolutionFlavors.cc file.
 - The variable $CURRENT_APFEL should point to the folder with the apfelxx folder inside.
 - The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.
-- The variable $$CURRENT_APFEL_TEST should point to the folder with the EvolutionFlavors.cc and its respective Makefile inside.    
+- The variable $$CURRENT_APFEL_TEST should point to the folder with the EvolutionFlavors.cc and its respective Makefile inside.   
+
+## run_StructureFunctions.sh
+Program to make and run the EvolutionStructureFunctions program to evolve the PDFs and then make, then run the StructureFunctions program and possibly reinstall the LHAPDF and/or Apfel++ library.
+- The EvolutionStructureFunctions.cc program makes an LHAPDF grid out of the evolved PDFs it calculates. This grid is then used to calculate the Structure Functions using the StructureFunctions.cc program. The output is then saved to a file and read and plotted by plottingStructureFunctions.py.
+- The program also outputs the path of the currently used Apfel++ and LHAPDF Installation. This output is aligned with he information output of the StructureFunctions.cc file.
+- The variable $CURRENT_APFEL should point to the folder with the apfelxx folder inside.
+- The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.
+- The variable $$CURRENT_APFEL_TEST should point to the folder with the EvolutionStructureFunctions.cc file, the StructureFunctions.cc file and its respective Makefile inside.    
 
 ## makeLHAPDFLO.sh
-Quick program to run the makeLHAPDFLO.f program and copy the file into the LHAPDF share directory.
+Quick program to run the makeLHAPDFLO.f program and copy the file into the LHAPDF share directory.  
+
+## makeLHAPDFHO.sh
+Quick program to run the makeLHAPDFHO.f program and copy the file into the LHAPDF share directory.
 
 ## change_Apfel_Installation.sh
 Convenient program to change the currently used installation of Apfel++.

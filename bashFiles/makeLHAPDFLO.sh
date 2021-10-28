@@ -8,9 +8,11 @@
 
 cd ~/Documents/apfelxx_photon_mod/makeLHAPDF
 
-gfortran -o makeLHAPDF makeLHAPDFLO.f grvphoton.f
+gfortran -o makeLHAPDFLO makeLHAPDFLO.f grvphoton.f
 
 ./makeLHAPDFLO
 
 rm ~/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/GRVCustomSetLO_0000.dat
+rm ~/Documents/apfelxx_photon_mod/makeLHAPDF/makeLHAPDFLO
 cp ~/Documents/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat ~/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/
+rm ~/Documents/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat
