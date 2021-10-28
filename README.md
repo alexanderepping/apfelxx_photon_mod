@@ -1,9 +1,10 @@
 # apfelxx_photon_mod
-Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code to allow the calculation of photon PDFs.
+Modification of the [vbertone/apfelxx](https://github.com/vbertone/apfelxx) code to allow the calculation of photon PDFs. 
+
+The modification is done by adding the pointlike contribution directly in the EvolveObject function in [matchedevolution.cc](https://github.com/alexanderepping/apfelxx_photon_mod/blob/main/myApfelModified/apfelxx/src/kernel/matchedevolution.cc).
+The pointlike contributions can be seein in [pointlikecontributions.cc](https://github.com/alexanderepping/apfelxx_photon_mod/blob/main/myApfelModified/apfelxx/src/kernel/pointlikecontributions.cc).
 
 Done in the course of writing my master thesis.
-
-This approach just implements the pointlike term directly into EvolveObject.
 
 ## folders:
 
