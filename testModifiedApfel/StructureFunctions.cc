@@ -49,9 +49,9 @@ const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plo
 const std::string NameLHAPDFSet = "GRVCustomSetLO";
 const std::string NameLHAPDFSetEvolved = "Evolved" + NameLHAPDFSet;
 
-// array of final scale values for which data should be output
-double arr_mu2[] = {9.9, 20.7, 284}; 
-double arr_mu[] = {pow(9.9, 0.5), pow(20.7, 0.5), pow(284, 0.5)}; 
+// array of final scale values for which data should be output (mu^2)
+//                 |  0,1,2:ALEPH  |  3,4,5:AMY
+const double arr_mu2[] = {9.9, 20.7, 284, 6.8, 73, 390};   
 
 // Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)
 std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
@@ -164,9 +164,9 @@ int main()
   // output results
   /////////////////////////////////////
 
-  for (int i_mu=0; i_mu<sizeof(arr_mu)/sizeof(arr_mu[0]); i_mu++)
+  for (int i_mu2=0; i_mu2<sizeof(arr_mu2)/sizeof(arr_mu2[0]); i_mu2++)
   {
-    double mu = arr_mu[i_mu];
+    double mu = pow(arr_mu2[i_mu2], 0.5);
 
     std::cout << std::scientific;
 

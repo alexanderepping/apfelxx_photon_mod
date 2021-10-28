@@ -1,95 +1,72 @@
-###################
+###########################
 # imports
-###################
+###########################
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 import sys
+from experimentalData import *
 
 
 
-###################
+###########################
 # definitions, changeable
-###################
+###########################
 # variables changeable by user
 input_file = "data_StructureFunctions.txt"
 
 # dataset to compare the Apfel++ values to
-dataset = "ALEPH"
+DataSetName = "AMY"
 
-# plot either the data or the ratio of the two datasets
+# plot either the data or the ratio of Apfel and GRV
 mode = "data"
 
+# save figure options
+save_fig = True
+pltname = "plotStructureFunctions_AMY_2021_10_28.png"
+dpi = 200 # default is 100
 
-
-###################
-# functions
-###################
-
-def ALEPH(x, Q2):
-    if (Q2 == 9.9):
-        if (x >= 0.005 and x < 0.080):
-            return 0.30
-        elif (x >= 0.080 and x < 0.200):
-            return 0.40
-        elif (x >= 0.200 and x < 0.400):
-            return 0.41
-        elif (x >= 0.400 and x < 0.800):
-            return 0.27
-        else:
-            return 0
-    elif (Q2 == 20.7):
-        if (x >= 0.009 and x < 0.120):
-            return 0.36
-        elif (x >= 0.120 and x < 0.270):
-            return 0.34
-        elif (x >= 0.270 and x < 0.500):
-            return 0.56
-        elif (x >= 0.500 and x < 0.890):
-            return 0.45
-        else:
-            return 0
-    elif (Q2 == 284):
-        if (x >= 0.003 and x < 0.350):
-            return 0.65
-        elif (x >= 0.350 and x < 0.650):
-            return 0.70
-        elif (x >= 0.650 and x < 0.970):
-            return 1.28
-        else:
-            return 0
-    else:
-        return 0
-
-def makeXAleph(x_arr, Q2):
-    aleph_arr = np.array([])
-    for x in x_arr:
-        aleph_arr = np.append(aleph_arr, ALEPH(x, Q2))
-    return aleph_arr
-
-def removeZero(x_arr, a_arr, b_arr):
-    # remove the data points from all three arrays, if array a is zero 
-    x_arr_2 = np.array([])
-    a_arr_2 = np.array([])
-    b_arr_2 = np.array([])
-    for i in range(len(a_arr)):
-        if (a_arr[i] != 0):
-            x_arr_2 = np.append(x_arr_2, x_arr[i])
-            a_arr_2 = np.append(a_arr_2, a_arr[i])
-            b_arr_2 = np.append(b_arr_2, b_arr[i])
-    return [x_arr_2, a_arr_2, b_arr_2]
-
-
-###################
-# definitions
-###################
-
+# scaling factor for plot
 c = 1.75
+
+
+
+###########################
+# functions
+###########################
+
+def makeErrorbars(arr):
+    x = np.array([])
+    errbar = np.array([])
+    for i in range(len(arr)-1):
+        errbar = np.append(errbar, (arr[i+1] - arr[i])/2. )
+        x = np.append(x, arr[i]+errbar[i])
+    return x, errbar
+
+def makeDataSet(DataSet):
+    for Q in range(len(DataSet["intervals"])):
+        DataSet["x_data"][Q], DataSet["x_error"][Q] = makeErrorbars(DataSet["intervals"][Q])
+    return DataSet
+
+
+
+###########################
+# definitions
+###########################
 
 # loading basic information on the following data
 mu2_vals = np.loadtxt(open(input_file), delimiter=",", unpack=False, skiprows=1, max_rows=1)
-mu_vals = np.sqrt(mu2_vals)
 num_x_vals = int(np.loadtxt(open(input_file), delimiter=",", unpack=True, skiprows=3, max_rows=1))
+
+# defining the DataSet depending on user input
+if (DataSetName == "ALEPH"):
+            DataSet = makeDataSet(ALEPH_DATA)
+            mu2_vals = mu2_vals[0:3]
+            mu_vals = np.sqrt(mu2_vals)
+elif (DataSetName == "AMY"):
+            DataSet = makeDataSet(AMY_DATA)
+            mu2_vals = mu2_vals[3:6]
+            mu_vals = np.sqrt(mu2_vals)
 
 
 # setting up the layout of the plot
@@ -107,8 +84,6 @@ elif len(mu_vals) == 4:
     subplt = [axs[0,0], axs[0,1], axs[1,0], axs[1,1]] 
 
 
-
-
 # setting up arrays to save the data, val[index of mu] gives the array of values
 x = np.zeros((len(mu_vals), num_x_vals))
 apfel = np.zeros((len(mu_vals), num_x_vals))
@@ -117,38 +92,40 @@ ratio = np.zeros((len(mu_vals), num_x_vals))
 
 
 
-###################
+###########################
 # main program
-###################
+###########################
 # import the data
 for i_mu in range(len(mu_vals)):
 
     x[i_mu], apfel[i_mu], lhapdf[i_mu], ratio[i_mu]= np.loadtxt(open(input_file), delimiter=",", unpack=True, skiprows=(i_mu * num_x_vals + 5), max_rows=num_x_vals)
 
-    if (mode == "data"):
-        subplt[i_mu].plot(x[i_mu], apfel[i_mu], label="Structure function values, PDFs calculated by Apfel++")
 
-        if (dataset == "GRV"):
+    if (DataSetName == "GRV"):
+
+        if (mode == "data"):
+            subplt[i_mu].plot(x[i_mu], apfel[i_mu], label="Structure function values, PDFs calculated by Apfel++")
             subplt[i_mu].plot(x[i_mu], lhapdf[i_mu], label="Structure function values, PDFs given by LHAPDF")
-        elif (dataset == "ALEPH"):
-            data = removeZero(x[i_mu], makeXAleph(x[i_mu], mu2_vals[i_mu]), apfel[i_mu])
-            subplt[i_mu].plot(data[0], data[1], label="Structure function values, given by ALEPH")
+
+        elif (mode == "ratio"):
+            subplt[i_mu].plot(x[i_mu], ratio[i_mu], label="ratio SF of Apfel++ / SF of LHAPDF")
 
         subplt[i_mu].set_title("F_2^gamma/alpha at µ²="+str(mu2_vals[i_mu])+"GeV")
         subplt[i_mu].tick_params('x', labelbottom=True)
-    elif (mode == "ratio"):
-        if (dataset == "GRV"):
-            subplt[i_mu].plot(x[i_mu], ratio[i_mu], label="ratio SF of Apfel++ / SF of LHAPDF")
-        elif (dataset == "ALEPH"):
-            data = removeZero(x[i_mu], makeXAleph(x[i_mu], mu2_vals[i_mu]), apfel[i_mu])
-            subplt[i_mu].plot(data[0], data[2]/data[1], label="ratio SF of Apfel++ / SF of ALEPH")
-        
+
+
+    else:
+
+        lbl="Structure Function values from "+DataSetName
+        subplt[i_mu].plot(x[i_mu], apfel[i_mu], label="Structure function values, PDFs calculated by Apfel++")
+        subplt[i_mu].errorbar(DataSet["x_data"][i_mu], DataSet["F2Gamma"][i_mu], xerr=DataSet["x_error"][i_mu], yerr=DataSet["y_error"][i_mu], linestyle=" ", color="red", capsize=6, elinewidth=1.65, label=lbl)
+
         subplt[i_mu].set_title("F_2^gamma/alpha at µ²="+str(mu2_vals[i_mu])+"GeV")
         subplt[i_mu].tick_params('x', labelbottom=True)
-    
 
 
 #plt.xlim(left=10**(-4), right=1)
 plt.legend(loc="upper right")
-#plt.savefig('plotStructureFunctions_data_LO_2021_10_27.png', bbox_inches='tight')
+if save_fig:
+    plt.savefig(pltname, bbox_inches='tight', dpi=dpi)
 plt.show()
