@@ -43,15 +43,7 @@ namespace apfel
                 // loop through all active quark flavors and add their squared charges together, following the QCD evolution basis
                 result += quarkCharges2.at(i_nf) * (1 + rulesMultiplication.at(particle).at(0)) * rulesMultiplication.at(particle).at(i_nf);
             };   
-        /*//debug:
-        std::string a_Particles[13] = {"GLUON  ", "SIGMA  ", "VALENCE", "T3     ", "V3     ", "T8     ", "V8     ", "T15    ", "V15    ", "T24    ", "V24    ", "T35    ", "V35    "};
-        if (particle == 1)
-        {
-            std::cout << "<e²> of " << a_Particles[particle] << result << std::endl;
-        }
-        
-        //:debug*/
-        return 1 / nf * result;
+        return result / (nf * 1.);
     };
 
 
@@ -60,14 +52,20 @@ namespace apfel
 // functions used to actually calculate the pointlike contributions
     double k0(double const& x, int const& particle, int const& nf)
     {
-        return nf * ExpE2(particle, nf) * 3 * ( x * x + ( 1 - x ) * ( 1 - x ) );
+        return nf * ExpE2(particle, nf) * 3 * (x * x + (1 -x) * (1 -x));
+    };
+
+
+    double k1(double const& x, int const& particle, int const& nf)
+    {
+        double k_x = 4 / 3. * (4 - 9 * x -(1 - 4 * x) * log(x) -(1 - 2 * x) * log(x) * log(x) + 4 * log(1 - x) + (4 * log(x) - 4 * log(x) * log(1 - x) + 2 * log(x) * log(x) - 4 * log(1 - x) + 2 * log(1 - x) * log(1 - x) - 2 / 3. * M_PI * M_PI + 10) * (x * x + (1 - x) * (1 - x)));
+        return nf * ExpE2(particle, nf) * 3 * k_x;
     };
 
 
     double k1g(double const& x, int const& particle, int const& nf)
     {
-        std::cout << "\nk1g\n" << std::endl;
-        return nf * ExpE2(particle, nf) * 3 * 4 / 3 * (-16 + 8 * x + 20 / 3 * x * x + 4 / (3 * x) -(6 + 10 * x) * log(x) - 2 * (1 + x) * log(x) * log(x));
+        return nf * ExpE2(particle, nf) * 3 * 4 / 3. * (-16 + 8 * x + 20 / 3. * x * x + 4 / (3. * x) -(6 + 10 * x) * log(x) - 2 * (1 + x) * log(x) * log(x));
     };
 
 
@@ -75,13 +73,13 @@ namespace apfel
     {
         if (particle == GLUON)
         {
-            return {{0, 0*x*nf*particle}, // k0g
-                    {1, k1g(x, particle, nf)}};// k1g
+            return {{0, 0*x*nf*particle},       // k0g
+                    {1, k1g(x, particle, nf)}}; // k1g
         }
         else
         {           
             return {{0, k0(x, particle, nf)},  // k0q
-                    {1, 0 * nf * x * particle       }}; // k1q
+                    {1, k1(x, particle, nf)}}; // k1q
         }
     };
 
