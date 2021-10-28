@@ -18,7 +18,7 @@ Contains the output data by EvolutionFlavors.cc and is read by plottingEvolution
 ## plottingStructureFunctions.py
 Plots the Structure Functions, taken from data_StructureFunctions.txt. It also calculates the Structure Functions given from experimental data and compares them to the ones given by Apfel++.
 
-## experimental_data.py
+## experimentalData.py
 File with the experimental data on the structure function F2Gamma, taken from [Nisius](https://arxiv.org/abs/hep-ex/9912049v1), Appendix D. Is used by plottingStructureFunctions.py.
 
 ## data_StructureFunctions.txt
