@@ -4,9 +4,13 @@ Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://git
 All references to Apfel are deleted in Evolution.cc, StructureFunctions.cc and the Makefile. Furthermore both .cc files are modified to output the name of the used LHAPDF Set and the perturbative order.
 
 ## Evolution.cc
-In the file Evolution.cc an option to use Apfel++ or to only show the LHAPDF results is added. It can be changed using the constant boolean _includeApfel_. It can be executed by the bashFiles/run_Evolution.cc program.
+In the file Evolution.cc an option to use Apfel++ or to only show the LHAPDF results is added. It can be changed using the constant boolean _includeApfel_. The program outputs the data to the terminal and also to a file in plottingPython/ where it can be read by the plotting program. These programs can be executed by the bashFiles/run_Evolution.cc program.
 
 ## EvolutionFlavors.cc
-Derivative of Evolution.cc. It can output the values for mutliple different particles/flavors at multiple energies. It can be executed by the bashFiles/run_EvolutionFlavors.cc program.
+Derivative of Evolution.cc. It can output the values for mutliple different particles/flavors at multiple energies.The program outputs the data to the terminal and also to a file in plottingPython/ where it can be read by the plotting program. These programs can be executed by the bashFiles/run_EvolutionFlavors.cc program.
+
+## EvolutionStructureFunctions.cc
+Derivative of Evolution.cc. It evolves some given LHAPDFSet and then outputs it to the fitting directory in the myLHAPDF/share/ directory in the LHAPDF format. The program has no terminal output. For executing this program, see description of StructureFunctions.cc below.
 
 ## StructureFunctions.cc
+Calculates the Structure Functions of two given LHAPDFSets. The second LHAPDFSet is the evolved version of the first. It was evolved using EvolutionStructureFunctions.cc. Therefore the EvolutionStructureFunctions program should run before and evolve the first LHAPDFSet and save it in a LHAPDF format. The program outputs the data to the terminal and also to a file in plottingPython/ where it can be read by the plotting program. These programs can be executed by the bashFiles/run_StructureFunctions.cc program.

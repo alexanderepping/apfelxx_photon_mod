@@ -31,9 +31,11 @@
 // APFEL++ libs
 #include "apfel/apfelxx.h" 
 
+// used to get the used perturbative order of the pointlike contributions
+#include "apfel/pointlikecontributions.h"
+
 // used to write to files
 #include<fstream>
-
 
 
 ///////////////////////////////////////
@@ -68,7 +70,7 @@ int main()
   std::ofstream file;
   file.open(OutputFile);
 
-  // print basic information () on the following data
+  // print basic information on the following data
   file << "# mu values:" << std::endl;
 
   for (double mu : arr_mu) 
@@ -94,6 +96,7 @@ int main()
   
   // Open LHAPDF set
   LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
+  //LHAPDF::PDF* dist2 = LHAPDF::mkPDF(NameLHAPDFSet2);//addition to calculate HO
   
 
   // Retrieve evolution parameters from the LHAPDF set
@@ -142,6 +145,24 @@ int main()
   // (tbar, bbar, ..., g, ..., b, t) into the physical basis. One can
   // use this function to define and set of functions to be evolved.
   const auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(dist->xfxQ(x, Q)); };
+  /* //addition to calculate HO // could very well be wrong
+  if (pto == 0)
+  {
+    const auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double>
+    { 
+      int flavors[] = {-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 21};
+      std::map<int, double> resultInPDFs;
+      for (int id : flavors)
+      {
+        //std::cout << std::to_string(dist->xfxQ(x, Q).at(id) + dist2->xfxQ(x, Q).at(id)) << std::endl;//debug
+        resultInPDFs.insert(std::pair<int,double>(id, as(Q)/12*dist->xfxQ(x, Q).at(id) + dist2->xfxQ(x, Q).at(id)));
+      }
+      return apfel::PhysToQCDEv(resultInPDFs); 
+    };
+  }
+  */
+  
+  //
 
   // Initialise evolution setting "Qin" as an initial scale. This
   // means that the function "InPDFs" will be called at "Qin". It uses
@@ -206,7 +227,8 @@ int main()
   std::cout << "____________________________________________________________" << std::endl;
   std::cout << "____________________________________________________________\n" << std::endl;
   std::cout << std::defaultfloat;
-  std::cout << "Used Perturbative Order   : " << std::to_string(pto) << "\n" << std::endl;
+  std::cout << "Used Perturbative Order   : " << std::to_string(pto) << std::endl;
+  std::cout << "Used Perturbative Order PL: " << std::to_string(apfel::ptoPL) << "\n" << std::endl; //perturbative order of pointlike contributions
   std::cout << "Used ZBoson Mass          : " << Qref << " GeV" << std::endl;
   std::cout << "Used alphas @ ZBoson Mass : " << asref << "\n" << std::endl;
   std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;

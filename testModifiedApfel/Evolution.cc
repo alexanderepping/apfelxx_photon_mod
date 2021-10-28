@@ -31,6 +31,9 @@
 // APFEL++ libs
 #include "apfel/apfelxx.h"
 
+// used to get the used perturbative order of the pointlike contributions
+#include "apfel/pointlikecontributions.h"
+
 // used to write files
 #include<fstream>
 
@@ -213,6 +216,7 @@ if ( includeApfel ) {
     std::cout << "\n";
     std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;
     std::cout << "\nUsed Perturbative Order   : " << std::to_string(pto);
+    std::cout << "\nUsed Perturbative Order PL: " << std::to_string(apfel::ptoPL); //perturbative order of pointlike contributions
     std::cout << "\nUsed Mu                   : " << std::to_string(mu);
     std::cout << "\nShown particle:           : " << mapFlavors.at(flavor) << "\n";
   }

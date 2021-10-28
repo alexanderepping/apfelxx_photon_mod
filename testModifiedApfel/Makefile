@@ -29,6 +29,9 @@ StructureFunctions: StructureFunctions.o
 EvolutionFlavors: EvolutionFlavors.o 
 	$(CXX) $(LDFLAGS) -o $@ $< $(CLIBS)
 
+EvolutionStructureFunctions: EvolutionStructureFunctions.o 
+	$(CXX) $(LDFLAGS) -o $@ $< $(CLIBS)
+
 .SUFFIXES : .cc .o .f .c
 
 .cxx.o:	 
@@ -38,5 +41,5 @@ EvolutionFlavors: EvolutionFlavors.o
 	$(F77)  -c $< 
 
 clean:
-	rm -rf *.lo *.o *.la Evolution StructureFunctions EvolutionFlavors *~
+	rm -rf *.lo *.o *.la Evolution StructureFunctions EvolutionFlavors EvolutionStructureFunctions *~
 
