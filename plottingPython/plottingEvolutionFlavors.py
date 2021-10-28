@@ -15,6 +15,7 @@ import sys
 mode = "ratio"
 input_file = "data_EvolutionFlavors.txt"
 range_particles = 6
+c = 1.75
 
 
 # order and name of particles
@@ -22,7 +23,7 @@ array_particles = ["gluon", "d", "u", "s", "c", "b", "t"]
 
 
 # setting up the layout of the plot
-fig, axs = plt.subplots(2, 3, sharex=True, figsize=(12,7))
+fig, axs = plt.subplots(2, 3, sharex=True, figsize=(12*c,7*c))
 subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1]]
 
 
@@ -99,5 +100,5 @@ for i_mu in range(len(mu_vals)):
 plt.xscale('log')
 plt.xlim(left=10**(-4), right=1)
 plt.legend(loc="upper right")
-#plt.savefig('plotAllFlavors.png', bbox_inches='tight')
+#plt.savefig('plotAllFlavors_LO.png', bbox_inches='tight')
 plt.show()

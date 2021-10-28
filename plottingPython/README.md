@@ -7,7 +7,7 @@ Also contains a program to make an array of logarithmic values and compare Vadim
 Plots the values from apfel and lhapdf, taken from data_EvolutionFlavors.txt.
 
 ## data_Evolution.txt
-Contains the output data by Evolution.cc and is read by plottingEvolution.py. 
+Contains the output data by Evolution.cc and is read by plottingEvolution.py.
 
 ## plottingEvolutionFlavors.py
 Plots the values from apfel and lhapdf, taken from data_EvolutionFlavors.txt. Other than plottingEvolution.py, this program plots the values for multiple particles at multpile energies.
@@ -15,14 +15,11 @@ Plots the values from apfel and lhapdf, taken from data_EvolutionFlavors.txt. Ot
 ## data_EvolutionFlavors.txt
 Contains the output data by EvolutionFlavors.cc and is read by plottingEvolutionFlavors.py. 
 
-## LogArray.py
-Calculates an array of logartihmic values, sorted from smallest to biggest, and saves it to the x_data.txt file.
+## plottingStructureFunctions.py
+Plots the Structure Functions, taken from data_StructureFunctions.txt. It also calculates the Structure Functions given from experimental data and compares them to the ones given by Apfel++.
 
-## x_data.txt
-Contains an array of logarithmic values sorted from smallest to biggest, calculated by LogArray.py.
+## data_StructureFunctions.txt
+Contains the output data by StructureFunctions.cc and is read by plottingStructureFunctions.py. The data contains the x data, the Structure Functions calculated using the PDFs that were evolved by Apfel++, the Structure Functions calculated using the LHAPDF data and the ratio of the two. 
 
-## compareWithVadim.py
-Quick program to compare Vadims and my data. Not very useful anymore.
-
-## GRV_param_Q2_....txt
-Data compared by the compareWithVadim.py program. The numbers after Q2 are the squared energies at which the values are taken. The values are taken for the up quark.
+## calculationAlphaS.py
+Calculates AlphaS(Q, nf, orderQCD). Formula taken from Glück, Reya & Vogt - Physical Review D, Volume 45, Number 11 (1992.06.01), Eq. (2.5).
