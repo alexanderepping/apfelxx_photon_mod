@@ -8,6 +8,9 @@ import numpy as np
 ###########################
 # definitions of exp data  
 ###########################
+# The Energies, F2Gamma, y_error values and the intervals are taken from 
+# "The Photon Structure from Deep Inelastic Electron-Photon Scattering" by R. Nisius, Appendix D
+# (https://arxiv.org/abs/hep-ex/9912049v1).
 
 # ALEPH (Nisius, Appendix D, Table D.1, p. 177)
 ALEPH_DATA = {"F2Gamma"     : [ np.array([0.30, 0.40, 0.41, 0.27]),             # Q2 = 9.9
@@ -33,7 +36,7 @@ ALEPH_DATA = {"F2Gamma"     : [ np.array([0.30, 0.40, 0.41, 0.27]),             
 # AMY (Nisius, Appendix D, Table D.2, p. 178)
 AMY_DATA =   {"F2Gamma"     : [ np.array([0.337, 0.302, 0.322]),            # Q2 = 6.8
                                 np.array([0.650, 0.600, 0.650]),            # Q2 = 73
-                                np.array([0.94, 0.82])],                    # Q2 = 390
+                                np.array([0.940, 0.820])],                    # Q2 = 390
 
               "y_error"     : [ np.array([0.053, 0.049, 0.097]),            # Q2 = 6.8
                                 np.array([0.100, 0.160, 0.140]),            # Q2 = 73

@@ -31,9 +31,6 @@
 // APFEL++ libs
 #include "apfel/apfelxx.h" 
 
-// used to get the used perturbative order of the pointlike contributions
-#include "apfel/pointlikecontributions.h"
-
 // used to write to files
 #include<fstream>
 

@@ -39,7 +39,8 @@ settings.json
 # DEADJOE (some Linux specific file)
 DEADJOE
 
-
+# makeLHAPDF executable
+makeLHAPF/makeLHAPDF
 
 #####
 # added by Peter

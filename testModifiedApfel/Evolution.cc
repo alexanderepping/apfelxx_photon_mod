@@ -31,9 +31,6 @@
 // APFEL++ libs
 #include "apfel/apfelxx.h"
 
-// used to get the used perturbative order of the pointlike contributions
-#include "apfel/pointlikecontributions.h"
-
 // used to write files
 #include<fstream>
 
@@ -47,7 +44,7 @@
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_Evolution.txt";
 
 // name of the used LHAPDF set
-const std::string NameLHAPDFSet = "GRVCustomSet";
+const std::string NameLHAPDFSet = "GRVCustomSetLO";
 
 // Final scale
 double mu = 2;

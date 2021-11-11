@@ -41,6 +41,7 @@
 #include "apfel/set.h"
 #include "apfel/tabulateobject.h"
 #include "apfel/evolutionbasisqcd.h"
+#include "apfel/pointlikecontributions.h"
 
 /**
  * @brief Convolution maps

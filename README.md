@@ -14,6 +14,9 @@ Some useful bash files I use to run the programs and/or change between different
 ### makeLHAPDF
 Fortran program to write GRVCustomSet_0000.dat files in the LHAPDF fromat and related files.
 
+### minimizationMinuit
+Programs to minimize the StructureFunctions to find optimal parameters.
+
 ### myApfelModified/apfelxx
 Folder containing the changed source code and headers of the apfelxx program.
 

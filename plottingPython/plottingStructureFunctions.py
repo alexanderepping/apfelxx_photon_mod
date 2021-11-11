@@ -19,10 +19,10 @@ input_file = "data_StructureFunctions.txt"
 DataSetName = "AMY"
 
 # plot either the data or the ratio of Apfel and GRV
-mode = "data"
+mode = "ratio"
 
 # save figure options
-save_fig = True
+save_fig = False
 pltname = "plotStructureFunctions_AMY_2021_10_28.png"
 dpi = 200 # default is 100
 
@@ -59,7 +59,10 @@ mu2_vals = np.loadtxt(open(input_file), delimiter=",", unpack=False, skiprows=1,
 num_x_vals = int(np.loadtxt(open(input_file), delimiter=",", unpack=True, skiprows=3, max_rows=1))
 
 # defining the DataSet depending on user input
-if (DataSetName == "ALEPH"):
+if (DataSetName == "GRV"):
+            mu2_vals = mu2_vals[0:3]
+            mu_vals = np.sqrt(mu2_vals)
+elif (DataSetName == "ALEPH"):
             DataSet = makeDataSet(ALEPH_DATA)
             mu2_vals = mu2_vals[0:3]
             mu_vals = np.sqrt(mu2_vals)
