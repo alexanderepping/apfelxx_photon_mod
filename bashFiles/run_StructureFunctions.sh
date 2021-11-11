@@ -1,17 +1,17 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #  run_EvolutionStructureFunctions.sh                                                                             #
 #  Author: Alexander Epping: a_eppi01@uni-muenster.de                                                             #
-#  25 Oct 2021                                                                                                    #
+#  11 Nov 2021                                                                                                    #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-#  Program to make and run the EvolutionStructureFunctions program to evolve the PDFs and then make, then run the #
-#  StructureFunctions program and possibly reinstall the LHAPDF and/or Apfel++ library.                           #
+#  Program to make and run the StructureFunctions program to evolve the PDFs, calculate the Structure Functions   # 
+#  and plot them. It can also reinstall the LHAPDF and/or Apfel++ library.                                        #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #  - The program also outputs the path of the currently used Apfel++ and LHAPDF Installation.                     #
 #    This output is aligned with he information output of the StructureFunctions.cc file.                         #
 #  - The variable $CURRENT_APFEL should point to the folder with the apfelxx folder inside.                       #
 #  - The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.                 #
-#  - The variable $$CURRENT_APFEL_TEST should point to the folder with the EvolutionStructureFunctions.cc file,   #
-#    the StructureFunctions.cc file and its respective Makefile inside.                                           #                                                                                 # 
+#  - The variable $$CURRENT_APFEL_TEST should point to the folder with the StructureFunctions.cc file and         #
+#    its respective Makefile inside.                                                                              #                                                                                 # 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
@@ -68,7 +68,7 @@ esac
 
 
 echo ""
-echo "Running the EvolutionStructureFunctions.cc program!"
+echo "Running the StructureFunctions.cc program!"
 echo ""
 
 # Changing into directory
@@ -79,18 +79,6 @@ voidOutput='voidOutput.txt'
 
 # Deleting previous programs
 make clean > $voidOutput
-
-# Making new EvolutionStructureFunctions program
-make EvolutionStructureFunctions > $voidOutput
-
-# Running EvolutionStructureFunctions program
-./EvolutionStructureFunctions
-
-
-
-echo ""
-echo "Running the StructureFunctions.cc program!"
-echo ""
 
 # Making new StructureFunctions program
 make StructureFunctions > $voidOutput
