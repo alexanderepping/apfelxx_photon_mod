@@ -1,3 +1,10 @@
+/**
+ * apfelxx_photon_mod 2021
+ * 
+ * Author: Alexander Epping: a_eppi01@uni-muenster.de
+ * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
+ */
+
 #pragma once
 
 #include <string>
@@ -10,26 +17,41 @@
 // commonly changed
 ///////////////////////////////////////
 /**
+ * @brief Defining the name of the used InitialPDFs.
+ * - testInitialPDFs            9: some InitialPDFs to test if everything works
+ * - minimaltestInitialPDFs     2: testInitialPDFs with less params
+ */
+#define minimaltestInitialPDFs
+
+/**
  * @brief initial parameters for the PDFs
  */
+#ifdef testInitialPDFs
 const std::vector<double> initialParams = {1., 1., 1., 1., 1., 1., 1., 1., 1.};
+#endif
+#ifdef minimaltestInitialPDFs
+const std::vector<double> initialParams = {1., 1.};
+#endif
 
 /**
  * @brief initial errors for the parameters for the PDFs
  */
+#ifdef testInitialPDFs
 const std::vector<double> initialErrorParams = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
-
+#endif
+#ifdef minimaltestInitialPDFs
+const std::vector<double> initialErrorParams = {0.1, 0.1};
+#endif
 /**
  * @brief names of the parameters
  */
+#ifdef testInitialPDFs
 const std::vector<std::string> ParamsNames = {"AN_glu1", "A_glu1", "B_glu1", "AN_dbar1", "A_dbar1", "B_dbar1", "AN_ubar1", "A_ubar1", "B_ubar1"};
+#endif
+#ifdef minimaltestInitialPDFs
+const std::vector<std::string> ParamsNames = {"A_glu1", "B_glu1"};
+#endif
 
-/**
- * @brief Defining the name of the used InitialPDFs.
- * - exampleInitialPDFs     0: just some function to return the InitialPDFs from LHAPDF file
- * - vadimInitialPDFs       9: some InitialPDFs given to me by Vadim
- */
-#define vadimInitialPDFs
 
 
 

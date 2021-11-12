@@ -1,3 +1,10 @@
+/**
+ * apfelxx_photon_mod 2021
+ * 
+ * Author: Alexander Epping: a_eppi01@uni-muenster.de
+ * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
+ */
+
 #include <string>
 #include <map>
 #include <vector>

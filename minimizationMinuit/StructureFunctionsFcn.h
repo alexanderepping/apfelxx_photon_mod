@@ -1,4 +1,13 @@
+/**
+ * apfelxx_photon_mod 2021
+ * 
+ * Author: Alexander Epping: a_eppi01@uni-muenster.de
+ * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
+ */
+
 #pragma once
+
+#include "LHAPDF/LHAPDF.h"
 
 #include "/usr/local/include/minuit-cpp/FCNBase.hh"
 
@@ -8,8 +17,7 @@
 
 /**
  * @brief Class derived from the minuit class FCNBase.
- * Calculates the StructureFunctions and also provides
- * a function to to calculate the chi2. 
+ * Calculates the StructureFunctions and returns chi2.
  * Multiple different initial functions for the PDFs 
  * are possible and can be configired inside 
  * InitialPDFs.h and configMinuit.h.
@@ -30,7 +38,8 @@ public:
      * @param ErrorDef: default value = 1.
      */
     StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
-                          double const& ErrorDef = 1. );
+                          std::string const& NameLHAPDFSet,
+                          double      const& ErrorDef = 1. );
 
     /**
      * @brief The StructureFunctionsFcn constructor for the seperate input of experimental data vectors.
@@ -48,6 +57,7 @@ public:
                           std::vector<double> const& xError,
                           std::vector<double> const& F2Gamma,
                           std::vector<double> const& yError,
+                          std::string         const& NameLHAPDFSet,
                           double              const& ErrorDef = 1. );
 
     /**
@@ -98,8 +108,8 @@ public:
     std::vector<double> F2Gamma()   const {return _F2Gamma;}
     /** @brief return vector of y errors */
     std::vector<double> yError()    const {return _yError;}
-    /** @brief return experimental Data */
-    //std::vector<double> experimentalData()  const {return _experimentalData;}
+    /** @brief return Name of the used LHAPDF Set */
+    std::string NameLHAPDFSet()     const {return _NameLHAPDFSet;}
     ///@}
 
 
@@ -114,5 +124,6 @@ private:
     std::vector<double> _F2Gamma;
     std::vector<double> _yError;
     double              _ErrorDef;
-    //std::map<std::string, std::map<std::string, std::vector<double>>> _experimentalData;
+    std::string         _NameLHAPDFSet;
+    LHAPDF::PDF*        _LHAPDFSet;
 };

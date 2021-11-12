@@ -1,3 +1,10 @@
+/**
+ * apfelxx_photon_mod 2021
+ * 
+ * Author: Alexander Epping: a_eppi01@uni-muenster.de
+ * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
+ */
+
 #include "apfel/apfelxx.h" 
 #include "LHAPDF/LHAPDF.h"
 
@@ -12,12 +19,15 @@
 
 
 StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
-                                             double const& ErrorDef): 
+                                             std::string const& NameLHAPDFSet,
+                                             double      const& ErrorDef): 
                 _Energies(combineData(experimentalData, "Energies")),
                 _xData(combineData(experimentalData, "xData")),
                 _xError(combineData(experimentalData, "xError")),
                 _F2Gamma(combineData(experimentalData, "F2Gamma")),
                 _yError(combineData(experimentalData, "yError")),
+                _NameLHAPDFSet(NameLHAPDFSet),
+                _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
     {}
 
@@ -26,12 +36,15 @@ StructureFunctionsFcn::StructureFunctionsFcn(std::vector<double> const& Energies
                                              std::vector<double> const& xError,
                                              std::vector<double> const& F2Gamma,
                                              std::vector<double> const& yError,
+                                             std::string const& NameLHAPDFSet,
                                              double              const& ErrorDef): 
                 _Energies(Energies),
                 _xData(xData),
                 _xError(xError),
                 _F2Gamma(F2Gamma),
                 _yError(yError),
+                _NameLHAPDFSet(NameLHAPDFSet),
+                _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
     {}
 
@@ -43,7 +56,7 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     /////////////////////////////////////
 
     // Open LHAPDF set
-    LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);   
+    //LHAPDF::PDF* dist = LHAPDF::mkPDF("GRVCustomSetLO");  
 
     // Define Grid
     const apfel::Grid g{{apfel::SubGrid{100, 1e-5, 3}, apfel::SubGrid{60, 1e-1, 3}, apfel::SubGrid{50, 6e-1, 3}, apfel::SubGrid{50, 8e-1, 5}}};
@@ -65,7 +78,7 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
             std::cout << "§ Q=" << Q << std::endl;
         }*/
         
-        return InitialPDFs(x, Q, params);};
+        return InitialPDFs(x, Q, params, _LHAPDFSet);};
 
     // Initialise and Build DglapObjects
     auto EvolvedPDFs = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFs, Qin, pto, as);
@@ -78,16 +91,15 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     const std::function<std::vector<double>(double const&)> fBq = [=] (double const& Q) -> std::vector<double> { return apfel::ElectroWeakCharges(Q, false); };
 
     // Define PDFs functions 
-    // Cutoff not used!!
-    const auto PDFs        = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(dist->xfxQ(x, Q)); };
+    //const auto PDFs        = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(dist->xfxQ(x, Q)); };
     const auto PDFsEvolved = [&] (double const& x, double const& Q) -> std::map<int, double>{ return TabulatedPDFs.EvaluateMapxQ(x,Q); };
 
     // Initialise and Build Structure Functions
-    const auto F2        = BuildStructureFunctions(InitializeF2NCObjectsZM(g, Thresholds), PDFs, pto, as, fBq);
+    //const auto F2        = BuildStructureFunctions(InitializeF2NCObjectsZM(g, Thresholds), PDFs, pto, as, fBq);
     const auto F2Evolved = BuildStructureFunctions(InitializeF2NCObjectsZM(g, Thresholds), PDFsEvolved, pto, as, fBq);
 
     // Tabulate Structure Functions
-    const apfel::TabulateObject<apfel::Distribution> F2total        {[&] (double const& Q) -> apfel::Distribution{ return F2.at(0).Evaluate(Q); }, 50, 1, 1000, 3, Thresholds};
+    //const apfel::TabulateObject<apfel::Distribution> F2total        {[&] (double const& Q) -> apfel::Distribution{ return F2.at(0).Evaluate(Q); }, 50, 1, 1000, 3, Thresholds};
     const apfel::TabulateObject<apfel::Distribution> F2totalEvolved {[&] (double const& Q) -> apfel::Distribution{ return F2Evolved.at(0).Evaluate(Q);}, 50, 1, 1000, 3, Thresholds};
 
     const std::function<double (double const&, double const&)> F2EvolvedAtXQ = [&] (double const& x, double const& Q) -> double {return F2totalEvolved.EvaluatexQ(x, Q);};
