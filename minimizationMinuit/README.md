@@ -14,18 +14,15 @@ File that contains configurations for all the other files like which Initial PDF
 ### experimentalData.h
 File that contains the experimental data. Experimental data can be added by user. To help that, see plottingPython/calculateExperimentalData.py
 
-### InitialPDFs.h
-File that conrains the Intial PDFs. Can be changed by user.
-
 ### StructureFunctionFcn.cc/.h
-File that contains the class that calculates the StructureFunctions, takes the experimental data and returns the chi-square.
+File that contains the class that calculates the StructureFunctions, takes the experimental data and returns the chi-square. It also contains the InitialPDFs.
 
 ### Makefile
 Not ready to use yet. See "running the program" below.
 
 ## running the program
 ### compile:
-```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h InitialPDFs.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp```
+```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp```
 
 ### execute:
 ```./minimizationStructureFunctions```
@@ -37,7 +34,7 @@ Not ready to use yet. See "running the program" below.
 ```./minimizationStructureFunctions | grep §```
 
 ### compile and execute:
-```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h InitialPDFs.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF && ./minimizationStructureFunctions -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp```
+```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF && ./minimizationStructureFunctions -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp```
 
 ### compile and execute with just comments as output:
-```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h InitialPDFs.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp && ./minimizationStructureFunctions | grep §```
+```g++ -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp && ./minimizationStructureFunctions | grep §```

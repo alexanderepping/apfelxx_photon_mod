@@ -1,0 +1,481 @@
+LHAPDF 6.4.0 loading /home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/GRVCustomSetLO_0000.dat
+GRVCustomSetLO PDF set, member #0, version 1
+Tabulating object... Time elapsed: 0.000031 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.126909 seconds
+Tabulating object... Time elapsed: 0.331659 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017130 seconds
+Tabulating object... Time elapsed: 0.041390 seconds
+§ 1, 1, 230.173
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.138821 seconds
+Tabulating object... Time elapsed: 0.378556 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018962 seconds
+Tabulating object... Time elapsed: 0.051595 seconds
+§ 1, 1, 230.173
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.140989 seconds
+Tabulating object... Time elapsed: 0.408639 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.020655 seconds
+Tabulating object... Time elapsed: 0.053477 seconds
+§ 1.001, 1, 230.173
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.138904 seconds
+Tabulating object... Time elapsed: 0.345563 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016815 seconds
+Tabulating object... Time elapsed: 0.041819 seconds
+§ 0.999, 1, 230.173
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122404 seconds
+Tabulating object... Time elapsed: 0.359723 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018204 seconds
+Tabulating object... Time elapsed: 0.040828 seconds
+§ 1.01, 1, 230.173
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123424 seconds
+Tabulating object... Time elapsed: 0.417591 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016742 seconds
+Tabulating object... Time elapsed: 0.042341 seconds
+§ 0.99, 1, 230.174
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.133916 seconds
+Tabulating object... Time elapsed: 0.385946 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016841 seconds
+Tabulating object... Time elapsed: 0.040571 seconds
+§ 1, 1.001, 230.173
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.125834 seconds
+Tabulating object... Time elapsed: 0.382357 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019232 seconds
+Tabulating object... Time elapsed: 0.048657 seconds
+§ 1, 0.999, 230.174
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.142892 seconds
+Tabulating object... Time elapsed: 0.438614 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019907 seconds
+Tabulating object... Time elapsed: 0.046613 seconds
+§ 1, 1.01, 230.173
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.131389 seconds
+Tabulating object... Time elapsed: 0.419752 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.020447 seconds
+Tabulating object... Time elapsed: 0.046400 seconds
+§ 1, 0.99, 230.174
+Tabulating object... Time elapsed: 0.000028 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.138145 seconds
+Tabulating object... Time elapsed: 0.389526 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016714 seconds
+Tabulating object... Time elapsed: 0.043104 seconds
+§ 2.89153, 1.73307, 230.136
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120739 seconds
+Tabulating object... Time elapsed: 0.430149 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018382 seconds
+Tabulating object... Time elapsed: 0.044132 seconds
+§ 2.78452, 1.6916, 230.137
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.139963 seconds
+Tabulating object... Time elapsed: 0.426084 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.020989 seconds
+Tabulating object... Time elapsed: 0.048362 seconds
+§ 3.37388, 1.92001, 230.133
+Tabulating object... Time elapsed: 0.000028 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.136689 seconds
+Tabulating object... Time elapsed: 0.349672 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.020195 seconds
+Tabulating object... Time elapsed: 0.043994 seconds
+§ 4.07467, 2.19161, 230.131
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.124090 seconds
+Tabulating object... Time elapsed: 0.337945 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016650 seconds
+Tabulating object... Time elapsed: 0.040404 seconds
+§ 4.53107, 2.36849, 230.13
+Tabulating object... Time elapsed: 0.000035 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122043 seconds
+Tabulating object... Time elapsed: 0.343852 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016681 seconds
+Tabulating object... Time elapsed: 0.040187 seconds
+§ 5.08733, 2.58407, 230.13
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122208 seconds
+Tabulating object... Time elapsed: 0.339298 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016871 seconds
+Tabulating object... Time elapsed: 0.040344 seconds
+§ 5.66181, 2.80671, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120703 seconds
+Tabulating object... Time elapsed: 0.343580 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016613 seconds
+Tabulating object... Time elapsed: 0.040523 seconds
+§ 6.20485, 3.01717, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121935 seconds
+Tabulating object... Time elapsed: 0.389319 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016594 seconds
+Tabulating object... Time elapsed: 0.040210 seconds
+§ 6.77132, 3.23671, 230.129
+Tabulating object... Time elapsed: 0.000054 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120416 seconds
+Tabulating object... Time elapsed: 0.344778 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017622 seconds
+Tabulating object... Time elapsed: 0.040995 seconds
+§ 7.34044, 3.45727, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121025 seconds
+Tabulating object... Time elapsed: 0.336570 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016626 seconds
+Tabulating object... Time elapsed: 0.039996 seconds
+§ 7.90852, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120616 seconds
+Tabulating object... Time elapsed: 0.345197 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016841 seconds
+Tabulating object... Time elapsed: 0.039987 seconds
+§ 8.00187, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121880 seconds
+Tabulating object... Time elapsed: 0.340018 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016823 seconds
+Tabulating object... Time elapsed: 0.040853 seconds
+§ 7.81516, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000041 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121955 seconds
+Tabulating object... Time elapsed: 0.339971 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016818 seconds
+Tabulating object... Time elapsed: 0.041148 seconds
+§ 8.84207, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121434 seconds
+Tabulating object... Time elapsed: 0.341231 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016688 seconds
+Tabulating object... Time elapsed: 0.040210 seconds
+§ 6.97496, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000029 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122360 seconds
+Tabulating object... Time elapsed: 0.337239 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018613 seconds
+Tabulating object... Time elapsed: 0.040395 seconds
+§ 7.90852, 3.71905, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121207 seconds
+Tabulating object... Time elapsed: 0.341459 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017114 seconds
+Tabulating object... Time elapsed: 0.041423 seconds
+§ 7.90852, 3.63582, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.127662 seconds
+Tabulating object... Time elapsed: 0.336483 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016834 seconds
+Tabulating object... Time elapsed: 0.041987 seconds
+§ 7.90852, 4.09362, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123236 seconds
+Tabulating object... Time elapsed: 0.335321 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017169 seconds
+Tabulating object... Time elapsed: 0.042424 seconds
+§ 7.90852, 3.26125, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.129263 seconds
+Tabulating object... Time elapsed: 0.333755 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016809 seconds
+Tabulating object... Time elapsed: 0.041323 seconds
+§ 7.90852, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000043 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123075 seconds
+Tabulating object... Time elapsed: 0.340876 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017650 seconds
+Tabulating object... Time elapsed: 0.040608 seconds
+§ 8.84207, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000067 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123836 seconds
+Tabulating object... Time elapsed: 0.334589 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016741 seconds
+Tabulating object... Time elapsed: 0.040121 seconds
+§ 6.97496, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123423 seconds
+Tabulating object... Time elapsed: 0.343064 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016808 seconds
+Tabulating object... Time elapsed: 0.040467 seconds
+§ 7.90852, 4.09362, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.126615 seconds
+Tabulating object... Time elapsed: 0.333161 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016883 seconds
+Tabulating object... Time elapsed: 0.040362 seconds
+§ 7.90852, 3.26125, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121638 seconds
+Tabulating object... Time elapsed: 0.343169 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016699 seconds
+Tabulating object... Time elapsed: 0.040337 seconds
+§ 8.09523, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122070 seconds
+Tabulating object... Time elapsed: 0.340295 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016567 seconds
+Tabulating object... Time elapsed: 0.040223 seconds
+§ 7.7218, 3.67743, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122810 seconds
+Tabulating object... Time elapsed: 0.336487 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016965 seconds
+Tabulating object... Time elapsed: 0.041387 seconds
+§ 7.90852, 3.76067, 230.129
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121487 seconds
+Tabulating object... Time elapsed: 0.333201 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016763 seconds
+Tabulating object... Time elapsed: 0.040679 seconds
+§ 7.90852, 3.5942, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122896 seconds
+Tabulating object... Time elapsed: 0.338975 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017056 seconds
+Tabulating object... Time elapsed: 0.041922 seconds
+§ 7.90852, 3.69408, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122718 seconds
+Tabulating object... Time elapsed: 0.339106 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017325 seconds
+Tabulating object... Time elapsed: 0.041468 seconds
+§ 7.90852, 3.66079, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122850 seconds
+Tabulating object... Time elapsed: 0.345417 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017273 seconds
+Tabulating object... Time elapsed: 0.042735 seconds
+§ 8.84207, 4.09362, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122991 seconds
+Tabulating object... Time elapsed: 0.334181 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019011 seconds
+Tabulating object... Time elapsed: 0.039962 seconds
+§ 9.1359, 4.20019, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122691 seconds
+Tabulating object... Time elapsed: 0.338924 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016754 seconds
+Tabulating object... Time elapsed: 0.042506 seconds
+§ 9.4272, 4.32426, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121301 seconds
+Tabulating object... Time elapsed: 0.336637 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018232 seconds
+Tabulating object... Time elapsed: 0.041179 seconds
+§ 9.95673, 4.54979, 230.129
+Tabulating object... Time elapsed: 0.000043 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.126221 seconds
+Tabulating object... Time elapsed: 0.341201 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017696 seconds
+Tabulating object... Time elapsed: 0.041203 seconds
+§ 10.604, 4.82549, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121900 seconds
+Tabulating object... Time elapsed: 0.349789 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017720 seconds
+Tabulating object... Time elapsed: 0.047945 seconds
+§ 11.1095, 5.04077, 230.129
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.125819 seconds
+Tabulating object... Time elapsed: 0.333756 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016982 seconds
+Tabulating object... Time elapsed: 0.042099 seconds
+§ 11.6729, 5.28072, 230.129
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.125256 seconds
+Tabulating object... Time elapsed: 0.338683 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019981 seconds
+Tabulating object... Time elapsed: 0.041154 seconds
+§ 12.2437, 5.52383, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120155 seconds
+Tabulating object... Time elapsed: 0.335454 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016889 seconds
+Tabulating object... Time elapsed: 0.041089 seconds
+§ 12.7954, 5.75883, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122354 seconds
+Tabulating object... Time elapsed: 0.342150 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016630 seconds
+Tabulating object... Time elapsed: 0.039782 seconds
+§ 13.3593, 5.99898, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121749 seconds
+Tabulating object... Time elapsed: 0.340725 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016758 seconds
+Tabulating object... Time elapsed: 0.039931 seconds
+§ 13.9232, 6.23916, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.119961 seconds
+Tabulating object... Time elapsed: 0.342072 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017555 seconds
+Tabulating object... Time elapsed: 0.042020 seconds
+§ 14.4855, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120740 seconds
+Tabulating object... Time elapsed: 0.339317 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017554 seconds
+Tabulating object... Time elapsed: 0.041241 seconds
+§ 16.3526, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120576 seconds
+Tabulating object... Time elapsed: 0.338495 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019538 seconds
+Tabulating object... Time elapsed: 0.042363 seconds
+§ 12.6184, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120505 seconds
+Tabulating object... Time elapsed: 0.339019 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016573 seconds
+Tabulating object... Time elapsed: 0.041536 seconds
+§ 33.1566, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000036 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.123152 seconds
+Tabulating object... Time elapsed: 0.337241 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016642 seconds
+Tabulating object... Time elapsed: 0.042850 seconds
+§ -4.18555, 6.47866, 658770
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121518 seconds
+Tabulating object... Time elapsed: 0.336901 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017461 seconds
+Tabulating object... Time elapsed: 0.040438 seconds
+§ 16.3526, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000038 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120738 seconds
+Tabulating object... Time elapsed: 0.335227 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016659 seconds
+Tabulating object... Time elapsed: 0.040344 seconds
+§ 12.6184, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.132811 seconds
+Tabulating object... Time elapsed: 0.344027 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016903 seconds
+Tabulating object... Time elapsed: 0.040922 seconds
+§ 14.4855, 6.64514, 230.129
+Tabulating object... Time elapsed: 0.000055 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121964 seconds
+Tabulating object... Time elapsed: 0.341304 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016801 seconds
+Tabulating object... Time elapsed: 0.041617 seconds
+§ 14.4855, 6.31219, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121489 seconds
+Tabulating object... Time elapsed: 0.339256 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016716 seconds
+Tabulating object... Time elapsed: 0.040650 seconds
+§ 14.4855, 8.14339, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122896 seconds
+Tabulating object... Time elapsed: 0.385532 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016801 seconds
+Tabulating object... Time elapsed: 0.040333 seconds
+§ 14.4855, 4.81393, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120893 seconds
+Tabulating object... Time elapsed: 0.340312 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016833 seconds
+Tabulating object... Time elapsed: 0.043818 seconds
+§ 14.4855, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120292 seconds
+Tabulating object... Time elapsed: 0.332361 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016771 seconds
+Tabulating object... Time elapsed: 0.040748 seconds
+§ 16.3526, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121179 seconds
+Tabulating object... Time elapsed: 0.330408 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018214 seconds
+Tabulating object... Time elapsed: 0.040393 seconds
+§ 12.6184, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121475 seconds
+Tabulating object... Time elapsed: 0.384594 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018973 seconds
+Tabulating object... Time elapsed: 0.041866 seconds
+§ 14.4855, 8.14339, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.120490 seconds
+Tabulating object... Time elapsed: 0.339947 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016721 seconds
+Tabulating object... Time elapsed: 0.040663 seconds
+§ 14.4855, 4.81393, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.128986 seconds
+Tabulating object... Time elapsed: 0.359065 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016656 seconds
+Tabulating object... Time elapsed: 0.039831 seconds
+§ 14.8589, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121596 seconds
+Tabulating object... Time elapsed: 0.352054 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017817 seconds
+Tabulating object... Time elapsed: 0.046815 seconds
+§ 14.1121, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.126293 seconds
+Tabulating object... Time elapsed: 0.328439 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016821 seconds
+Tabulating object... Time elapsed: 0.040522 seconds
+§ 14.5602, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121594 seconds
+Tabulating object... Time elapsed: 0.348023 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.018120 seconds
+Tabulating object... Time elapsed: 0.049066 seconds
+§ 14.4108, 6.47866, 230.129
+Tabulating object... Time elapsed: 0.000027 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.139869 seconds
+Tabulating object... Time elapsed: 0.340184 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016958 seconds
+Tabulating object... Time elapsed: 0.042021 seconds
+§ 14.4855, 6.81161, 230.129
+Tabulating object... Time elapsed: 0.000026 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.124172 seconds
+Tabulating object... Time elapsed: 0.332148 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.019039 seconds
+Tabulating object... Time elapsed: 0.040707 seconds
+§ 14.4855, 6.14572, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.121055 seconds
+Tabulating object... Time elapsed: 0.336890 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016719 seconds
+Tabulating object... Time elapsed: 0.040308 seconds
+§ 14.4855, 6.54525, 230.129
+Tabulating object... Time elapsed: 0.000035 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.126979 seconds
+Tabulating object... Time elapsed: 0.339542 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.017936 seconds
+Tabulating object... Time elapsed: 0.040359 seconds
+§ 14.4855, 6.41207, 230.129
+Tabulating object... Time elapsed: 0.000025 seconds
+Initializing DglapObjects for space-like QCD unpolarised evolution... Time elapsed: 0.122201 seconds
+Tabulating object... Time elapsed: 0.338081 seconds
+Initializing StructureFunctionObjects for F2 NC Zero Mass... Time elapsed: 0.016716 seconds
+Tabulating object... Time elapsed: 0.043790 seconds
+§ 16.3526, 8.14339, 230.129
+§ minimum: 
+Minuit did successfully converge.
+# of function calls: 75
+minimum function Value: 230.1286222179
+minimum edm: 1.170730455317e-07
+minimum internal state vector: LAVector parameters:
+      14.48551142221
+      6.478663770313
+
+minimum internal covariance matrix: LASymMatrix parameters:
+       53486534     -3027609.5
+     -3027609.5      4406704.9
+
+
+# ext. ||   Name    ||   type  ||     Value     ||  Error +/- 
+
+   0   ||    A_glu1 ||  free   ||      14.48551142221 ||7313.448838334
+   1   ||    B_glu1 ||  free   ||      6.478663770313 ||2099.215302171
+
+
+
+
+

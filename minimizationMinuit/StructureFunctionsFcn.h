@@ -19,8 +19,8 @@
  * @brief Class derived from the minuit class FCNBase.
  * Calculates the StructureFunctions and returns chi2.
  * Multiple different initial functions for the PDFs 
- * are possible and can be configired inside 
- * InitialPDFs.h and configMinuit.h.
+ * are also included; further can be added. 
+ * They can be chosen and configured in configMinuit.h.
  */
 class StructureFunctionsFcn : public MinuitCpp::FCNBase 
 {
@@ -115,6 +115,57 @@ public:
 
     /** @brief set value of ErrorDef  */
     void setErrorDef(double def) {_ErrorDef = def;}
+
+
+    /**
+     * @name Initial PDFs
+     */
+    ///@{
+    /**
+     * @brief InitialPDFs with nine params; 3 for gluon, up- and down-quark
+     * Uses 1 / alpha_em * an * x**a * (1-x)**b for gluon, up and down; the GRV PDFs for the rest.
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        AN_glu1 (0), A_glu1 (1), B_glu1 (2), AN_dbar1 (3), A_dbar1 (4), B_dbar1 (5), AN_ubar1 (6), A_ubar1 (7), B_ubar1 (8)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_9gdu  (double                const& x,
+                                            double                const& Q,
+                                            std::vector<double>   const& params,
+                                            LHAPDF::PDF*                 dist) const;
+
+    /**
+     * @brief InitialPDFs with two params; 3 for gluon
+     * Uses 1 / alpha_em * an * x**a * (1-x)**b for gluon
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 2 parameters: 
+     *        AN_glu1 (0), A_glu1 (1), B_glu1 (2)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_3g    (double                const& x,
+                                            double                const& Q,
+                                            std::vector<double>   const& params,
+                                            LHAPDF::PDF*                 dist) const;
+
+    /**
+     * @brief InitialPDFs with two params; 2 for gluon
+     * Uses 1 / alpha_em * x**a * (1-x)**b for gluon
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 2 parameters: 
+     *        A_glu1 (0), B_glu1 (1)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_2g    (double                const& x,
+                                            double                const& Q,
+                                            std::vector<double>   const& params,
+                                            LHAPDF::PDF*                 dist) const;
+    ///@}
 
 
 private:

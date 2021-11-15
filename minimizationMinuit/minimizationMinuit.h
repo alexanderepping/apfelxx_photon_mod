@@ -7,14 +7,16 @@
 
 #pragma once
 
+
 // Apfel++ and LHAPDF libraries
 #include "apfel/apfelxx.h"
 #include "LHAPDF/LHAPDF.h"
 
+
 // minuit files
+
 
 // my own files
 #include "configMinuit.h"
 #include "experimentalData.h"
-#include "InitialPDFs.h"
 #include "StructureFunctionsFcn.h"

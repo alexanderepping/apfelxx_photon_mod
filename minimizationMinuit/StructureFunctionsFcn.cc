@@ -10,7 +10,6 @@
 
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
-#include "InitialPDFs.h"
 
 #include <string>
 #include <map>
@@ -71,14 +70,25 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
 
     // Define Input PDFs
-    auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double> {
-        /* //debug
-        if (Q != 1.29)
+    auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double> { 
+        switch (usedInitialPDFs)
         {
-            std::cout << "§ Q=" << Q << std::endl;
-        }*/
+        case INITIALPDFS_9GDU:
+            return InitialPDFs_9gdu(x, Q, params, _LHAPDFSet);
+            break;
+
+        case INITIALPDFS_3G:
+            return InitialPDFs_3g(x, Q, params, _LHAPDFSet);
+            break;
+
+        case INITIALPDFS_2G:
+            return InitialPDFs_2g(x, Q, params, _LHAPDFSet);
+            break;
         
-        return InitialPDFs(x, Q, params, _LHAPDFSet);};
+        default:
+            break;
+        }
+         };
 
     // Initialise and Build DglapObjects
     auto EvolvedPDFs = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFs, Qin, pto, as);
@@ -117,8 +127,14 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
         chi2 += ((F2EvolvedAtXQ(xData()[i], Energies()[i]) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], Energies()[i]) - F2Gamma()[i]) / (yError()[i] * yError()[i]));
     }
 
+    std::cout << "§ "; //debug
+    for (int i=0; i<initialParams.at(usedInitialPDFs).size(); i++)
+        std::cout << params[i] << ", ";
+    std::cout << chi2 << std::endl;
+    
     return chi2;
 }
+
 
 
 std::vector<double> StructureFunctionsFcn::combineData(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
@@ -131,3 +147,80 @@ std::vector<double> StructureFunctionsFcn::combineData(std::map<std::string, std
 
     return returnData;
 }
+
+
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu(double                const& x,
+                                                             double                const& Q,
+                                                             std::vector<double>   const& params,
+                                                             LHAPDF::PDF*                 dist) const
+    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+
+        std::map<int, double> result;
+
+        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
+        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
+        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
+        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
+        result.insert(std::pair<int, double>(-2, 1./137. * params[6] * pow(x, params[7]) * pow( (1.0 - x) , params[8])));
+        result.insert(std::pair<int, double>(-1, 1./137. * params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])));
+        result.insert(std::pair<int, double>( 0, 1./137. * params[0] * pow(x, params[1]) * pow( (1.0 - x) , params[2])));
+        result.insert(std::pair<int, double>( 1, 1./137. * params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])));
+        result.insert(std::pair<int, double>( 2, 1./137. * params[6] * pow(x, params[7]) * pow( (1.0 - x) , params[8])));
+        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
+        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
+        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
+        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
+
+        return apfel::PhysToQCDEv(result);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_3g(double                const& x,
+                                                           double                const& Q,
+                                                           std::vector<double>   const& params,
+                                                           LHAPDF::PDF*                 dist) const
+    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+
+        std::map<int, double> result;
+
+        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
+        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
+        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
+        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
+        result.insert(std::pair<int, double>(-2, dist->xfxQ(x, Q).at(-2)));
+        result.insert(std::pair<int, double>(-1, dist->xfxQ(x, Q).at(-1)));
+        result.insert(std::pair<int, double>( 0, 1./137. * params[0] * pow(x, params[1]) * pow( (1.0 - x) , params[2])));
+        result.insert(std::pair<int, double>( 1, dist->xfxQ(x, Q).at(1)));
+        result.insert(std::pair<int, double>( 2, dist->xfxQ(x, Q).at(2)));
+        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
+        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
+        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
+        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
+
+        return apfel::PhysToQCDEv(result);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_2g(double                const& x,
+                                                           double                const& Q,
+                                                           std::vector<double>   const& params,
+                                                           LHAPDF::PDF*                 dist) const
+    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+
+        std::map<int, double> result;
+
+        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
+        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
+        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
+        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
+        result.insert(std::pair<int, double>(-2, dist->xfxQ(x, Q).at(-2)));
+        result.insert(std::pair<int, double>(-1, dist->xfxQ(x, Q).at(-1)));
+        result.insert(std::pair<int, double>( 0, 1./137. * pow(x, params[0]) * pow( (1.0 - x) , params[1])));
+        result.insert(std::pair<int, double>( 1, dist->xfxQ(x, Q).at(1)));
+        result.insert(std::pair<int, double>( 2, dist->xfxQ(x, Q).at(2)));
+        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
+        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
+        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
+        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
+
+        return apfel::PhysToQCDEv(result);
+    };

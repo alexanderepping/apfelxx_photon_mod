@@ -31,12 +31,12 @@ int main()
     // create FCN function
     StructureFunctionsFcn StructureFunctions(experimentalData, NameLHAPDFSet);
 
-    double chi2 = StructureFunctions(initialParams);
-    std::cout << "§ chi2=" << chi2 << std::endl;
+    double chi2 = StructureFunctions(initialParams.at(usedInitialPDFs));
+    
     // create initial starting values for parameters with the 
     MinuitCpp::MnUserParameters userParameters;
-    for (int i=0; i<initialParams.size(); i++)
-        userParameters.Add(ParamsNames[i], initialParams[i], initialErrorParams[i]);
+    for (int i=0; i<initialParams.at(usedInitialPDFs).size(); i++)
+        userParameters.Add(ParamsNames.at(usedInitialPDFs)[i], initialParams.at(usedInitialPDFs)[i], initialErrorParams.at(usedInitialPDFs)[i]);
 
     // create Migrad minimizer
     MinuitCpp::MnMigrad migrad(StructureFunctions, userParameters);

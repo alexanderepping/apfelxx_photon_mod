@@ -17,57 +17,57 @@
 // commonly changed
 ///////////////////////////////////////
 /**
- * @brief Defining the name of the used InitialPDFs.
- * - testInitialPDFs            9: some InitialPDFs to test if everything works
- * - minimaltestInitialPDFs     2: testInitialPDFs with less params
+ * @brief enumerating the different Initial PDFs
  */
-#define minimaltestInitialPDFs
+enum enumInitialPDFs { INITIALPDFS_9GDU, INITIALPDFS_3G, INITIALPDFS_2G };
+
+/**
+ * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
+ */
+const int usedInitialPDFs = INITIALPDFS_9GDU;
 
 /**
  * @brief initial parameters for the PDFs
  */
-#ifdef testInitialPDFs
-const std::vector<double> initialParams = {1., 1., 1., 1., 1., 1., 1., 1., 1.};
-#endif
-#ifdef minimaltestInitialPDFs
-const std::vector<double> initialParams = {1., 1.};
-#endif
+const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDU, {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
+                                                          {INITIALPDFS_3G,   {1., 1., 1.}},
+                                                          {INITIALPDFS_2G,   {1., 1.}}};
 
 /**
  * @brief initial errors for the parameters for the PDFs
  */
-#ifdef testInitialPDFs
-const std::vector<double> initialErrorParams = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
-#endif
-#ifdef minimaltestInitialPDFs
-const std::vector<double> initialErrorParams = {0.1, 0.1};
-#endif
+const std::map<int, std::vector<double>> initialErrorParams = {{INITIALPDFS_9GDU, {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
+                                                               {INITIALPDFS_3G,   {0.1, 0.1, 0.1}},
+                                                               {INITIALPDFS_2G,   {0.1, 0.1}}};
+
 /**
  * @brief names of the parameters
  */
-#ifdef testInitialPDFs
-const std::vector<std::string> ParamsNames = {"AN_glu1", "A_glu1", "B_glu1", "AN_dbar1", "A_dbar1", "B_dbar1", "AN_ubar1", "A_ubar1", "B_ubar1"};
-#endif
-#ifdef minimaltestInitialPDFs
-const std::vector<std::string> ParamsNames = {"A_glu1", "B_glu1"};
-#endif
-
+const std::map<int, std::vector<std::string>> ParamsNames = {{INITIALPDFS_9GDU, {"AN_glu1", "A_glu1", "B_glu1", "AN_dbar1", "A_dbar1", "B_dbar1", "AN_ubar1", "A_ubar1", "B_ubar1"}},
+                                                             {INITIALPDFS_3G,   {"AN_glu1", "A_glu1", "B_glu1"}},
+                                                             {INITIALPDFS_2G,   {"A_glu1", "B_glu1"}}};
 
 
 
 ///////////////////////////////////////
-// not changed that often
+// choose which data is used
 ///////////////////////////////////////
+
 /**
  * @brief Names of the included experimental data points (see experimentalData.h)
  */
 const std::vector<std::string> IncludedExperimentalData = {"ALEPH", "AMY"};
 
 /**
- * @brief Name of the LHAPDF-Set used by exampleInitialPDF and as a comparison in StructureFunctionsFcn::operator() 
+ * @brief change which LHAPDF data set is used 
  */
-const std::string NameLHAPDFSet = "GRVCustomSetLO";
 #define GRVCustomSetLO
+
+
+
+///////////////////////////////////////
+// not changed that often
+///////////////////////////////////////
 
 #ifdef GRVCustomSetLO
 /**
@@ -75,6 +75,9 @@ const std::string NameLHAPDFSet = "GRVCustomSetLO";
  * Some values, usually defined in the LHAPDF .info file, on the GRV LO PDFs.
  */
 ///@{
+/// @brief Name of the used LHAPDF data set
+const std::string NameLHAPDFSet = "GRVCustomSetLO";
+
 /// @brief perturbation order of Apfel, not including pointlike contributions 
 const int    pto          = 0;
 /// @brief reference for energy; mass of the z-boson 
@@ -98,6 +101,9 @@ const double Qin          = 1.295000e+00;
  * Some values, usually defined in the LHAPDF .info file, on the GRV HO PDFs.
  */
 ///@{
+/// @brief Name of the used LHAPDF data set
+const std::string NameLHAPDFSet = "GRVCustomSetHO";
+    
 /// @brief perturbation order of Apfel, not including pointlike contributions 
 const int    pto          = 1;
 /// @brief reference for energy; mass of the z-boson 
