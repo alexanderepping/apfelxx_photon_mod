@@ -35,8 +35,19 @@ int main()
     
     // create initial starting values for parameters with the 
     MinuitCpp::MnUserParameters userParameters;
+
+    // check if lower bounds for params are available
+    const bool lowerBounds = initialParamsLBounds.find(usedInitialPDFs) != initialParamsLBounds.end();
+
+    // set initial parameter values
     for (int i=0; i<initialParams.at(usedInitialPDFs).size(); i++)
-        userParameters.Add(ParamsNames.at(usedInitialPDFs)[i], initialParams.at(usedInitialPDFs)[i], initialErrorParams.at(usedInitialPDFs)[i]);
+    {
+        userParameters.Add(initialParamsNames.at(usedInitialPDFs)[i], initialParams.at(usedInitialPDFs)[i], initialParamsErrors.at(usedInitialPDFs)[i]);
+
+        // if bounds are defined, set them
+        if (lowerBounds)
+            userParameters.SetLowerLimit(initialParamsNames.at(usedInitialPDFs)[i], initialParamsLBounds.at(usedInitialPDFs)[i]);
+    };
 
     // create Migrad minimizer
     MinuitCpp::MnMigrad migrad(StructureFunctions, userParameters);

@@ -15,6 +15,9 @@
 #include <map>
 #include <vector>
 #include <functional>
+#include <math.h> // for gamma functions
+#include <cassert> 
+
 
 
 StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
@@ -73,8 +76,12 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double> { 
         switch (usedInitialPDFs)
         {
-        case INITIALPDFS_9GDU:
-            return InitialPDFs_9gdu(x, Q, params, _LHAPDFSet);
+        case INITIALPDFS_9GDU_00:
+            return InitialPDFs_9gdu_00(x, Q, params, _LHAPDFSet);
+            break;
+
+        case INITIALPDFS_9GDU_01:
+            return InitialPDFs_9gdu_01(x, Q, params);
             break;
 
         case INITIALPDFS_3G:
@@ -150,10 +157,21 @@ std::vector<double> StructureFunctionsFcn::combineData(std::map<std::string, std
 
 
 
-std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu(double                const& x,
-                                                             double                const& Q,
-                                                             std::vector<double>   const& params,
-                                                             LHAPDF::PDF*                 dist) const
+
+double StructureFunctionsFcn::betaFunction(double const & x, double const& y) const
+{
+    assert(x  >= 0.);
+    assert(y  >= 0.);
+
+    return (std::tgamma(x) * std::tgamma(y)) / std::tgamma(x + y);
+}
+
+
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu_00(double                const& x,
+                                                                 double                const& Q,
+                                                                 std::vector<double>   const& params,
+                                                                 LHAPDF::PDF*                 dist) const
     {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
 
         std::map<int, double> result;
@@ -171,6 +189,45 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu(double            
         result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
         result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
         //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
+
+        return apfel::PhysToQCDEv(result);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu_01(double                const& x,
+                                                                 double                const& Q,
+                                                                 std::vector<double>   const& params) const
+    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+
+        std::map<int, double> result;
+        // top-quark
+        result.insert(std::pair<int, double>( 6, 0.));
+        result.insert(std::pair<int, double>(-6, result.at(6)));
+
+        // bottom-quark
+        result.insert(std::pair<int, double>( 5, 0.));
+        result.insert(std::pair<int, double>(-5, result.at(5)));
+
+        // charm-quark
+        result.insert(std::pair<int, double>( 4, 0.));
+        result.insert(std::pair<int, double>(-4, result.at(4)));
+
+        // up-quark
+        result.insert(std::pair<int, double>( 2, params[6] * pow(x, params[7]) * pow( (1.0 - x) , params[8])));
+        result.insert(std::pair<int, double>(-2, result.at(2)));
+
+        // down-quark
+        result.insert(std::pair<int, double>( 1, params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])));
+        result.insert(std::pair<int, double>(-1, result.at(1)));
+
+        // strange-quark
+        result.insert(std::pair<int, double>( 3, params[0] / 2. * (result.at(2) + result.at(1))));
+        result.insert(std::pair<int, double>(-3, result.at(3)));
+
+        // gluon
+        const double AN_g1 = (0.5 - (1 + params[0]/2.) * (  params[6] * betaFunction(params[7]+1, params[8]+1) 
+                                                          + params[3] * betaFunction(params[4]+1, params[5]+1))) 
+                             / betaFunction(params[1]+1, params[2]+1);
+        result.insert(std::pair<int, double>( 0, AN_g1 * pow(x, params[1]) * pow( (1.0 - x) , params[2])));
 
         return apfel::PhysToQCDEv(result);
     };

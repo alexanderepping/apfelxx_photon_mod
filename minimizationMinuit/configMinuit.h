@@ -19,33 +19,41 @@
 /**
  * @brief enumerating the different Initial PDFs
  */
-enum enumInitialPDFs { INITIALPDFS_9GDU, INITIALPDFS_3G, INITIALPDFS_2G };
+enum enumInitialPDFs { INITIALPDFS_9GDU_00, INITIALPDFS_9GDU_01, INITIALPDFS_3G, INITIALPDFS_2G };
 
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_9GDU;
+const int usedInitialPDFs = INITIALPDFS_9GDU_00;
 
 /**
  * @brief initial parameters for the PDFs
  */
-const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDU, {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
-                                                          {INITIALPDFS_3G,   {1., 1., 1.}},
-                                                          {INITIALPDFS_2G,   {1., 1.}}};
+const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDU_00, {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
+                                                          {INITIALPDFS_9GDU_01, {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
+                                                          {INITIALPDFS_3G,      {1., 1., 1.}},
+                                                          {INITIALPDFS_2G,      {1., 1.}}};
 
 /**
  * @brief initial errors for the parameters for the PDFs
  */
-const std::map<int, std::vector<double>> initialErrorParams = {{INITIALPDFS_9GDU, {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
-                                                               {INITIALPDFS_3G,   {0.1, 0.1, 0.1}},
-                                                               {INITIALPDFS_2G,   {0.1, 0.1}}};
+const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GDU_00, {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
+                                                                {INITIALPDFS_9GDU_01, {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
+                                                                {INITIALPDFS_3G,      {0.1, 0.1, 0.1}},
+                                                                {INITIALPDFS_2G,      {0.1, 0.1}}};
+
+/**
+ * @brief lower bounds for the initial parameters for the PDFs
+ */
+const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDU_01, {0., -1., 0., 0., -1., 0., 0., -1., 0.}}};
 
 /**
  * @brief names of the parameters
  */
-const std::map<int, std::vector<std::string>> ParamsNames = {{INITIALPDFS_9GDU, {"AN_glu1", "A_glu1", "B_glu1", "AN_dbar1", "A_dbar1", "B_dbar1", "AN_ubar1", "A_ubar1", "B_ubar1"}},
-                                                             {INITIALPDFS_3G,   {"AN_glu1", "A_glu1", "B_glu1"}},
-                                                             {INITIALPDFS_2G,   {"A_glu1", "B_glu1"}}};
+const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS_9GDU_00, {"AN_g1", "A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
+                                                                    {INITIALPDFS_9GDU_00, {"K_s1", "A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
+                                                                    {INITIALPDFS_3G,      {"AN_g1", "A_g1", "B_g1"}},
+                                                                    {INITIALPDFS_2G,      {"A_g1", "B_g1"}}};
 
 
 
@@ -56,7 +64,7 @@ const std::map<int, std::vector<std::string>> ParamsNames = {{INITIALPDFS_9GDU, 
 /**
  * @brief Names of the included experimental data points (see experimentalData.h)
  */
-const std::vector<std::string> IncludedExperimentalData = {"ALEPH", "AMY"};
+const std::vector<std::string> IncludedExperimentalData = {"ALEPH"};
 
 /**
  * @brief change which LHAPDF data set is used 
@@ -103,7 +111,7 @@ const double Qin          = 1.295000e+00;
 ///@{
 /// @brief Name of the used LHAPDF data set
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
-    
+
 /// @brief perturbation order of Apfel, not including pointlike contributions 
 const int    pto          = 1;
 /// @brief reference for energy; mass of the z-boson 

@@ -93,6 +93,15 @@ public:
                                     std::string                                                       const& dataName) const;
 
 
+    /** 
+     * @brief calculate the beta function = int^1_0 t^(x-1) * (1-t)^(y-1) dt
+     * 
+     * @param x
+     * @param y
+     */
+    double betaFunction(double const & x, double const& y) const;
+
+
     /**
      * @name get functions
      * List of functions to return the different member data
@@ -128,13 +137,28 @@ public:
      * @param x
      * @param Q
      * @param params: vector with 9 parameters: 
-     *        AN_glu1 (0), A_glu1 (1), B_glu1 (2), AN_dbar1 (3), A_dbar1 (4), B_dbar1 (5), AN_ubar1 (6), A_ubar1 (7), B_ubar1 (8)
+     *        AN_g1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
      * @param dist: LHAPDF data set
      */
-    std::map<int, double> InitialPDFs_9gdu  (double                const& x,
-                                            double                const& Q,
-                                            std::vector<double>   const& params,
-                                            LHAPDF::PDF*                 dist) const;
+    std::map<int, double> InitialPDFs_9gdu_00  (double                const& x,
+                                                double                const& Q,
+                                                std::vector<double>   const& params,
+                                                LHAPDF::PDF*                 dist) const;
+
+    /**
+     * @brief InitialPDFs with nine params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule and K/2 * (x*u + x*d) for the strange quark
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_9gdu_01  (double                const& x,
+                                                double                const& Q,
+                                                std::vector<double>   const& params) const;
 
     /**
      * @brief InitialPDFs with two params; 3 for gluon
@@ -143,7 +167,7 @@ public:
      * @param x
      * @param Q
      * @param params: vector with 2 parameters: 
-     *        AN_glu1 (0), A_glu1 (1), B_glu1 (2)
+     *        AN_g1 (0), A_g1 (1), B_g1 (2)
      * @param dist: LHAPDF data set
      */
     std::map<int, double> InitialPDFs_3g    (double                const& x,
@@ -158,7 +182,7 @@ public:
      * @param x
      * @param Q
      * @param params: vector with 2 parameters: 
-     *        A_glu1 (0), B_glu1 (1)
+     *        A_g1 (0), B_g1 (1)
      * @param dist: LHAPDF data set
      */
     std::map<int, double> InitialPDFs_2g    (double                const& x,
