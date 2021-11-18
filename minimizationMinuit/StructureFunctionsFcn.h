@@ -140,10 +140,10 @@ public:
      *        AN_g1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
      * @param dist: LHAPDF data set
      */
-    std::map<int, double> InitialPDFs_9gdu_00  (double                const& x,
-                                                double                const& Q,
-                                                std::vector<double>   const& params,
-                                                LHAPDF::PDF*                 dist) const;
+    std::map<int, double> InitialPDFs_9gdu  (double                const& x,
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             LHAPDF::PDF*                 dist) const;
 
     /**
      * @brief InitialPDFs with nine params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
@@ -156,9 +156,37 @@ public:
      *        K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
      * @param dist: LHAPDF data set
      */
-    std::map<int, double> InitialPDFs_9gdu_01  (double                const& x,
-                                                double                const& Q,
-                                                std::vector<double>   const& params) const;
+    std::map<int, double> InitialPDFs_9gdus  (double                const& x,
+                                              double                const& Q,
+                                              std::vector<double>   const& params) const;
+
+    /**
+     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        A_g1 (0), B_g1 (1), AN_d1 (2), A_d1 (3), B_d1 (4), AN_u1 (5), A_u1 (6), B_u1 (7)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_8gdu  (double                const& x,
+                                             double                const& Q,
+                                             std::vector<double>   const& params) const;
+
+    /**
+     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        A_g1 (0), B_g1 (1), AN_q1 (2), A_q1 (3), B_q1 (4)
+     * @param dist: LHAPDF data set
+     */
+    std::map<int, double> InitialPDFs_5gq  (double                const& x,
+                                            double                const& Q,
+                                            std::vector<double>   const& params) const;
 
     /**
      * @brief InitialPDFs with two params; 3 for gluon
@@ -171,9 +199,9 @@ public:
      * @param dist: LHAPDF data set
      */
     std::map<int, double> InitialPDFs_3g    (double                const& x,
-                                            double                const& Q,
-                                            std::vector<double>   const& params,
-                                            LHAPDF::PDF*                 dist) const;
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             LHAPDF::PDF*                 dist) const;
 
     /**
      * @brief InitialPDFs with two params; 2 for gluon
@@ -186,9 +214,9 @@ public:
      * @param dist: LHAPDF data set
      */
     std::map<int, double> InitialPDFs_2g    (double                const& x,
-                                            double                const& Q,
-                                            std::vector<double>   const& params,
-                                            LHAPDF::PDF*                 dist) const;
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             LHAPDF::PDF*                 dist) const;
     ///@}
 
 
