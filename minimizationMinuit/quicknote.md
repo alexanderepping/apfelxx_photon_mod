@@ -1,7 +1,6 @@
 
 # To-Do:
 [ ] write LaTeX file further
-[ ] Git push
 
 [ ] momentum sum rule by itself
 [ ] define the parameters inside the initial pdfs before so that I can always use the same functions
@@ -29,7 +28,6 @@
 [x] write Initial PDFs as function of the class StructureFunctionsFCN
 [x] mainfile execution
 [x] change README.md file for this folder
-[x] Git push
 [x] improve output
 
 
