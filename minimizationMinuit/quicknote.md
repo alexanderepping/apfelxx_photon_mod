@@ -27,7 +27,7 @@
 [x] add initial values in the config file
 [x] write Initial PDFs as function of the class StructureFunctionsFCN
 [x] mainfile execution
-[x] change README.md file for this folder
+[x] change README.md file for this folder 
 [x] improve output
 
 
