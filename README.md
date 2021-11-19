@@ -15,7 +15,7 @@ Some useful bash files I use to run the programs and/or change between different
 Fortran program to write GRVCustomSet_0000.dat files in the LHAPDF fromat and related files.
 
 ### minimizationMinuit
-Programs to minimize the StructureFunctions to find optimal parameters.
+Programs to minimize the chi-square of the calculated (based on InitialPDFs w/ free parameters) StructureFunctions and the experimental data on the StructureFunctions to find optimal parameters for the InitialPDFs.
 
 ### myApfelModified/apfelxx
 Folder containing the changed source code and headers of the apfelxx program.
