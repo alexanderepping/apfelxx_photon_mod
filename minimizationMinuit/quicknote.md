@@ -2,20 +2,7 @@
 # To-Do:
 [ ] write LaTeX file further
 
-[ ] momentum sum rule by itself
-[ ] define the parameters inside the initial pdfs before so that I can always use the same functions
-[ ] option for IntitalPDFs to print or not print
 [ ] more data points
-[ ] file output, such that I can plot it with python
-        - parameters
-        - chi2
-        - used data
-        - used initial parameters
-        - used intial pdf
-        - Structurefunction data
-[ ] python file to plot:
-        - Structure function and used data
-        - pdfs and maybe comparison to GRV
 
 [ ] `#pragma once` errors?
 
@@ -29,6 +16,12 @@
 [x] mainfile execution
 [x] change README.md file for this folder 
 [x] improve output
+[x] momentum sum rule by itself
+[x] define the parameters inside the initial pdfs before so that I can always use the same functions
+[x] option for IntitalPDFs to print or not print
+[x] switch case in main for parameters
+[x] file output, such that I can plot it with python
+[x] python file to plot:
 
 
 # Things to check, if there is some error:

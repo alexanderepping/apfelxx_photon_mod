@@ -47,7 +47,9 @@ const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GD
                                                                 {INITIALPDFS_2G,    {0.1, 0.1}}};
 
 /**
- * @brief lower bounds for the initial parameters for the PDFs
+ * @brief lower bounds for the initial parameters for the PDFs.
+ * bounds come from the fact that the gamma function only takes values bigger than zero
+ * and the PDFs should be positive
  */
 const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDUS, {0., -1., 0., 0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_8GDU,  {-1., 0., 0., -1., 0., 0., -1., 0.}},
@@ -60,9 +62,11 @@ const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9G
 const std::vector<double> defaultUB = {40., 5.};
 
 /**
- * @brief upper bounds for the initial parameters for the PDFs
+ * @brief upper bounds for the initial parameters for the PDFs.
+ * bound for K_s1 comes from the fact that s should be smaller than 1/2(u+d).
+ * 
  */
-const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, {defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
+const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_8GDU,  {1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_5GQ,   {1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}}};
 
@@ -75,6 +79,16 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
                                                                     {INITIALPDFS_5GQ,   {"A_g1", "B_g1", "AN_q1", "A_q1", "B_q1"}},
                                                                     {INITIALPDFS_3G,    {"AN_g1", "A_g1", "B_g1"}},
                                                                     {INITIALPDFS_2G,    {"A_g1", "B_g1"}}};
+
+/**
+ * @brief names of the InitialPDFs
+ */
+const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDU,  "INITIALPDFS_9GDU"},
+                                                     {INITIALPDFS_9GDUS, "INITIALPDFS_9GDUS"},
+                                                     {INITIALPDFS_8GDU,  "INITIALPDFS_8GDU"},
+                                                     {INITIALPDFS_5GQ,   "INITIALPDFS_5GQ"},
+                                                     {INITIALPDFS_3G,    "INITIALPDFS_3G"},
+                                                     {INITIALPDFS_2G,    "INITIALPDFS_2G"}};
 
 
 
@@ -97,6 +111,11 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH", "AMY"};
 ///////////////////////////////////////
 // not changed that often
 ///////////////////////////////////////
+/**
+ * @brief path of the file where data should be saved
+ */
+const std::string outputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
+
 /**
  * @brief the total momentum / result of the momentum sum rule
  */

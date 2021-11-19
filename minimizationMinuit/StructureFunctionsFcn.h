@@ -11,6 +11,8 @@
 
 #include "/usr/local/include/minuit-cpp/FCNBase.hh"
 
+#include "configMinuit.h"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -82,6 +84,24 @@ public:
     virtual double Up() const {return _ErrorDef;}
 
     /**
+     * @brief function to call the correct InitialPDF 
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with parameters 
+     * @param dist: LHAPDF data set
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs(double              const& x,
+                                      double              const& Q,
+                                      std::vector<double> const& params,
+                                      LHAPDF::PDF*               dist,
+                                      bool                const& returnParameters = false) const;
+
+
+    /**
      * @brief function to combine the data from several experiments into only one vector
      * 
      * @param experimentalData: the experimental data in the format seen in experimentalData.h
@@ -92,7 +112,6 @@ public:
     std::vector<double> combineData(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
                                     std::string                                                       const& dataName) const;
 
-
     /** 
      * @brief calculate the beta function = int^1_0 t^(x-1) * (1-t)^(y-1) dt
      * 
@@ -100,6 +119,18 @@ public:
      * @param y
      */
     double betaFunction(double const & x, double const& y) const;
+
+    /**
+     * @brief Calculate the normalization constant AN_g1 for InitialPDFsMain0 using the momentum sum rule
+     * 
+     * @param params: vector of parameters
+     * @param totMom: total Momentum (lhs of the M.S.R.); default is totalMomentum (see configMinuit.h)
+     * 
+     * @return AN_g1
+     * 
+     */
+double MomentumSumRule(std::vector<double> const& params,
+                       double              const& totMom = totalMomentum) const;
 
 
     /**
@@ -131,6 +162,72 @@ public:
      */
     ///@{
     /**
+     * @brief Main function to calculate the IntialPDFs of the form 
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
+     * @param outputAN_g1: bool to decide if AN_g1 should be output to terminal. Default false. 
+     */
+    std::map<int, double> InitialPDFsMain0(double                const& x,
+                                           double                const& Q,
+                                           std::vector<double>   const& params,
+                                           bool                  const& outputAN_g1 = false) const;
+
+    /**
+     * @brief InitialPDFs with nine params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule and K/2 * (x*u + x*d) for the strange quark
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_9gdus  (double                const& x,
+                                              double                const& Q,
+                                              std::vector<double>   const& params,
+                                              bool                  const& returnParameters = false) const;
+
+    /**
+     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        A_g1 (0), B_g1 (1), AN_d1 (2), A_d1 (3), B_d1 (4), AN_u1 (5), A_u1 (6), B_u1 (7)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_8gdu  (double                const& x,
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             bool                  const& returnParameters = false) const;
+
+    /**
+     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
+     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        A_g1 (0), B_g1 (1), AN_q1 (2), A_q1 (3), B_q1 (4)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_5gq  (double                const& x,
+                                            double                const& Q,
+                                            std::vector<double>   const& params,
+                                            bool                  const& returnParameters = false) const;
+
+    /**
      * @brief InitialPDFs with nine params; 3 for gluon, up- and down-quark
      * Uses 1 / alpha_em * an * x**a * (1-x)**b for gluon, up and down; the GRV PDFs for the rest.
      * 
@@ -144,49 +241,6 @@ public:
                                              double                const& Q,
                                              std::vector<double>   const& params,
                                              LHAPDF::PDF*                 dist) const;
-
-    /**
-     * @brief InitialPDFs with nine params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
-     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
-     * where an is calculated using the momentum sum rule and K/2 * (x*u + x*d) for the strange quark
-     * 
-     * @param x
-     * @param Q
-     * @param params: vector with 9 parameters: 
-     *        K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_9gdus  (double                const& x,
-                                              double                const& Q,
-                                              std::vector<double>   const& params) const;
-
-    /**
-     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
-     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
-     * where an is calculated using the momentum sum rule
-     * @param x
-     * @param Q
-     * @param params: vector with 9 parameters: 
-     *        A_g1 (0), B_g1 (1), AN_d1 (2), A_d1 (3), B_d1 (4), AN_u1 (5), A_u1 (6), B_u1 (7)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_8gdu  (double                const& x,
-                                             double                const& Q,
-                                             std::vector<double>   const& params) const;
-
-    /**
-     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
-     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
-     * where an is calculated using the momentum sum rule
-     * @param x
-     * @param Q
-     * @param params: vector with 9 parameters: 
-     *        A_g1 (0), B_g1 (1), AN_q1 (2), A_q1 (3), B_q1 (4)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_5gq  (double                const& x,
-                                            double                const& Q,
-                                            std::vector<double>   const& params) const;
 
     /**
      * @brief InitialPDFs with two params; 3 for gluon
