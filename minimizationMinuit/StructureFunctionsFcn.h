@@ -46,19 +46,17 @@ public:
     /**
      * @brief The StructureFunctionsFcn constructor for the seperate input of experimental data vectors.
      * 
-     * @param Energies: vector of Energies from different experiments
+     * @param Q2Data: vector of squared Energies from different experiments
      * @param xData: vector of x data from different experiments
-     * @param xError: vector of x errors for the xData vector
-     * @param F2Gamma: vector of F2Gamma values from different experiments; F2Gamma[i] = F2Gamma(xData[i], Energies[i])
-     * @param yError: vector of y errors, the errors of the F2Gamma vector
+     * @param F2Gamma: vector of F2Gamma values from different experiments; F2Gamma[i] = F2Gamma(xData[i], Q2Data[i])
+     * @param F2GammaErr: vector of the errors of the F2Gamma vector
      * @param ErrorDef: default value = 1.
      * 
      */
-    StructureFunctionsFcn(std::vector<double> const& Energies,
+    StructureFunctionsFcn(std::vector<double> const& Q2Data,
                           std::vector<double> const& xData,
-                          std::vector<double> const& xError,
                           std::vector<double> const& F2Gamma,
-                          std::vector<double> const& yError,
+                          std::vector<double> const& F2GammaErr,
                           std::string         const& NameLHAPDFSet,
                           double              const& ErrorDef = 1. );
 
@@ -105,7 +103,7 @@ public:
      * @brief function to combine the data from several experiments into only one vector
      * 
      * @param experimentalData: the experimental data in the format seen in experimentalData.h
-     * @param dataName: "Name" of the data whose vectors should be combined (e.g. "xData" or "Energies")
+     * @param dataName: "Name" of the data whose vectors should be combined (e.g. "xData" or "Q2Data")
      * 
      * @return vector with combined data
      */
@@ -138,18 +136,16 @@ double MomentumSumRule(std::vector<double> const& params,
      * List of functions to return the different member data
      */
     ///@{
-    /** @brief return vector of Energies */
-    std::vector<double> Energies()  const {return _Energies;}
+    /** @brief return vector of squared Energies */
+    std::vector<double> Q2Data()        const {return _Q2Data;}
     /** @brief return vector of x data */
-    std::vector<double> xData()     const {return _xData;}
-    /** @brief return vector of x errors */
-    std::vector<double> xError()    const {return _xError;}
+    std::vector<double> xData()         const {return _xData;}
     /** @brief return vector of F2Gamma values */
-    std::vector<double> F2Gamma()   const {return _F2Gamma;}
+    std::vector<double> F2Gamma()       const {return _F2Gamma;}
     /** @brief return vector of y errors */
-    std::vector<double> yError()    const {return _yError;}
+    std::vector<double> F2GammaErr()    const {return _F2GammaErr;}
     /** @brief return Name of the used LHAPDF Set */
-    std::string NameLHAPDFSet()     const {return _NameLHAPDFSet;}
+    std::string NameLHAPDFSet()         const {return _NameLHAPDFSet;}
     ///@}
 
 
@@ -176,7 +172,7 @@ double MomentumSumRule(std::vector<double> const& params,
                                            bool                  const& outputAN_g1 = false) const;
 
     /**
-     * @brief InitialPDFs with nine params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
+     * @brief InitialPDFs with 9 params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
      * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
      * where an is calculated using the momentum sum rule and K/2 * (x*u + x*d) for the strange quark
      * 
@@ -194,9 +190,7 @@ double MomentumSumRule(std::vector<double> const& params,
                                               bool                  const& returnParameters = false) const;
 
     /**
-     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
-     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
-     * where an is calculated using the momentum sum rule
+     * @brief InitialPDFs with 8 params; like InitialPDFs_9gdus, but the coefficient of strange quark is fixed.
      * @param x
      * @param Q
      * @param params: vector with 9 parameters: 
@@ -211,9 +205,22 @@ double MomentumSumRule(std::vector<double> const& params,
                                              bool                  const& returnParameters = false) const;
 
     /**
-     * @brief InitialPDFs with eight params; 3 for up- and down-quark and 2 for gluon
-     * Uses an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
-     * where an is calculated using the momentum sum rule
+     * @brief InitialPDFs with 6 params; like InitialPDFs_9gdus, but u=d.
+     * @param x
+     * @param Q
+     * @param params: vector with 9 parameters: 
+     *        K_s1 (0), A_g1 (1), B_g1 (2), AN_q1 (3), A_q1 (4), B_q1 (5)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_6gqs  (double                const& x,
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             bool                  const& returnParameters = false) const;
+
+    /**
+     * @brief InitialPDFs with 5 params; like InitialPDFs_9gdus, but coefficient of strange quark is fixed and u=d.
      * @param x
      * @param Q
      * @param params: vector with 9 parameters: 
@@ -275,11 +282,10 @@ double MomentumSumRule(std::vector<double> const& params,
 
 
 private:
-    std::vector<double> _Energies;
+    std::vector<double> _Q2Data;
     std::vector<double> _xData;
-    std::vector<double> _xError;
     std::vector<double> _F2Gamma;
-    std::vector<double> _yError;
+    std::vector<double> _F2GammaErr;
     double              _ErrorDef;
     std::string         _NameLHAPDFSet;
     LHAPDF::PDF*        _LHAPDFSet;

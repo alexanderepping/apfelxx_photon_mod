@@ -23,28 +23,25 @@
 StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
                                              std::string const& NameLHAPDFSet,
                                              double      const& ErrorDef): 
-                _Energies(combineData(experimentalData, "Energies")),
+                _Q2Data(combineData(experimentalData, "Q2Data")),
                 _xData(combineData(experimentalData, "xData")),
-                _xError(combineData(experimentalData, "xError")),
                 _F2Gamma(combineData(experimentalData, "F2Gamma")),
-                _yError(combineData(experimentalData, "yError")),
+                _F2GammaErr(combineData(experimentalData, "F2GammaErr")),
                 _NameLHAPDFSet(NameLHAPDFSet),
                 _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
     {}
 
-StructureFunctionsFcn::StructureFunctionsFcn(std::vector<double> const& Energies,
+StructureFunctionsFcn::StructureFunctionsFcn(std::vector<double> const& Q2Data,
                                              std::vector<double> const& xData,
-                                             std::vector<double> const& xError,
                                              std::vector<double> const& F2Gamma,
-                                             std::vector<double> const& yError,
+                                             std::vector<double> const& F2GammaErr,
                                              std::string         const& NameLHAPDFSet,
                                              double              const& ErrorDef): 
-                _Energies(Energies),
+                _Q2Data(Q2Data),
                 _xData(xData),
-                _xError(xError),
                 _F2Gamma(F2Gamma),
-                _yError(yError),
+                _F2GammaErr(F2GammaErr),
                 _NameLHAPDFSet(NameLHAPDFSet),
                 _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
@@ -104,8 +101,8 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
 
     double chi2 = 0.;
     
-    for (int i=0; i<Energies().size(); i++)
-        chi2 += ((F2EvolvedAtXQ(xData()[i], Energies()[i]) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], Energies()[i]) - F2Gamma()[i]) / (yError()[i] * yError()[i]));
+    for (int i=0; i<Q2Data().size(); i++)
+        chi2 += ((F2EvolvedAtXQ(xData()[i], Q2Data()[i]) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], Q2Data()[i]) - F2Gamma()[i]) / (F2GammaErr()[i] * F2GammaErr()[i]));
 /*
 //// debug -> 
     std::cout << "§ "; //debug
@@ -134,6 +131,9 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
     case INITIALPDFS_8GDU:
         return InitialPDFs_8gdu(x, Q, params, returnParameters);
         break;
+
+    case INITIALPDFS_6GQS:
+        return InitialPDFs_6gqs(x, Q, params, returnParameters);
 
     case INITIALPDFS_5GQ:
         return InitialPDFs_5gq(x, Q, params, returnParameters);
@@ -264,6 +264,35 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_8gdu(double            
         parameters.push_back(params[5]);            //parameters[6] = AN_u1
         parameters.push_back(params[6]);            //parameters[7] = A_u1
         parameters.push_back(params[7]);            //parameters[8] = B_u1
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMain0(x, Q, parameters);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_6gqs(double              const& x,
+                                                              double              const& Q,
+                                                              std::vector<double> const& params,
+                                                              bool                const& returnParameters) const
+    {   
+        std::vector<double> parameters;
+        parameters.push_back(params[0]);            //parameters[0] = K_s1
+        parameters.push_back(params[1]);            //parameters[1] = A_g1
+        parameters.push_back(params[2]);            //parameters[2] = B_g1
+        parameters.push_back(params[3]);            //parameters[3] = AN_d1
+        parameters.push_back(params[4]);            //parameters[4] = A_d1
+        parameters.push_back(params[5]);            //parameters[5] = B_d1
+        parameters.push_back(params[3]);            //parameters[6] = AN_u1
+        parameters.push_back(params[4]);            //parameters[7] = A_u1
+        parameters.push_back(params[5]);            //parameters[8] = B_u1
         
         if (returnParameters)
         {

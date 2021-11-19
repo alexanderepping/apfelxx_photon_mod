@@ -2,8 +2,6 @@
 # To-Do:
 [ ] more data points
 
-[ ] `#pragma once` errors?
-
 [ ] makefile or sth like that
 
 
@@ -21,6 +19,7 @@
 [x] file output, such that I can plot it with python
 [x] python file to plot:
 [x] write LaTeX file further
+[x] `#pragma once` errors? - Not important. Deleting them leads to errors.
 
 
 # Things to check, if there is some error:

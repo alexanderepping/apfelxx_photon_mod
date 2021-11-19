@@ -19,12 +19,12 @@
 /**
  * @brief enumerating the different Initial PDFs
  */
-enum enumInitialPDFs { INITIALPDFS_9GDU, INITIALPDFS_9GDUS, INITIALPDFS_8GDU, INITIALPDFS_5GQ, INITIALPDFS_3G, INITIALPDFS_2G };
+enum enumInitialPDFs { INITIALPDFS_9GDU, INITIALPDFS_9GDUS, INITIALPDFS_8GDU, INITIALPDFS_6GQS, INITIALPDFS_5GQ, INITIALPDFS_3G, INITIALPDFS_2G };
 
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_9GDUS;
+const int usedInitialPDFs = INITIALPDFS_5GQ;
 
 /**
  * @brief initial parameters for the PDFs
@@ -32,6 +32,7 @@ const int usedInitialPDFs = INITIALPDFS_9GDUS;
 const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDU,  {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
                                                           {INITIALPDFS_9GDUS, {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_8GDU,  {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}},
+                                                          {INITIALPDFS_6GQS,  {0.5, 0.5, 0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_5GQ,   {0.5, 0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_3G,    {1., 1., 1.}},
                                                           {INITIALPDFS_2G,    {1., 1.}}};
@@ -42,6 +43,7 @@ const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDU,  {1
 const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GDU,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_9GDUS, {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_8GDU,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
+                                                                {INITIALPDFS_6GQS,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_5GQ,   {0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_3G,    {0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_2G,    {0.1, 0.1}}};
@@ -53,6 +55,7 @@ const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GD
  */
 const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDUS, {0., -1., 0., 0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_8GDU,  {-1., 0., 0., -1., 0., 0., -1., 0.}},
+                                                                 {INITIALPDFS_6GQS,  {0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_5GQ,   {-1., 0., 0., -1., 0.}}};
 
 /**
@@ -68,6 +71,7 @@ const std::vector<double> defaultUB = {40., 5.};
  */
 const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_8GDU,  {1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
+                                                                 {INITIALPDFS_6GQS,  {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_5GQ,   {1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}}};
 
 /**
@@ -76,6 +80,7 @@ const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9G
 const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS_9GDU,  {"AN_g1", "A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
                                                                     {INITIALPDFS_9GDUS, {"K_s1", "A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
                                                                     {INITIALPDFS_8GDU,  {"A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
+                                                                    {INITIALPDFS_6GQS,  {"K_s1", "A_g1", "B_g1", "AN_q1", "A_q1", "B_q1"}},
                                                                     {INITIALPDFS_5GQ,   {"A_g1", "B_g1", "AN_q1", "A_q1", "B_q1"}},
                                                                     {INITIALPDFS_3G,    {"AN_g1", "A_g1", "B_g1"}},
                                                                     {INITIALPDFS_2G,    {"A_g1", "B_g1"}}};
@@ -86,6 +91,7 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
 const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDU,  "INITIALPDFS_9GDU"},
                                                      {INITIALPDFS_9GDUS, "INITIALPDFS_9GDUS"},
                                                      {INITIALPDFS_8GDU,  "INITIALPDFS_8GDU"},
+                                                     {INITIALPDFS_6GQS,  "INITIALPDFS_6GQS"},
                                                      {INITIALPDFS_5GQ,   "INITIALPDFS_5GQ"},
                                                      {INITIALPDFS_3G,    "INITIALPDFS_3G"},
                                                      {INITIALPDFS_2G,    "INITIALPDFS_2G"}};
@@ -99,7 +105,7 @@ const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDU,  "INITIA
 /**
  * @brief Names of the included experimental data points (see experimentalData.h)
  */
-const std::vector<std::string> IncludedExperimentalData = {"ALEPH", "AMY"};
+const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "OPAL1", "OPAL2"};
 
 /**
  * @brief change which LHAPDF data set is used 
