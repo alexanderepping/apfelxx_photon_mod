@@ -6,7 +6,7 @@ Directory contains files related to the fitting of the Initial PDFs to the Struc
 File that `#include`s all the used header files.
 
 ### minimizationStructureFunctions.cc 
-Main program to run for the minimization/fitting.
+Main program to run for the minimization/fitting. It outputs the resuls to ../plottingPython/data_InitialPDFs.txt and to the terminal.
 
 ### configMinuit.h
 File that contains configurations for all the other files like which Initial PDFs are used, some parameters etc. Can be changed by user.
@@ -15,7 +15,7 @@ File that contains configurations for all the other files like which Initial PDF
 File that contains the experimental data. Experimental data can be added by user. To help that, see plottingPython/calculateExperimentalData.py
 
 ### StructureFunctionFcn.cc/.h
-File that contains the class that calculates the StructureFunctions, takes the experimental data and returns the chi-square. It also contains the InitialPDFs.
+File that contains the class that calculates the StructureFunctions, takes the experimental data and returns the chi-square. It also contains the InitialPDFs and functions to help calculating them.
 
 ### Makefile
 Not ready to use yet. See "running the program" below.

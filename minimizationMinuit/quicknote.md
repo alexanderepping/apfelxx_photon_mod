@@ -1,7 +1,5 @@
 
 # To-Do:
-[ ] write LaTeX file further
-
 [ ] more data points
 
 [ ] `#pragma once` errors?
@@ -22,6 +20,7 @@
 [x] switch case in main for parameters
 [x] file output, such that I can plot it with python
 [x] python file to plot:
+[x] write LaTeX file further
 
 
 # Things to check, if there is some error:
