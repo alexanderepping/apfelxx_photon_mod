@@ -1,37 +1,27 @@
-# INITIALPDFS_9GDUS
+# INITIALPDFS_9GDUS - did not converge
 ## Used InitialPDFs:
 INITIALPDFS_9GDUS
 ## Used experimentalData:
-ALEPH1, ALEPH2, AMY, DELPHI, OPAL1
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, OPAL2, PLUTO, TASSO, TOPAZ, TPC
 ## finalParameters names:
 K_s1, A_g1, B_g1, AN_d1, A_d1, B_d1, AN_u1, A_u1, B_u1, AN_g1
 ## finalParameters:
-0.991459, 0.99991, 9.7496e-06, 0.00237058, -0.997509, 3.20148, 1.35202, 0.397535, 4.84647, -2.12408
+1.22151e-09, 0.114257, 1.49676, 0.0460964, -0.481785, 4.99991, 0.523949, 0.354428, 0.579065, 1.4836
 ## chi2:
-247.788
+143.195
+## chi2/NumberOfDataPoints:
+0.827715
 
-
-# INITIALPDFS_6GQS
+# INITIALPDFS_SAL3
 ## Used InitialPDFs:
-INITIALPDFS_6GQS
+INITIALPDFS_SAL3
 ## Used experimentalData:
-ALEPH1, ALEPH2, AMY, DELPHI, OPAL1
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, OPAL2, PLUTO, TASSO, TOPAZ, TPC
 ## finalParameters names:
-K_s1, A_g1, B_g1, AN_d1, A_d1, B_d1, AN_u1, A_u1, B_u1, AN_g1
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 ## finalParameters:
-2.79009e-10, -0.985956, 5, 0.307943, 0.0625818, 5, 0.307943, 0.0625818, 5, 0.00596929
+0.5, -0.57073, 3, 0.406318, 0.261753, 1, 0, 0, 0.14893
 ## chi2:
-276.97
-
-
-# INITIALPDFS_5GQ
-## Used InitialPDFs:
-INITIALPDFS_5GQ
-## Used experimentalData:
-ALEPH1, ALEPH2, AMY, DELPHI, OPAL1
-## finalParameters names:
-K_s1, A_g1, B_g1, AN_d1, A_d1, B_d1, AN_u1, A_u1, B_u1, AN_g1
-## finalParameters:
-0.5, -0.989167, 4.99994, 0.274229, 0.0561331, 5, 0.274229, 0.0561331, 5, 0.00444358
-## chi2:
-277.507
+224.485
+## chi2/NumberOfDataPoints:
+1.2976

@@ -127,8 +127,21 @@ public:
      * @return AN_g1
      * 
      */
-double MomentumSumRule(std::vector<double> const& params,
-                       double              const& totMom = totalMomentum) const;
+double MomentumSumRule0(std::vector<double> const& params,
+                        double              const& totMom = totalMomentum) const;
+
+    /**
+     * @brief Calculate the normalization constant A_G_HAD for InitialPDFsMainSAL using the FG momentum sum rule
+     * (see e.g. SAL, eq. 21 (https://arxiv.org/abs/hep-ph/0504003v2))
+     * 
+     * @param params: vector of parameters
+     * @param Q
+     * 
+     * @return A_G_HAD
+     * 
+     */
+double MomentumSumRuleSAL(std::vector<double> const& params,
+                          double              const& Q) const;
 
 
     /**
@@ -158,7 +171,9 @@ double MomentumSumRule(std::vector<double> const& params,
      */
     ///@{
     /**
-     * @brief Main function to calculate the IntialPDFs of the form 
+     * @brief Main function to calculate the IntialPDFs of the form :
+     * an * x**a * (1-x)**b for up and down, 0 for charm, bottom and top, an * x**a * (1-x)**b for gluon,
+     * where an is calculated using the momentum sum rule and K/2 * (x*u + x*d) for the strange quark
      * 
      * @param x
      * @param Q
@@ -170,6 +185,22 @@ double MomentumSumRule(std::vector<double> const& params,
                                            double                const& Q,
                                            std::vector<double>   const& params,
                                            bool                  const& outputAN_g1 = false) const;
+
+    /**
+     * @brief Main function to calculate the IntialPDFs of the form given in
+     * SAL (https://arxiv.org/abs/hep-ph/0504003v2), 
+     * where 0.3 (for the strange quark) is replaced by a free parameter
+     * 
+     * @param x
+     * @param Q
+     * @param params: vector with 8 parameters: 
+     *        K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
+     * @param outputA_G_HAD: bool to decide if A_G_HAD should be output to terminal. Default false. 
+     */
+    std::map<int, double> InitialPDFsMainSAL(double                const& x,
+                                             double                const& Q,
+                                             std::vector<double>   const& params,
+                                             bool                  const& outputA_G_HAD = false) const;
 
     /**
      * @brief InitialPDFs with 9 params; 3 for up- and down-quark, 2 for gluon and 1 for strange-quark
@@ -233,6 +264,68 @@ double MomentumSumRule(std::vector<double> const& params,
                                             double                const& Q,
                                             std::vector<double>   const& params,
                                             bool                  const& returnParameters = false) const;
+
+    /**
+     * @brief InitialPDFs with 8 params; has the form of InitialPDFsMainSAL
+     * @param x
+     * @param Q
+     * @param params: vector with 8 parameters: 
+     *        K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL8(double             const& x,
+                                           double              const& Q,
+                                           std::vector<double> const& params,
+                                           bool                const& returnParameters = false) const;  
+
+    /**
+     * @brief InitialPDFs with 6 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3 and C_Q_HAD to 1
+     * @param x
+     * @param Q
+     * @param params: vector with 6 parameters: 
+     *        K_S (0), B_G_HAD(1), A_Q_HAD(2), B_Q_HAD(3), A_Q_PL(4), B_Q_PL(5)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL6(double             const& x,
+                                           double              const& Q,
+                                           std::vector<double> const& params,
+                                           bool                const& returnParameters = false) const;  
+
+    /**
+     * @brief InitialPDFs with 5 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3, C_Q_HAD to 1 and K_S to 0.3.
+     * The same form as originaly used by SAL with the exception that A_G_HAD is determined by the momentum sum rule
+     * @param x
+     * @param Q
+     * @param params: vector with 5 parameters: 
+     *        B_G_HAD(0), A_Q_HAD(1), B_Q_HAD(2), A_Q_PL(3), B_Q_PL(4)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL5(double             const& x,
+                                           double              const& Q,
+                                           std::vector<double> const& params,
+                                           bool                const& returnParameters = false) const; 
+
+    /**
+     * @brief InitialPDFs with 3 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3, C_Q_HAD to 1, K_S to 0.5
+     * and the pointlike parts of the quarks are set to zero.
+     * @param x
+     * @param Q
+     * @param params: vector with 3 parameters: 
+     *        B_G_HAD(0), A_Q_HAD(1), B_Q_HAD(2)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL3(double             const& x,
+                                           double              const& Q,
+                                           std::vector<double> const& params,
+                                           bool                const& returnParameters = false) const;                                      
 
     /**
      * @brief InitialPDFs with nine params; 3 for gluon, up- and down-quark

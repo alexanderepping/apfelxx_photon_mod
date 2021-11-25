@@ -1,8 +1,11 @@
 
 # To-Do:
-[ ] more data points
-
 [ ] makefile or sth like that
+
+[ ] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
+
+[ ] implement momentum sum rule FG (pointlike part is left)
+[ ] add bounds to SAL initial pdfs
 
 
 [x] is it okay to leave the cutoff out? - Yes. The cutoff was only used because the output to the LHAPDF file couldn't be zero. If it doesn't produce any errors, we can just leave the negative numbers
@@ -20,6 +23,16 @@
 [x] python file to plot:
 [x] write LaTeX file further
 [x] `#pragma once` errors? - Not important. Deleting them leads to errors.
+[x] more data points
+[x] take a look at vadims notes
+[x] take a look at SAL paper
+[x] take a look at nCTEQ15 section 2 for error analysis
+[x] more experimental data
+[x] correct the energies (used Q2 instead of Q)
+[x] correct the momentum sum rule 
+[x] add all the stuff with the enumerator etc
+[x] implement the SAL inputPDFs
+[x] add initialPDFs from SAL to python
 
 
 # Things to check, if there is some error:

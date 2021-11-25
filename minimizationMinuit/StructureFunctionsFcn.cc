@@ -102,15 +102,10 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     double chi2 = 0.;
     
     for (int i=0; i<Q2Data().size(); i++)
-        chi2 += ((F2EvolvedAtXQ(xData()[i], Q2Data()[i]) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], Q2Data()[i]) - F2Gamma()[i]) / (F2GammaErr()[i] * F2GammaErr()[i]));
-/*
-//// debug -> 
-    std::cout << "§ "; //debug
-    for (int i=0; i<initialParams.at(usedInitialPDFs).size(); i++)
-        std::cout << params[i] << ", ";
-    std::cout << chi2 << std::endl;
-//// <- debug 
-*/  
+    {
+        const double QData = pow(Q2Data()[i], 0.5);
+        chi2 += ((F2EvolvedAtXQ(xData()[i], QData) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], QData) - F2Gamma()[i]) / (F2GammaErr()[i] * F2GammaErr()[i]));
+    }
     return chi2;
 }
 
@@ -121,39 +116,42 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
                                                          std::vector<double> const& params,
                                                          LHAPDF::PDF*               dist,
                                                          bool                const& returnParameters) const
-{
+{   
     switch (usedInitialPDFs)
     {
     case INITIALPDFS_9GDUS:
         return InitialPDFs_9gdus(x, Q, params, returnParameters);
         break;
-
     case INITIALPDFS_8GDU:
         return InitialPDFs_8gdu(x, Q, params, returnParameters);
         break;
-
     case INITIALPDFS_6GQS:
         return InitialPDFs_6gqs(x, Q, params, returnParameters);
-
+        break;
     case INITIALPDFS_5GQ:
         return InitialPDFs_5gq(x, Q, params, returnParameters);
         break;
-
+    case INITIALPDFS_SAL8:
+        return InitialPDFs_SAL8(x, Q, params, returnParameters);
+        break;
+    case INITIALPDFS_SAL5:
+        return InitialPDFs_SAL5(x, Q, params, returnParameters);
+        break;
+    case INITIALPDFS_SAL3:
+        return InitialPDFs_SAL3(x, Q, params, returnParameters);
+        break;
     case INITIALPDFS_9GDU:
         return InitialPDFs_9gdu(x, Q, params, dist);
         break;
-
     case INITIALPDFS_3G:
         return InitialPDFs_3g(x, Q, params, dist);
         break;
-
     case INITIALPDFS_2G:
         return InitialPDFs_2g(x, Q, params, dist);
         break;
-    
     default:
         break;
-    }
+    } 
 }
 
 
@@ -180,11 +178,20 @@ double StructureFunctionsFcn::betaFunction(double const & x, double const& y) co
 
 
 
-double StructureFunctionsFcn::MomentumSumRule(std::vector<double> const& params,
+double StructureFunctionsFcn::MomentumSumRule0(std::vector<double> const& params,
                                               double const& totMom) const
 {
-    return ( totMom /2. - (1 + params[0]/2.) * (  params[6] * betaFunction(params[7]+1, params[8]+1) 
+    return ( totMom - (2 + params[0]) * (  params[6] * betaFunction(params[7]+1, params[8]+1) 
                                                 + params[3] * betaFunction(params[4]+1, params[5]+1))) 
+            / betaFunction(params[1]+1, params[2]+1);
+}
+
+
+
+double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& params,
+                                                 double const& Q) const //toBeCorrected
+{//K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
+    return ( ( 1 + 2. / (3. * M_PI) * log( Q * Q / 4. )) - (4 + params[0]) * (params[3] * betaFunction(params[4]+1, params[5]+1))) // so far only hadronic part
             / betaFunction(params[1]+1, params[2]+1);
 }
 
@@ -199,7 +206,7 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFsMain0(double            
 
         std::map<int, double> result;
 
-        const double AN_g1 = MomentumSumRule(params);
+        const double AN_g1 = MomentumSumRule0(params);
 
         result.insert(std::pair<int, double>( 6, 0.));                                                          // top-quark
         result.insert(std::pair<int, double>( 5, 0.));                                                          // bottom-quark
@@ -219,6 +226,47 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFsMain0(double            
 
         return apfel::PhysToQCDEv(result);
     };
+
+
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFsMainSAL(double                const& x,
+                                                                double                const& Q,
+                                                                std::vector<double>   const& params,
+                                                                bool                  const& outputA_G_HAD) const
+    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+        // parameters:  K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
+
+        std::map<int, double> result;
+
+        const double EQ2_s = 1./9.; // electric charge squared of the strange quark
+        const double EQ2_u = 4./9.; // electric charge squared of the up quark
+        const double EQ2_d = 1./9.; // electric charge squared of the down quark
+
+        const double A_G_HAD = MomentumSumRuleSAL(params, Q);
+
+        result.insert(std::pair<int, double>( 6, 0.));                                                                                  // top-quark
+        result.insert(std::pair<int, double>( 5, 0.));                                                                                  // bottom-quark
+        result.insert(std::pair<int, double>( 4, 0.));                                                                                  // charm-quark                                                                
+        result.insert(std::pair<int, double>( 3, params[0] * params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])
+                                                + EQ2_s * params[6] * ( x * x + (1 - x) * (1 - x) ) / ( 1 - params[7] * log(1 - x))));  // strange-quark
+        result.insert(std::pair<int, double>( 2, params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])
+                                                + EQ2_u * params[6] * ( x * x + (1 - x) * (1 - x) ) / ( 1 - params[7] * log(1 - x))));  // up-quark
+        result.insert(std::pair<int, double>( 1, params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])
+                                                + EQ2_d * params[6] * ( x * x + (1 - x) * (1 - x) ) / ( 1 - params[7] * log(1 - x))));  // down-quark
+        result.insert(std::pair<int, double>( 0, A_G_HAD  * pow(x, params[1]) * pow( (1.0 - x) , params[2])));                          // gluon
+
+        // anti-quarks
+        for (int i=1; i<7; i++)
+            result.insert(std::pair<int, double>(-1*i, result.at(i)));
+        
+        // output A_G_HAD
+        if (outputA_G_HAD)
+            std::cout << "§ A_G_HAD\t = "<< A_G_HAD << std::endl; // debug
+
+        return apfel::PhysToQCDEv(result);
+    };
+
+
 
 std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdus(double              const& x,
                                                                double              const& Q,
@@ -334,6 +382,118 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_5gq(double             
         } 
         else
             return InitialPDFsMain0(x, Q, parameters);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL8(double             const& x,
+                                                             double              const& Q,
+                                                             std::vector<double> const& params,
+                                                             bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(params[0]);            //parameters[0] = K_S
+        parameters.push_back(params[1]);            //parameters[1] = B_G_HAD
+        parameters.push_back(params[2]);            //parameters[2] = C_G_HAD
+        parameters.push_back(params[3]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[4]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(params[5]);            //parameters[5] = C_Q_HAD
+        parameters.push_back(params[6]);            //parameters[6] = A_Q_PL
+        parameters.push_back(params[7]);            //parameters[7] = B_Q_PL
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL6(double             const& x,
+                                                             double              const& Q,
+                                                             std::vector<double> const& params,
+                                                             bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(params[0]);            //parameters[0] = K_S
+        parameters.push_back(params[1]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3.);                   //parameters[2] = C_G_HAD
+        parameters.push_back(params[2]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[3]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
+        parameters.push_back(params[4]);            //parameters[6] = A_Q_PL
+        parameters.push_back(params[5]);            //parameters[7] = B_Q_PL
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL5(double             const& x,
+                                                             double              const& Q,
+                                                             std::vector<double> const& params,
+                                                             bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(0.3);                  //parameters[0] = K_S
+        parameters.push_back(params[0]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3.);                   //parameters[2] = C_G_HAD
+        parameters.push_back(params[1]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
+        parameters.push_back(params[3]);            //parameters[6] = A_Q_PL
+        parameters.push_back(params[4]);            //parameters[7] = B_Q_PL
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters);
+    };
+
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double             const& x,
+                                                             double              const& Q,
+                                                             std::vector<double> const& params,
+                                                             bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(0.5);                  //parameters[0] = K_S
+        parameters.push_back(params[0]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3);                    //parameters[2] = C_G_HAD
+        parameters.push_back(params[1]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1);                    //parameters[5] = C_Q_HAD
+        parameters.push_back(0);                    //parameters[6] = A_Q_PL
+        parameters.push_back(0);                    //parameters[7] = B_Q_PL
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters, true);
     };
 
 

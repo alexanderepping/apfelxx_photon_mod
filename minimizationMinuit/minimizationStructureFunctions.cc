@@ -78,8 +78,8 @@ int main()
     // get chi2 of finalParams
     const double chi2 = StructureFunctions(finalParams);
 
-    // get the finalParametersMap; ...Parameters are the vectors etc. with all 9(/10 after adding AN_g1) possible parameters
-    std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0., 0., finalParams, LHAPDF::mkPDF(NameLHAPDFSet), true);
+    // get the finalParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
+    std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0.5, Qin, finalParams, LHAPDF::mkPDF(NameLHAPDFSet), true);
 
     // make finalParametersMap into vector
     std::vector<double> finalParameters;
@@ -88,8 +88,11 @@ int main()
         finalParameters.push_back(finalParametersMap.at(i));
     }
 
-    // add AN_g1 to vector
-    finalParameters.push_back(StructureFunctions.MomentumSumRule(finalParameters));
+    if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
+        // add AN_g1 to vector
+        finalParameters.push_back(StructureFunctions.MomentumSumRule0(finalParameters));
+    else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
+        finalParameters.push_back(StructureFunctions.MomentumSumRuleSAL(finalParameters, Qin));    
 
     
 
@@ -100,10 +103,12 @@ int main()
     std::ofstream file;
     file.open(outputFile);
 
-    file << "# Used InitialPDFs:" << std::endl;
+    file << "# " << initialPDFsNames.at(usedInitialPDFs) << std::endl;
+
+    file << "## Used InitialPDFs:" << std::endl;
     file << initialPDFsNames.at(usedInitialPDFs) << std::endl;
 
-    file << "# Used experimentalData:" << std::endl;
+    file << "## Used experimentalData:" << std::endl;
     for (std::string data : IncludedExperimentalData) 
     {
         if (data == IncludedExperimentalData[IncludedExperimentalData.size()-1])
@@ -112,22 +117,44 @@ int main()
         file << data << ", ";
     }
 
-    file << "# finalParameters names:" << std::endl;
-    for (std::string data : initialParamsNames.at(INITIALPDFS_9GDUS)) 
-        file << data << ", ";
-    file << "AN_g1" << std::endl;
-
-    file << "# finalParameters:" << std::endl;
-    for (double data : finalParameters) 
+    if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
     {
-        if (data == finalParameters[finalParameters.size()-1])
-        file << data << std::endl;
-        else
-        file << data << ", ";
+        file << "## finalParameters names:" << std::endl;
+        for (std::string data : initialParamsNames.at(INITIALPDFS_9GDUS)) 
+            file << data << ", ";
+        file << "AN_g1" << std::endl;
+
+        file << "## finalParameters:" << std::endl;
+        for (double data : finalParameters) 
+        {
+            if (data == finalParameters[finalParameters.size()-1])
+            file << data << std::endl;
+            else
+            file << data << ", ";
+        }
+    }
+    else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
+    {
+        file << "## finalParameters names:" << std::endl;
+        for (std::string data : initialParamsNames.at(INITIALPDFS_SAL8)) 
+            file << data << ", ";
+        file << "A_G_HAD" << std::endl;
+
+        file << "## finalParameters:" << std::endl;
+        for (double data : finalParameters) 
+        {
+            if (data == finalParameters[finalParameters.size()-1])
+            file << data << std::endl;
+            else
+            file << data << ", ";
+        }
     }
 
-    file << "# chi2:" << std::endl;
+    file << "## chi2:" << std::endl;
     file << chi2 << std::endl;
+
+    file << "## chi2/NumberOfDataPoints:" << std::endl;
+    file << chi2 / StructureFunctions.F2Gamma().size() << std::endl;
 
     // close output file
     file.close();
@@ -149,18 +176,38 @@ int main()
         std::cout << "§ " << data << ", ";
     }
 
-    std::cout << "§ finalParameters:" << std::endl;
-    for (int i=0; i<finalParameters.size(); i++) 
+    if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
     {
+        std::cout << "§ finalParameters:" << std::endl;
+        for (int i=0; i<finalParameters.size(); i++) 
+        {
 
-        if (i == finalParameters.size()-1)
-        std::cout << "§ AN_g1:\t" << finalParameters[i] << std::endl << std::endl;
-        else
-        std::cout << "§ " << initialParamsNames.at(INITIALPDFS_9GDUS)[i] << ":\t" << finalParameters[i] << std::endl;
+            if (i == finalParameters.size()-1)
+                std::cout << "§ AN_g1:\t" << finalParameters[i] << std::endl << std::endl;
+            else
+            std::cout << "§ " << initialParamsNames.at(INITIALPDFS_9GDUS)[i] << ":\t" << finalParameters[i] << std::endl;
+        }
+    }
+    else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
+    {
+        std::cout << "§ finalParameters:" << std::endl;
+        for (int i=0; i<finalParameters.size(); i++) 
+        {
+
+            if (i == finalParameters.size()-1)
+                std::cout << "§ A_G_HAD:\t" << finalParameters[i] << std::endl << std::endl;
+            else
+            std::cout << "§ " << initialParamsNames.at(INITIALPDFS_SAL8)[i] << ":\t" << finalParameters[i] << std::endl;
+        }
     }
 
+    
+
     std::cout << "§ chi2:" << std::endl;
-    std::cout << "§ " << chi2 << std::endl << std::endl << std::endl;
+    std::cout << "§ " << chi2 << std::endl;
+
+    std::cout << "§ chi2/NumberOfDataPoints:" << std::endl;
+    std::cout << "§ " << chi2 / StructureFunctions.F2Gamma().size() << std::endl << std::endl << std::endl;
     
 
     // output
