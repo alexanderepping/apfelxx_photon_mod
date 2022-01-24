@@ -1,6 +1,6 @@
 
 # To-Do:
-[ ] what could be changed so that I get more similar values to the ones given by SAL?
+[ ] what could be changed so that I get more similar values to the ones given by SAL? 
 
 [ ] same results as Vadim
 

@@ -5,7 +5,7 @@
  * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
  */
 
-#include "apfel/apfelxx.h" 
+#include "apfel/apfelxx.h"  
 #include "LHAPDF/LHAPDF.h"
 
 #include "StructureFunctionsFcn.h"

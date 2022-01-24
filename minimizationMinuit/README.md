@@ -20,7 +20,7 @@ File that contains the class that calculates the StructureFunctions, takes the e
 ### Makefile
 Not ready to use yet. See "running the program" below.
 
-## running the program
+## running the program 
 ### compile:
 ```g++ -std=c++17 -I/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Documents/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Documents/libraries_cpp/minuit-cpp/build/lib/ -lminuit-cpp```
 

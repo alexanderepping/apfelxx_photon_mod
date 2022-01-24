@@ -29,7 +29,7 @@ K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 
 # After Holidays and w/ Pointlike Term in MomentumSumRule
 
-# INITIALPDFS_SAL3
+# INITIALPDFS_SAL3 
 ## Used InitialPDFs:
 INITIALPDFS_SAL3 (K_S=0.5)
 ## Used experimentalData:

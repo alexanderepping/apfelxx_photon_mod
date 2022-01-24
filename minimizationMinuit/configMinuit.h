@@ -5,12 +5,12 @@
  * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
  */
 
-#pragma once
+#pragma once 
 
 #include <string>
 #include <map>
 #include <vector>
-#include <functional>
+#include <functional> 
 
 
 ///////////////////////////////////////
