@@ -11,7 +11,7 @@ These values are then written to the output file.
 
 The program can be run by running the bashFiles/makeLHAPDFLO.sh program, which will also copy the GRVCustomSetLO_0000.dat directly into the LHAPDF share directory and delete the executable as well as the .dat file in here.
 
-## makeLHAPDFLO.f
+## makeLHAPDFHO.f
 Program to write a GRVCustomSetHO_0000.dat file in the LHAPDF fromat.
 
 The program takes a template file and copies the first three lines.
