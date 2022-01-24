@@ -19,15 +19,27 @@
 /**
  * @brief enumerating the different Initial PDFs
  */
-enum enumInitialPDFs { INITIALPDFS_9GDUS, INITIALPDFS_8GDU, INITIALPDFS_6GQS, INITIALPDFS_5GQ, // InitialPDFs related to InitialPDFsMain0
-                       INITIALPDFS_SAL8, INITIALPDFS_SAL6, INITIALPDFS_SAL5, INITIALPDFS_SAL3, // InitialPDFs related to InitialPDFsMainSAL
-                       INITIALPDFS_9GDU, INITIALPDFS_3G, INITIALPDFS_2G }; // some custom InitialPDF
-                       //toBeCorrected and all things having to do with it
+enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
+                       INITIALPDFS_9GDUS, 
+                       INITIALPDFS_8GDU, 
+                       INITIALPDFS_6GQS, 
+                       INITIALPDFS_5GQ, 
+
+                       // InitialPDFs related to InitialPDFsMainSAL
+                       INITIALPDFS_SAL8, 
+                       INITIALPDFS_SAL6, 
+                       INITIALPDFS_SAL5, // calculated parameters can be compared to the SAL input PDFs
+                       INITIALPDFS_SAL3, // here one can also change K_S in the definition of the parameters in the function
+
+                       // some custom InitialPDF
+                       INITIALPDFS_9GDU, 
+                       INITIALPDFS_3G, 
+                       INITIALPDFS_2G }; 
 
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_SAL3;
+const int usedInitialPDFs = INITIALPDFS_SAL5;
 
 /**
  * @brief initial parameters for the PDFs
@@ -65,7 +77,7 @@ const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GD
 
 /**
  * @brief default values for upper bounds,
- * 0: general, 1: B
+ * 0: general, 1: B (only hadronic)
  */
 const std::vector<double> defaultUB = {40., 5.};
 
@@ -74,29 +86,32 @@ const std::vector<double> defaultUB = {40., 5.};
  * bound for K_s1 comes from the fact that s should be smaller than 1/2(u+d).
  * 
  */
+        // Main0:  K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
+        // SAL:    K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
 const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_8GDU,  {1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_6GQS,  {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
                                                                  {INITIALPDFS_5GQ,   {1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
 
-                                                                 //{INITIALPDFS_SAL8,  {1., "B_G_HAD", "C_G_HAD", "A_Q_HAD", "B_Q_HAD", "C_Q_HAD", "A_Q_PL", "B_Q_PL"}},
-                                                                 //{INITIALPDFS_SAL6,  {1., "B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL", "B_Q_PL"}},
-                                                                 //{INITIALPDFS_SAL5,  {1., "A_Q_HAD", "B_Q_HAD", "A_Q_PL", "B_Q_PL"}},
+                                                                 {INITIALPDFS_SAL8,  {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], defaultUB[0]}},
+                                                                 {INITIALPDFS_SAL6,  {1., 1., defaultUB[0], 1., defaultUB[0], defaultUB[0]}},
+                                                                 {INITIALPDFS_SAL5,  {1., defaultUB[0], 1., defaultUB[0], defaultUB[0]}}, 
                                                                  {INITIALPDFS_SAL3,  {1., defaultUB[0], 1.}}};
 
 /**
  * @brief lower bounds for the initial parameters for the PDFs.
- * bounds come from the fact that the gamma function only takes values bigger than zero
- * and the PDFs should be positive
+ * bounds come from the fact that the gamma function only takes values bigger than zero,
+ * the argument of the exponential integral shouldn't go to -inf and 
+ * the PDFs should be positive
  */
 const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDUS, {0., -1., 0., 0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_8GDU,  {-1., 0., 0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_6GQS,  {0., -1., 0., 0., -1., 0.}},
                                                                  {INITIALPDFS_5GQ,   {-1., 0., 0., -1., 0.}},
 
-                                                                 //{INITIALPDFS_SAL8,  {0., -1., 0., 0., -1., 0., 0., "B_Q_PL"}},
-                                                                 //{INITIALPDFS_SAL6,  {0., -1., 0., -1., 0., "B_Q_PL"}},
-                                                                 //{INITIALPDFS_SAL5,  {-1., 0., -1., 0., "B_Q_PL"}},
+                                                                 {INITIALPDFS_SAL8,  {0., -1., 0., 0., -1., 0., 0., 0.}},
+                                                                 {INITIALPDFS_SAL6,  {0., -1., 0., -1., 0., 0.}},
+                                                                 {INITIALPDFS_SAL5,  {-1., 0., -1., 0., 0.}},
                                                                  {INITIALPDFS_SAL3,  {-1., 0., -1.}}};
 
 /**
@@ -142,7 +157,7 @@ const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDUS, "INITIA
  * @brief Names of the included experimental data points (see experimentalData.h).
  * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ", "TPC"
  */
-const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ", "TPC"};
+const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
 
 /**
  * @brief change which LHAPDF data set is used 

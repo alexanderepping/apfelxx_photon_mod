@@ -16,6 +16,7 @@
 #include <vector>
 #include <functional>
 #include <math.h> // for gamma functions
+#include <cmath> // for the ExpIntegralEi/expint Well, I started a new project and I use <string> again. Now it works. 
 #include <cassert> 
 
 
@@ -134,6 +135,9 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
     case INITIALPDFS_SAL8:
         return InitialPDFs_SAL8(x, Q, params, returnParameters);
         break;
+    case INITIALPDFS_SAL6:
+        return InitialPDFs_SAL6(x, Q, params, returnParameters);
+        break;
     case INITIALPDFS_SAL5:
         return InitialPDFs_SAL5(x, Q, params, returnParameters);
         break;
@@ -189,10 +193,50 @@ double StructureFunctionsFcn::MomentumSumRule0(std::vector<double> const& params
 
 
 double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& params,
-                                                 double const& Q) const //toBeCorrected
+                                                 double const& Q) const 
 {//K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
-    return ( ( 1 + 2. / (3. * M_PI) * log( Q * Q / 4. )) - (4 + params[0]) * (params[3] * betaFunction(params[4]+1, params[5]+1))) // so far only hadronic part
-            / betaFunction(params[1]+1, params[2]+1);
+
+    const std::function<double(int const&, double const&)> helperFunction = [&] (int const& n, double const& B_Q_PL) -> double {return std::exp(n / B_Q_PL) * std::expint(-n / B_Q_PL);};
+
+
+
+    const double EQ2_u = 4./9.; // electric charge squared of the up quark
+    const double EQ2_d = 1./9.; // electric charge squared of the down quark
+    const double EQ2_s = 1./9.; // electric charge squared of the strange quark
+
+    // right hand side / result of the Momentum Sum Rule
+    const double rhs = 1. + 2. / (3. * M_PI) * log( Q * Q / 4. ); 
+
+    // Integral over x x^B_G_HAD (1-x)^C_G_HAD
+    const double lhsHadG = betaFunction(params[1]+1, params[2]+1); 
+
+    // Integral over A_Q_HAD x x^B_Q_HAD (1-x)^C_Q_HAD
+    const double lhsHadQ = params[3] * betaFunction(params[4]+1, params[5]+1); 
+
+    // Integral over A_Q_PL x (x^2 + (1-x)^2) / (1 - B_Q_PL ln(1-x)a
+    const double lhsPLQ  = -1 * params[6] / params[7] * ( helperFunction(1,params[7]) - 3 * helperFunction(2,params[7]) + 4 * helperFunction(3,params[7]) - 2 * helperFunction(4,params[7]) );
+
+/* debug
+    std::cout << "§ Parameters:" << std::endl;
+    for (int i=0; i<params.size(); i++) 
+    {
+        if (i == params.size()-1)
+        std::cout << "§ " << params[i] << std::endl << std::endl;
+        else
+        std::cout << "§ " << params[i] << std::endl;
+    }
+
+    // std::cout << "§ lhsHadG: " << lhsHadG << std::endl;
+
+    // std::cout << "§ lhsHadQ: " << lhsHadQ << std::endl;
+
+    // std::cout << "§ helperFunction(1,params[7]): " << helperFunction(1,params[7]) << std::endl;
+    // std::cout << "§ helperFunction(2,params[7]): " << helperFunction(2,params[7]) << std::endl;
+    // std::cout << "§ helperFunction(3,params[7]): " << helperFunction(3,params[7]) << std::endl;
+    // std::cout << "§ helperFunction(4,params[7]): " << helperFunction(4,params[7]) << std::endl;
+    std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl;
+*/
+    return (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
 }
 
 
@@ -481,7 +525,7 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double            
         parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
         parameters.push_back(1);                    //parameters[5] = C_Q_HAD
         parameters.push_back(0);                    //parameters[6] = A_Q_PL
-        parameters.push_back(0);                    //parameters[7] = B_Q_PL
+        parameters.push_back(1.);                   //parameters[7] = B_Q_PL
         
         if (returnParameters)
         {
@@ -493,7 +537,7 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double            
             return parametersMap;
         } 
         else
-            return InitialPDFsMainSAL(x, Q, parameters, true);
+            return InitialPDFsMainSAL(x, Q, parameters);
     };
 
 
