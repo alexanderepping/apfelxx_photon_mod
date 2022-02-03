@@ -45,7 +45,7 @@ c       Structure constant
         real :: alphaQED = 1./137.
 
 c       dictates which parts are added together:
-c       1: H, 2: H+L, 3: H+0, 4: H+L+0
+c       1: H, 2: H+L, 3: H+0, 4: H+L+0, 5: L
         integer :: mode = 1
 
 
@@ -143,6 +143,13 @@ c           add the corrections:
                 CH = CH + C0 + CL
                 BH = BH + B0 + BL
                 GH = GH + G0 + GL
+            else if (mode .EQ. 5) then
+                UH = UL
+                DH = DL
+                SH = SL
+                CH = CL
+                BH = BL
+                GH = GL
             end if
 
 

@@ -9,6 +9,8 @@
 [ ] makefile or sth like that
 [ ] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
 
+[ ] I won't need to do the dijet stuff, I can just treat it as a black box an d vadim will send me the stuff I have to do
+
 
 ## done To-Dos:
 [x] implement momentum sum rule FG (pointlike part is left)

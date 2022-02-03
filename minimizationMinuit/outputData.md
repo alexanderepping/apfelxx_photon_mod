@@ -57,14 +57,14 @@ K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 ## chi2/NumberOfDataPoints:
 0.926173
 
-# INITIALPDFS_SAL5
+# INITIALPDFS_SAL5 (can be compared to SAL!!!)
 ## Used InitialPDFs:
-INITIALPDFS_SAL5 (B_*_HAD UBound = 1.)
+INITIALPDFS_SAL5 (B_*_HAD UBound = 1.) (same form as SAL)
 ## Used experimentalData:
 ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
 ## finalParameters names:
 K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
-## finalParameters:
+## finalParameters: (SAL: 0.3, -0.57, 3, 0.065, -0.16, 1, 4.45, 1.9, 0.027)
 0.3, -0.150503, 3, 0.550754, 0.723174, 1, 0.369644, 0.403051, 0.490805
 ## chi2:
 97.9111
@@ -72,7 +72,7 @@ K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 0.73068
 
 # INITIALPDFS_SAL5
-## Used InitialPDFs: (useless)
+## Used InitialPDFs: (useless)(I prob. meant it b/c/ the values are so bad, and also bad Chi2)
 INITIALPDFS_SAL5 (B_*_HAD UBound = 0.)
 ## Used experimentalData:
 ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ

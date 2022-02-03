@@ -36,6 +36,9 @@ added files:
 ### myLHAPDFModified/share/LHAPDF/
 Folder containing folders with the used LHAPDF data sets.
 
+### plots
+Folder containing various plots from various programs.
+
 ### plottingPython
 Folder containing various python files to plot the data collected from the Evolution.cc program. It also contains a program to make an array of logarithmic values.
 

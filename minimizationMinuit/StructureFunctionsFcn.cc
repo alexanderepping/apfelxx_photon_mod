@@ -273,11 +273,11 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFsMain0(double            
 
 
 
-std::map<int, double> StructureFunctionsFcn::InitialPDFsMainSAL(double                const& x,
-                                                                double                const& Q,
-                                                                std::vector<double>   const& params,
-                                                                bool                  const& outputA_G_HAD) const
-    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
+ std::map<int, double> StructureFunctionsFcn::InitialPDFsMainSAL(double                const& x,
+                                                                 double                const& Q,
+                                                                 std::vector<double>   const& params,
+                                                                 bool                  const& outputA_G_HAD) const
+     {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
         // parameters:  K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
 
         std::map<int, double> result;
