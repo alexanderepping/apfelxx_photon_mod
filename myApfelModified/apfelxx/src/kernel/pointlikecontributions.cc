@@ -5,6 +5,7 @@
 //
 
 #include "apfel/constants.h"
+#include "apfel/specialfunctions.h"
 #include "apfel/pointlikecontributions.h"
 
 #include <cmath>
@@ -50,22 +51,51 @@ namespace apfel
 
 
 // functions used to actually calculate the pointlike contributions
-    double k0(double const& x, int const& particle, int const& nf)
+    double k0q(double const& x, int const& particle, int const& nf)
     {
         return nf * ExpE2(particle, nf) * 3 * (x * x + (1 -x) * (1 -x));
     };
 
 
-    double k1(double const& x, int const& particle, int const& nf)
+    double k1qMS(double const& x, int const& particle, int const& nf)
     {
-        double k_x = 4 / 3. * (4 - 9 * x -(1 - 4 * x) * log(x) -(1 - 2 * x) * log(x) * log(x) + 4 * log(1 - x) + (4 * log(x) - 4 * log(x) * log(1 - x) + 2 * log(x) * log(x) - 4 * log(1 - x) + 2 * log(1 - x) * log(1 - x) - 2 / 3. * M_PI * M_PI + 10) * (x * x + (1 - x) * (1 - x)));
+        double k_x = 4 / 3. * (4 - 9 * x -(1 - 4 * x) * log(x) -(1 - 2 * x) * log(x) * log(x) + 4 * log(1 - x) 
+                               + (4 * log(x) - 4 * log(x) * log(1 - x) + 2 * log(x) * log(x) - 4 * log(1 - x) + 2 * log(1 - x) * log(1 - x) - 2 / 3. * M_PI * M_PI + 10) 
+                               * (x * x + (1 - x) * (1 - x)));
         return nf * ExpE2(particle, nf) * 3 * k_x;
     };
 
 
-    double k1g(double const& x, int const& particle, int const& nf)
+    double k1qDIS(double const& x, int const& particle, int const& nf)
+    {
+        double ConvolutionP0qqBgamma = - 4 * CF * (
+                                                + 5 * x - 3.5
+                                                + Pi2 * (4 * x * x - 4 * x + 2)
+                                                - log(x)                        * (16 * x * x -  8 * x + 0.5)
+                                                + log(1 - x)                    * (16 * x * x - 18 * x + 2.5)
+                                                + log((1 - x) / x) * log(x)     * ( 4 * x * x -  2 * x + 1) 
+                                                - log((1 - x) / x) * log(1 - x) * ( 4 * x * x -  4 * x + 2)
+                                                - dilog((-1 + x) / x)           * ( 4 * x * x -  2 * x + 1));
+        return k1qMS(x, particle, nf) - 3. * nf * ExpE2(particle, nf) / 2. * ConvolutionP0qqBgamma;
+    };
+
+
+    double k1gMS(double const& x, int const& particle, int const& nf)
     {
         return nf * ExpE2(particle, nf) * 3 * 4 / 3. * (-16 + 8 * x + 20 / 3. * x * x + 4 / (3. * x) -(6 + 10 * x) * log(x) - 2 * (1 + x) * log(x) * log(x));
+    };
+
+
+    double k1gDIS(double const& x, int const& particle, int const& nf)
+    {
+        double ConvolutionP0gqBgamma = 4. / 3. * CF * (
+                                                    + 16 * x *  + 2 * x - 20 + 2. / x
+                                                    - log(x)                    * 24 * x
+                                                    + log(1 - x)                * (6 * x + 4. / x)
+                                                    + log((1 - x) / x)          * (3 - 9 * x - 4 * x * x) 
+                                                    + log((1 - x) / x) * log(x) * (6 * x + 6) 
+                                                    - dilog((-1 + x) / x)       * (6 * x + 6));
+        return k1gMS(x, particle, nf) - 3. * nf * ExpE2(particle, nf) / 2. * ConvolutionP0gqBgamma;
     };
 
 
@@ -74,12 +104,12 @@ namespace apfel
         if (particle == GLUON)
         {
             return {{0, 0*x*nf*particle},       // k0g
-                    {1, k1g(x, particle, nf)}}; // k1g
+                    {1, k1gDIS(x, particle, nf)}}; // k1gDIS
         }
         else
         {           
-            return {{0, k0(x, particle, nf)},  // k0q
-                    {1, k1(x, particle, nf)}}; // k1q
+            return {{0, k0q(x, particle, nf)},  // k0q
+                    {1, k1qDIS(x, particle, nf)}}; // k1qDIS
         }
     };
 

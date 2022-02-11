@@ -20,7 +20,7 @@ namespace apfel
      * @brief Perturbative order of the pointlike contributions.
      * To be manually changed in "apfel/pointlikecontributions.h".
      */
-    const int ptoPL = 0;
+    const int ptoPL = 1;
     
     
     /**
@@ -103,40 +103,64 @@ namespace apfel
 
 // functions used to actually calculate the pointlike contributions
     /**
-     * - k0(x) = n_f * <e²> * N_c * (x² +(1-x)²)
+     * - k0q(x) = n_f * <e²> * N_c * (x² +(1-x)²)
      * - taken from Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01), eq. (3.6)
      * - also see my notes (15.2.3 fourth attempt correction) for calculations
-     * @brief k0-function, used with all 0th order pointlike contributions.
+     * @brief k0q-function, used with all 0th order pointlike contributions.
      * @param x: x-value
      * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
      * @param nf: number of active flavours
      */
-    double k0(double const& x, int const& particle, int const& nf);
+    double k0q(double const& x, int const& particle, int const& nf);
 
 
     /**
-     * - k1(x) = n_f * <e²> * N_c * 4/3 * {4 -9x -(1 -4x)log(x) -(1-2x)log²(x) +4log(1-x) +[4log(x) -4log(x)log(1-x) +2log²(x) -4log(1-x) +2log²(1-x) -2/3*pi² +10][x² +(1-x)²]}
+     * - k1q_MS(x) = n_f * <e²> * N_c * 4/3 * {4 -9x -(1 -4x)log(x) -(1-2x)log²(x) +4log(1-x) +[4log(x) -4log(x)log(1-x) +2log²(x) -4log(1-x) +2log²(1-x) -2/3*pi² +10][x² +(1-x)²]}
      * - taken from Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)
      * - might be wrong (bc of wrong scheme)
-     * @brief k1-function, used with all 1st order quark pointlike contributions.
+     * @brief MSbar part of the k1q-function, used with all 1st order quark pointlike contributions.
      * @param x: x-value
      * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
      * @param nf: number of active flavours
      */
-    double k1(double const& x, int const& particle, int const& nf);
+    double k1qMS(double const& x, int const& particle, int const& nf);
 
 
     /**
-     * - k1g(x) = n_f * <e²> * N_c * 4/3 * [-16 +8x +12/3*x² +4/(3x) -(6 +10x)log(x) -2(1+x)log²(x)]
+     * - k1q_DIS(x) = k1_MS(x) - 3 * n_f / 2 * <e²> * Convolution(P^0_{qq},B_gamma)(x)
+     * - taken from Glück & Reya - Physical Review D, Volume 45, Number 11 (1992.06.01), eq. (3.1)
+     * - calculated using Calculations_etc/CalculationDISAdditionalPartsForK.nb and Calculations_etc/CalculationDISPqqBgamma.txt
+     * @brief k1q-function, used with all 1st order quark pointlike contributions, including the additional DIS-part
+     * @param x: x-value
+     * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
+     * @param nf: number of active flavours
+     */
+    double k1qDIS(double const& x, int const& particle, int const& nf);
+
+
+    /**
+     * - k1g_MS(x) = n_f * <e²> * N_c * 4/3 * [-16 +8x +12/3*x² +4/(3x) -(6 +10x)log(x) -2(1+x)log²(x)]
      * - taken from Glück, Reya & Vogt - Physical Review D, Volume 45, Number 11 (1992.06.01)
      *      - it was wrong in Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)
      * - might be wrong (bc of wrong scheme)
-     * @brief k1g-function, used by the 1st order pointlike contribution of the gluon.
+     * @brief MSbar part of the k1g-function, used by the 1st order pointlike contribution of the gluon.
      * @param x: x-value
      * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
      * @param nf: number of active flavours
      */
-    double k1g(double const& x, int const& particle, int const& nf);
+    double k1gMS(double const& x, int const& particle, int const& nf);
+
+
+    /**
+     * - k1g_DIS(x) = k1g_MS(x) - 3 * n_f / 2 * <e²> * Convolution(P^0_{gq},B_gamma)(x)
+     * - taken from Glück & Reya - Physical Review D, Volume 45, Number 11 (1992.06.01), eq. (3.1)
+     * - calculated using Calculations_etc/CalculationDISAdditionalPartsForK.nb
+     * @brief k1g-function, used by the 1st order pointlike contribution of the gluon, including the additional DIS-part
+     * @param x: x-value
+     * @param particle: "particle" for which pointlike contribution is to be calculated. Particle meaning in the QCD evolution basis
+     * @param nf: number of active flavours
+     */
+    double k1gDIS(double const& x, int const& particle, int const& nf);
 
 
     /**

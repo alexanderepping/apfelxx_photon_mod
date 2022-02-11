@@ -1,11 +1,10 @@
 
 # To-Do:
+[ ] look through the mathematica docs wo see which are needed
+
 [ ] what could be changed so that I get more similar values to the ones given by SAL? 
-
 [ ] same results as Vadim
-
 [ ] to check how good the values for the parameters are we can look at the chi2 for the different experiments seperately
-
 [ ] makefile or sth like that
 [ ] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
 

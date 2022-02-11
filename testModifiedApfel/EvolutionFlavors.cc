@@ -43,7 +43,7 @@
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
 // name of the used LHAPDF set
-const std::string NameLHAPDFSet = "GRVCustomSetLO";
+const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
 // array of final scale values for which data should be output
 double arr_mu[] = {1.295, 4, 10, 20}; 
@@ -228,7 +228,6 @@ int main()
   std::cout << "Used Perturbative Order PL: " << std::to_string(apfel::ptoPL) << "\n" << std::endl; //perturbative order of pointlike contributions
   std::cout << "Used ZBoson Mass          : " << Qref << " GeV" << std::endl;
   std::cout << "Used alphas @ ZBoson Mass : " << asref << "\n" << std::endl;
-  std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
   std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
   std::cout << "Used Bottom Quark Mass    : " << mb << " GeV" << std::endl;
   std::cout << "Used Top Quark Mass       : " << mt << " GeV\n" << std::endl;
