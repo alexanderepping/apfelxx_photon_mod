@@ -23,7 +23,8 @@ showSALInitialPDFs = True
 
 # save figure options
 save_fig = False
-pltname = "plotStructureFunctions_initialpdfs_SAL8_2022_02_03.png"
+pltdir = "/home/alexander/Documents/apfelxx_photon_mod/plots/mainPlots/" 
+pltname = pltdir + "PlotInitialPdfs_LO_SAL3_Ks03_pto0_pl0.pdf"
 dpi = 200 # default is 100
 
 # x values to plot
@@ -161,5 +162,5 @@ plt.xscale('log')
 plt.xlim(left=10**(-4), right=1)
 #plt.legend(loc="upper right")
 if save_fig:
-    plt.savefig("/home/alexander/Documents/apfelxx_photon_mod/plots/"+pltname, bbox_inches='tight', dpi=dpi)
+    plt.savefig(pltname, bbox_inches='tight', dpi=dpi)
 plt.show()
