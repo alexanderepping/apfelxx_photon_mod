@@ -46,10 +46,13 @@ const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plo
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
 // array of final scale values for which data should be output
-double arr_mu[] = {1.295, 4, 10, 20}; 
+double arr_mu[] = {1.295, 4., 10., 20.}; 
+// double arr_mu[] = {1.295, 1.49, 1.51, 2., 2., 4., 10., 20.}; 
+// double arr_mu[] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
 
 // Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)
 std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
+// std::vector<double> xlha{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1 , 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2 , 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3 , 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39, 0.4 , 0.41, 0.42, 0.43, 0.44, 0.45, 0.46, 0.47, 0.48, 0.49, 0.5 , 0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59, 0.6 , 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7 , 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8 , 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9 , 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99};
 std::vector<double> xlha2{0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9};
 
 
@@ -93,7 +96,6 @@ int main()
   
   // Open LHAPDF set
   LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
-  //LHAPDF::PDF* dist2 = LHAPDF::mkPDF(NameLHAPDFSet2);//addition to calculate HO
   
 
   // Retrieve evolution parameters from the LHAPDF set

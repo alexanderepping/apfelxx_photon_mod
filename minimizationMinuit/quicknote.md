@@ -1,12 +1,16 @@
 
 # To-Do:
-[ ] look through the mathematica docs wo see which are needed
+[x] look through the mathematica docs wo see which are needed
+[ ] make the descriptions in pointlike... correct and also include the sources
+[x] git commit
+[ ] implement, that I don't have to manually change the pointlike perturbation order
 
+[ ] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
 [ ] what could be changed so that I get more similar values to the ones given by SAL? 
 [ ] same results as Vadim
 [ ] to check how good the values for the parameters are we can look at the chi2 for the different experiments seperately
+
 [ ] makefile or sth like that
-[ ] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
 
 [ ] I won't need to do the dijet stuff, I can just treat it as a black box an d vadim will send me the stuff I have to do
 

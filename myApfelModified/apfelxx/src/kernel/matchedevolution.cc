@@ -105,6 +105,16 @@ namespace apfel
         // calculate Alphas(Q)
         double const& alphasAtQ = Alphas(exp(t / 2));
 
+        /*
+        // calculate Alphas(Q) using equation(8) given in Glück, Reya & Vogt - Physical Review D, Volume 46, Number 5 (1992.09.01)
+        // debug
+        std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
+        double beta0 = 11 - 2. * nf / 3.; 
+        double beta1 = 102 - 38. * nf / 3.; 
+        double lnQ2Lambda2 = log((exp(t/2)*exp(t/2)) / (lambdas.at(ptoPL)[nf]*lambdas.at(ptoPL)[nf])); 
+        double const& alphasAtQ = 4*3.1515*(1. / (beta0 * lnQ2Lambda2) - (beta1 * log(lnQ2Lambda2)) / (beta0*beta0*beta0 * lnQ2Lambda2*lnQ2Lambda2)); 
+        */
+
         // right hand side of homogeneous DGLAP evolution equation
         Set<Distribution> rhsGeneral = Derivative(nf, t, Obj);
         
@@ -112,13 +122,13 @@ namespace apfel
         std::map<int, Distribution> tempMap;
 
         // loop through map of rhsGeneral and only add the inhomogeneous part (Distributions) at some keys
-        for (int particle=0; particle!=static_cast<int>(rhsGeneral.GetObjects().size()); ++particle)
+        for (int particleComb=0; particleComb!=static_cast<int>(rhsGeneral.GetObjects().size()); ++particleComb)
           {
-            Grid const& rhsGrid = rhsGeneral.GetObjects().at(particle).GetGrid();
+            Grid const& rhsGrid = rhsGeneral.GetObjects().at(particleComb).GetGrid();
 
-            Distribution rhsParticular(rhsGrid, PointlikeContribution(particle, ptoPL, nf, alphasAtQ));
+            Distribution rhsParticular(rhsGrid, PointlikeContribution(particleComb, ptoPL, nf, alphasAtQ));
 
-            tempMap.insert({particle, rhsGeneral.GetObjects().at(particle) + rhsParticular});
+            tempMap.insert({particleComb, rhsGeneral.GetObjects().at(particleComb) + rhsParticular});
           }
                     
         rhsGeneral.SetObjects(tempMap);

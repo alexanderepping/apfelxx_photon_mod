@@ -16,7 +16,7 @@ from experimentalData import *
 input_file = "data_StructureFunctions.txt"
 
 # dataset to compare the Apfel++ values to
-DataSetName = "ALEPH"
+DataSetName = "GRV"
 
 # plot either the data or the ratio of Apfel and GRV
 mode = "ratio"
