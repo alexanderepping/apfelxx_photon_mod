@@ -148,7 +148,7 @@ if ( includeApfel ) {
     // Finally tabulate PDFs. The constructor is the same as that of
     // "as".
     //const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3};
-    const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, as};
+    const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, pto, as};
 
     // Call evolved PDFs at "mu". Notice that APFEL++ returns PDFs in
     // the QCD evolution basis, therefore one needs to rotate them back
@@ -213,7 +213,6 @@ if ( includeApfel ) {
     std::cout << "\n";
     std::cout << "\nUsed LHAPDF Set           : " << NameLHAPDFSet;
     std::cout << "\nUsed Perturbative Order   : " << std::to_string(pto);
-    std::cout << "\nUsed Perturbative Order PL: " << std::to_string(apfel::ptoPL); //perturbative order of pointlike contributions
     std::cout << "\nUsed Mu                   : " << std::to_string(mu);
     std::cout << "\nShown particle:           : " << mapFlavors.at(flavor) << "\n";
   }

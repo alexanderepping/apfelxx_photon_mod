@@ -38,6 +38,7 @@ namespace apfel
      * @param QMin: the lower bound of the grid in Q
      * @param QMax: the upper bound of the grid in Q
      * @param InterDegree: the interpolation degree on the grid in Q
+     * @param pto: Perturbative Order, passed for pointlike contribution
      * @param Alphas: the function returning the strong coupling
      * @param Lambda: the value of the parameter in the function ln(ln(Q<SUP>2</SUP>/&Lambda;<SUP>2</SUP>)) used for the tabulation (default: 0.25)
      */
@@ -46,6 +47,7 @@ namespace apfel
                    double                               const& QMin,
                    double                               const& QMax,
                    int                                  const& InterDegree,
+                   int                                  const& pto,
                    std::function<double(double const&)> const& Alphas,
                    double                               const& Lambda = 0.25);
                    
@@ -53,7 +55,11 @@ namespace apfel
      * @brief The TabulateObject constructor for an "evolving"
      * object (MatchedEvolution).
      * @param Object: the MatchedEvolution type object to be tabulated in Q
-     * @param nQ: the number of on nodes of the grid in Q
+     * @param nQ: the number of on nodes of the grid in Qi_nf++)
+            {
+                // loop through all active quark flavors and add their squared charges together, following the QCD evolution basis
+                result += quarkCharges2.at(i_nf) * (1 + rulesMultiplication.at(particleComb).at(0)) * rulesMultiplication.at(particleComb).at(i_nf);
+            };   
      * @param QMin: the lower bound of the grid in Q
      * @param QMax: the upper bound of the grid in Q
      * @param InterDegree: the interpolation degree on the grid in Q

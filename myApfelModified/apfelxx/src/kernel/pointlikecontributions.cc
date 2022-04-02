@@ -16,7 +16,7 @@
 
 namespace apfel 
 {
-// manually changeable functions
+// fixed alphas and coefficients
     double coeffGeneral(double const& x)
     {
         // this coefficient is applied because the PDFs are also multiplied by it in the LHAPDF format
@@ -24,9 +24,6 @@ namespace apfel
     };
 
 
-
-
-// fixed alphas and coefficients
     double coeffQCD(double const& alphasAtQ)
     {
         return alphasAtQ / (2. * M_PI);
@@ -121,14 +118,14 @@ namespace apfel
 
 
     std::function<double(double const&)> PointlikeContribution (int    const& particleComb,
-                                                                int    const& ptoPL, 
                                                                 int    const& nf,
+                                                                int    const& pto, 
                                                                 double const& alphasAtQ)
     {
         return [&] (double const& x) -> double 
             {
                 double result = 0;
-                for (int i = 0; i<= ptoPL; i++)
+                for (int i = 0; i<= pto; i++)
                 {
                     result += coeffGeneral(x) * PointlikeMap(particleComb, nf, x).at(i) * coeffQED * pow(coeffQCD(alphasAtQ), i);
                 };

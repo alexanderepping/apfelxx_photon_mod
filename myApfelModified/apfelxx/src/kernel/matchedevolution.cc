@@ -89,7 +89,12 @@ namespace apfel
 
   //_________________________________________________________________________________
   template<>
-  Set<Distribution> MatchedEvolution<Set<Distribution>>::EvolveObject(int const& nf, double const& t0, double const& t1, Set<Distribution> const& Obj0, std::function<double(double const&)> const& Alphas) const
+  Set<Distribution> MatchedEvolution<Set<Distribution>>::EvolveObject(int                                   const& nf,
+                                                                      double                                const& t0, 
+                                                                      double                                const& t1, 
+                                                                      Set<Distribution>                     const& Obj0,
+                                                                      int                                   const& pto, 
+                                                                      std::function<double(double const&)>  const& Alphas) const
   // Obj0 is of type Set<Distribution> = Set<Distribution>, therefore the return is also of Set<Distribution> = Set<Distribution>
   // t0 and t1 are the initial and final scale (ln(Q^2)) of the evolution
   {
@@ -111,7 +116,7 @@ namespace apfel
         std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
         double beta0 = 11 - 2. * nf / 3.; 
         double beta1 = 102 - 38. * nf / 3.; 
-        double lnQ2Lambda2 = log((exp(t/2)*exp(t/2)) / (lambdas.at(ptoPL)[nf]*lambdas.at(ptoPL)[nf])); 
+        double lnQ2Lambda2 = log((exp(t/2)*exp(t/2)) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
         double const& alphasAtQ = 4*3.1515*(1. / (beta0 * lnQ2Lambda2) - (beta1 * log(lnQ2Lambda2)) / (beta0*beta0*beta0 * lnQ2Lambda2*lnQ2Lambda2)); 
         */
 
@@ -126,7 +131,7 @@ namespace apfel
           {
             Grid const& rhsGrid = rhsGeneral.GetObjects().at(particleComb).GetGrid();
 
-            Distribution rhsParticular(rhsGrid, PointlikeContribution(particleComb, ptoPL, nf, alphasAtQ));
+            Distribution rhsParticular(rhsGrid, PointlikeContribution(particleComb, nf, pto, alphasAtQ));
 
             tempMap.insert({particleComb, rhsGeneral.GetObjects().at(particleComb) + rhsParticular});
           }
@@ -194,7 +199,9 @@ namespace apfel
 
   //_________________________________________________________________________
   template<>
-  Set<Distribution> MatchedEvolution<Set<Distribution>>::Evaluate(double const& mu, std::function<double(double const&)> const& Alphas) const // result will be Set<Distribution> = Set<Distribution>
+  Set<Distribution> MatchedEvolution<Set<Distribution>>::Evaluate(double                                const& mu, // result will be Set<Distribution> = Set<Distribution>
+                                                                  int                                   const& pto,
+                                                                  std::function<double(double const&)>  const& Alphas) const 
   {
     //std::cout << "\nCalled Evaluate";//debug
     const double mu2  = pow(mu,2);
@@ -207,7 +214,7 @@ namespace apfel
     // Don't do the matching is initial and final number of flavours
     // are equal.
     if (nfi == nff)
-      return EvolveObject(nfi, _LogMuRef2, lmu2, _ObjRef, Alphas);
+      return EvolveObject(nfi, _LogMuRef2, lmu2, _ObjRef, pto, Alphas);
 
     // Direction of the evolution
     const bool sgn = std::signbit(nfi - nff);
@@ -224,13 +231,13 @@ namespace apfel
         const double tf = _LogThresholds2[(sgn ? inf : inf - 1)];
 
         // Do the matching
-        vobj = MatchObject(sgn, inf, EvolveObject(inf, ti, tf, vobj, Alphas));
+        vobj = MatchObject(sgn, inf, EvolveObject(inf, ti, tf, vobj, pto, Alphas));
 
         // Update initial scale and displace particle by "eps8" to make sure
         // to be above (below) the threshold
         ti = tf * ( 1 + (sgn ? 1 : -1) * eps8 );
       }
-    return EvolveObject(nff, ti, lmu2, vobj, Alphas);
+    return EvolveObject(nff, ti, lmu2, vobj, pto, Alphas);
   }
 }
 
@@ -303,10 +310,10 @@ namespace apfel
 
   //_________________________________________________________________________________//additon
   template<class T>
-  T MatchedEvolution<T>::EvolveObject(int const& nf, double const& t0, double const& t1, T const& Obj0, std::function<double(double const&)> const& Alphas) const
+  T MatchedEvolution<T>::EvolveObject(int const& nf, double const& t0, double const& t1, T const& Obj0, int const& pto, std::function<double(double const&)> const& Alphas) const
   {
     // dummy usage of Alphas to avoid annoying messages
-    Alphas(0);
+    Alphas(pto);
     return EvolveObject(nf, t0, t1, Obj0);
   }
 
@@ -353,10 +360,10 @@ namespace apfel
 
   //_________________________________________________________________________//addition
   template<class T>
-  T MatchedEvolution<T>::Evaluate(double const& mu, std::function<double(double const&)> const& Alphas) const // result will be T = Set<Distribution>
+  T MatchedEvolution<T>::Evaluate(double const& mu, int const& pto, std::function<double(double const&)> const& Alphas) const // result will be T = Set<Distribution>
   {
     // dummy usage of Alphas to avoid annoying messages
-    Alphas(0);
+    Alphas(pto);
     return Evaluate(mu);
   }
 

@@ -188,7 +188,7 @@ const double totalMomentum = 1.;
 /// @brief Name of the used LHAPDF data set
 const std::string NameLHAPDFSet = "GRVCustomSetLO";
 
-/// @brief perturbation order of Apfel, not including pointlike contributions 
+/// @brief perturbation order of Apfel
 const int    pto          = 0;
 /// @brief reference for energy; mass of the z-boson 
 const double Qref         = 91.1876;
@@ -214,7 +214,7 @@ const double Qin          = 1.295000e+00;
 /// @brief Name of the used LHAPDF data set
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
-/// @brief perturbation order of Apfel, not including pointlike contributions 
+/// @brief perturbation order of Apfel
 const int    pto          = 1;
 /// @brief reference for energy; mass of the z-boson 
 const double Qref         = 91.1876;

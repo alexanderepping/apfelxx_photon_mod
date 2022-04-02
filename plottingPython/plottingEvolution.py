@@ -24,7 +24,7 @@ if (mode == "data"):
     #         x2 = np.append(x2, x[i])
     
     plt.plot(x, apfel, label="apfel values")
-    plt.plot(x, lhapdf label="lhapdf values")
+    plt.plot(x, lhapdf, label="lhapdf values")
     #plt.plot(x2, apfel2, label="apfel values")
     #plt.plot(x2, lhapdf2, label="lhapdf values")
     

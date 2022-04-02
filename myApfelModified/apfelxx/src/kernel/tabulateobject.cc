@@ -24,8 +24,10 @@ namespace apfel
                                     double                               const& QMin,
                                     double                               const& QMax,
                                     int                                  const& InterDegree,
+                                    int                                  const& pto,
                                     std::function<double(double const&)> const& Alphas,
                                     double                               const& Lambda):
+                        
     QGrid<T>
   {
     nQ, QMin, QMax, InterDegree, Object.GetThresholds(), Lambda
@@ -50,7 +52,7 @@ namespace apfel
       {
 
         //std::cout << "\nCalling Evaluate with iQ="<<std::to_string(iQ);//debug
-        const T o = Object.Evaluate(this->_Qg[iQ], Alphas); // result will be T = Set<Distribution>
+        const T o = Object.Evaluate(this->_Qg[iQ], pto, Alphas); // result will be T = Set<Distribution>
         this->_GridValues.push_back(o);
         Object.SetObjectRef(o);
         Object.SetMuRef(this->_Qg[iQ]);
@@ -65,7 +67,7 @@ namespace apfel
     for (int iQ = tQ + 1; iQ < (int) this->_Qg.size(); iQ++)
       {
         //std::cout << "\nCalling Evaluate with iQ="<<std::to_string(iQ);//debug
-        const T o = Object.Evaluate(this->_Qg[iQ], Alphas);
+        const T o = Object.Evaluate(this->_Qg[iQ], pto, Alphas);
         this->_GridValues.push_back(o);
         Object.SetObjectRef(o);
         Object.SetMuRef(this->_Qg[iQ]);

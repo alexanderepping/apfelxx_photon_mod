@@ -15,23 +15,6 @@
 
 namespace apfel
 {
-// manually changeable variables & functions
-    /**
-     * @brief Perturbative order of the pointlike contributions.
-     * To be manually changed in "apfel/pointlikecontributions.h".
-     */
-    const int ptoPL = 1;
-    
-
-    /**
-     * @brief general coefficient
-     * @param x: x-value
-     */
-    double coeffGeneral(double const& x);
-
-
-
-
 // fixed alphas and coefficients
     /**
      * @brief Constant version of the structure constant: 1/137.
@@ -45,6 +28,13 @@ namespace apfel
      */
     const double coeffQED = alphaQED / (2. * M_PI) ;
     
+
+    /**
+     * @brief general coefficient
+     * @param x: x-value
+     */
+    double coeffGeneral(double const& x);
+
 
     /**
      * @brief QCD coefficient for the pointlike contribution:
@@ -175,12 +165,12 @@ namespace apfel
      * @brief Pointlike contribution for specific particleCombination at
      * specific perturbative order.
      * @param particleComb: particleCombination for which pointlike contribution is to be calculated. particleCombination meaning in the QCD evolution basis
-     * @param PerturbativeOrderPointlike: Perturbative order of the pointlike contributions. To be manually changed in "apfel/pointlikecontributions.h".
      * @param nf: number of active flavours
+     * @param pto: Perturbative order 
      * @param Alphas: the function returning the strong coupling
      */
     std::function<double(double const&)> PointlikeContribution (int    const& particleComb,
-                                                                int    const& ptoPL, 
                                                                 int    const& nf,
+                                                                int    const& pto, 
                                                                 double const& alphasAtQ);
 }

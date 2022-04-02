@@ -172,7 +172,7 @@ int main()
   // Finally tabulate PDFs. The constructor is the same as that of
   // "as".
   //const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3};
-  const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, as};
+  const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, pto, as};
 
 
 
@@ -227,7 +227,6 @@ int main()
   std::cout << "____________________________________________________________\n" << std::endl;
   std::cout << std::defaultfloat;
   std::cout << "Used Perturbative Order   : " << std::to_string(pto) << std::endl;
-  std::cout << "Used Perturbative Order PL: " << std::to_string(apfel::ptoPL) << "\n" << std::endl; //perturbative order of pointlike contributions
   std::cout << "Used ZBoson Mass          : " << Qref << " GeV" << std::endl;
   std::cout << "Used alphas @ ZBoson Mass : " << asref << "\n" << std::endl;
   std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
