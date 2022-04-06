@@ -43,11 +43,16 @@
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
 // name of the used LHAPDF set
+// const std::string NameLHAPDFSet = "GRVCustomSetLO";
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
 // array of final scale values for which data should be output
-double arr_mu[] = {1.295, 4., 10., 20.}; 
-// double arr_mu[] = {1.295, 1.49, 1.51, 2., 2., 4., 10., 20.}; 
+// double arr_mu[] = {1.295, 4., 10., 20.}; 
+double arr_mu[] = {1.295, 1.49, 1.51, 4., 10., 20.}; 
+// double arr_mu[] = {1.295, 1.49, 1.51, 2., 4., 7.5, 10., 20.}; 
+// double arr_mu[] = {1.295, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}; 
+// double arr_mu[] = {1.295, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5}; 
+// double arr_mu[] = {1.295, 1.4, 1.5, 1.7, 1.9, 2.1}; 
 // double arr_mu[] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
 
 // Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)

@@ -3,8 +3,7 @@
 ###################
 import numpy as np
 import matplotlib.pyplot as plt
-import math
-import sys
+import os
 
 
 
@@ -17,6 +16,9 @@ input_file = "data_EvolutionFlavors.txt"
 range_particles = 6
 c = 1.75
 
+# make path to the correct file
+if os.path.dirname(__file__) != "":
+    input_file = os.path.dirname(__file__) + "/" + input_file
 
 # order and name of particles
 array_particles = ["gluon", "d", "u", "s", "c", "b", "t"]

@@ -75,6 +75,7 @@ namespace apfel
                         - dilog((-1 + x) / x)           * ( 4 * x * x -  2 * x + 1. ));
 
         return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0qqBgamma;
+        // return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 4. * ConvolutionP0qqBgamma;
         // return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) * ConvolutionP0qqBgamma;
         // return - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0qqBgamma;
     };
@@ -97,7 +98,8 @@ namespace apfel
                         - dilog(x)          * (     6 * x +  6 * x * x));
 
         return k1gMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0gqBgamma;
-        //return - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0gqBgamma;
+        // return k1gMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 4. * ConvolutionP0gqBgamma;
+        // return - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0gqBgamma;
     };
 
 
