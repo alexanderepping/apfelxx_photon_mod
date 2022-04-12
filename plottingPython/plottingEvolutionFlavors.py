@@ -12,6 +12,8 @@ import os
 ###################
 # variables changeable by user
 mode = "ratio"
+ylim_bool = True
+ylim = 0.05
 input_file = "data_EvolutionFlavors.txt"
 range_particles = 6
 c = 1.75
@@ -82,6 +84,8 @@ for particle in range(range_particles):
                 subplt[particle].plot(x[particle, i_mu], apfel[particle, i_mu]/lhapdf[particle, i_mu], label="apfel/lhapdf at Q="+str(mu_vals[i_mu])+"GeV")
                 subplt[particle].set_title(array_particles[particle]+" PDF")
                 subplt[particle].tick_params('x', labelbottom=True)
+                if ylim_bool:
+                    subplt[particle].set_ylim([1-ylim, 1+ylim])
 
 
 # plot singlet
@@ -96,6 +100,8 @@ for i_mu in range(len(mu_vals)):
         axs[1,2].plot(x[0, i_mu], a_singlet_apfel[i_mu]/a_singlet_lhapdf[i_mu], label="apfel/lhapdf at Q="+str(mu_vals[i_mu])+"GeV")
         axs[1,2].set_title("singlet PDF")
         axs[1,2].tick_params('x', labelbottom=True)
+        if ylim_bool:
+            axs[1,2].set_ylim([1-ylim, 1+ylim])
     
 
 

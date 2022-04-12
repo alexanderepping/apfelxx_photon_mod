@@ -37,7 +37,8 @@ installLHAPDF () {
 echo "Was the code in the apfelxx and/or LHAPDF folder changed?"
 echo "Write 'both'/'b', 'apfel'/'a' or 'lhapdf'/'l' if so or anything else for no!"
 
-changedCode=
+# changedCode=
+changedCode="a"
 
 while [[ $changedCode = "" ]]; do
     read changedCode

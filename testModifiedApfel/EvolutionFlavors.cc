@@ -47,13 +47,10 @@ const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plo
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
 // array of final scale values for which data should be output
-// double arr_mu[] = {1.295, 4., 10., 20.}; 
-double arr_mu[] = {1.295, 1.49, 1.51, 4., 10., 20.}; 
-// double arr_mu[] = {1.295, 1.49, 1.51, 2., 4., 7.5, 10., 20.}; 
+double arr_mu[] = {1.295, 4., 10., 20.}; 
+// double arr_mu[] = {1.295, 1.35, 1.49, 1.51, 1.6, 3.}; 
 // double arr_mu[] = {1.295, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}; 
-// double arr_mu[] = {1.295, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5}; 
 // double arr_mu[] = {1.295, 1.4, 1.5, 1.7, 1.9, 2.1}; 
-// double arr_mu[] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
 
 // Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)
 std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
@@ -140,7 +137,42 @@ int main()
   // grid with 100 intervals distributed as log(log(Q/Lambda)) and set
   // interpolation degree to 3.
   const apfel::TabulateObject<double> Alphas{a, 100, 0.9, 1001, 3};
-  const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
+
+  const auto as = [&] (double const& mu) -> double{
+    std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
+
+    int nf;
+    if (mu < 1.5)
+      nf = 3;
+    else if (mu < 4.5)
+      nf = 4;
+    else if (mu < 100.)
+      nf = 5;
+    else
+      nf = 5;
+
+    double beta0 = 11 - 2. * nf / 3.; 
+    double beta1;
+
+    if (pto == 0)
+      beta1 = 0.;
+    else if (pto == 1)
+      beta1 = 102 - 38. * nf / 3.;
+
+    double lnQ2Lambda2 = log((mu * mu) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
+
+    // calculate alphas(Q) using the evolution calculated by apfel
+    // double alphasAtQ = Alphas.Evaluate(mu);
+
+    // calculate Alphas(Q) using equation(2.11) given in Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)
+    // produces best results for GRV atm
+    double alphasAtQ = 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); 
+
+    // calculate Alphas(Q) using equation(8) given in Glück, Reya & Vogt - Physical Review D, Volume 46, Number 5 (1992.09.01)
+    // this is not as good as 
+    // double alphasAtQ = 4*M_PI*(1. / (beta0 * lnQ2Lambda2) - (beta1 * log(lnQ2Lambda2)) / (beta0*beta0*beta0 * lnQ2Lambda2*lnQ2Lambda2)); 
+
+    return alphasAtQ; };
 
   // Define input PDFs as a lambda function using the LHAPDF
   // set. Notice that APFEL++ takes PDFs in the QCD evolution basis
@@ -149,24 +181,6 @@ int main()
   // (tbar, bbar, ..., g, ..., b, t) into the physical basis. One can
   // use this function to define and set of functions to be evolved.
   const auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(dist->xfxQ(x, Q)); };
-  /* //addition to calculate HO // could very well be wrong
-  if (pto == 0)
-  {
-    const auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double>
-    { 
-      int flavors[] = {-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 21};
-      std::map<int, double> resultInPDFs;
-      for (int id : flavors)
-      {
-        //std::cout << std::to_string(dist->xfxQ(x, Q).at(id) + dist2->xfxQ(x, Q).at(id)) << std::endl;//debug
-        resultInPDFs.insert(std::pair<int,double>(id, as(Q)/12*dist->xfxQ(x, Q).at(id) + dist2->xfxQ(x, Q).at(id)));
-      }
-      return apfel::PhysToQCDEv(resultInPDFs); 
-    };
-  }
-  */
-  
-  //
 
   // Initialise evolution setting "Qin" as an initial scale. This
   // means that the function "InPDFs" will be called at "Qin". It uses

@@ -16,7 +16,7 @@
 
 namespace apfel 
 {
-// fixed alphas and coefficients
+// coefficients for the whole contribution
     double coeffGeneral(double const& x)
     {
         // this coefficient is applied because the PDFs are also multiplied by it in the LHAPDF format
@@ -32,91 +32,210 @@ namespace apfel
 
 
 
-// stuff used to calculate the expectation value of the squared quark charge
-    double ExpE2(int const& particleComb, int const& nf)
+// Expectation Values of e^2 and e^4
+    double ExpE2(int const& nf)
     {
         double result = 0.; 
         for (int i_nf = 1; i_nf<= nf; i_nf++)
             {
-                // loop through all active quark flavors and add their squared charges together, following the QCD evolution basis
-                result += quarkCharges2.at(i_nf) * (1 + rulesMultiplication.at(particleComb).at(0)) * rulesMultiplication.at(particleComb).at(i_nf);
+                // loop through all active quark flavors and add their squared charges together
+                result += quarkCharges2.at(i_nf);
             };   
-        return result / (nf * 2.);
+        return result / (nf);
     };
 
 
-
-
-// functions used to actually calculate the pointlike contributions
-    double k0q(double const& x, int const& particleComb, int const& nf)
+    double ExpE4(int const& nf)
     {
-        return 3 * nf * ExpE2(particleComb, nf) * 2 * (x * x + (1 -x) * (1 -x));
+        double result = 0.; 
+        for (int i_nf = 1; i_nf<= nf; i_nf++)
+            {
+                // loop through all active quark flavors and add their squared squared charges together
+                result += quarkCharges2.at(i_nf) * quarkCharges2.at(i_nf);
+            };   
+        return result / (nf);
+    };
+
+    
+
+
+// coefficients for the photon-parton splitting functions
+    double coeffSinglet(int const& nf)
+    { 
+        return 3 * nf * ExpE2(nf); 
     };
 
 
-    double k1qMS(double const& x, int const& particleComb, int const& nf)
+    double coeffNonSinglet(int const& nf)
+    { 
+        return 3 * nf * (ExpE4(nf) - ExpE2(nf) * ExpE2(nf)); 
+        // return 3 * nf * (ExpE4(nf) - ExpE2(nf) * ExpE2(nf)) * 0; //debug
+    };
+
+
+    double coeffNonSingletContribution(int const& nf)
+    { 
+        return 1. / (quarkCharges2.at(nf) - ExpE2(nf)); 
+    };
+
+
+
+
+// functions used in the calculation of the pointlike contributions
+    double k0q(double const& x)
     {
-        double k_x = 4 / 3. * (4 - 9 * x -(1 - 4 * x) * log(x) -(1 - 2 * x) * log(x) * log(x) + 4 * log(1 - x) 
-                               + (4 * log(x) - 4 * log(x) * log(1 - x) + 2 * log(x) * log(x) - 4 * log(1 - x) + 2 * log(1 - x) * log(1 - x) - 2 / 3. * Pi2 + 10) 
-                               * (x * x + (1 - x) * (1 - x)));
-        return 3 * nf * ExpE2(particleComb, nf) * k_x;
+        return 2. * (x * x + (1 -x) * (1 -x));
     };
 
 
-    double k1qDIS(double const& x, int const& particleComb, int const& nf)
+    double k1q(double const& x)
     {
-        double ConvolutionP0qqBgamma = - 4 * CF * ( 
-                        + 5 * x - 3.5
-                        + Pi2 / 6.                      * ( 4 * x * x -  4 * x + 2. )
-                        - log(x)                        * (16 * x * x -  8 * x + 0.5)
-                        + log(1 - x)                    * (16 * x * x - 18 * x + 2.5)
-                        + log((1 - x) / x) * log(x)     * ( 4 * x * x -  2 * x + 1. ) 
-                        - log((1 - x) / x) * log(1 - x) * ( 4 * x * x -  4 * x + 2. )
-                        - dilog((-1 + x) / x)           * ( 4 * x * x -  2 * x + 1. ));
-
-        return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0qqBgamma;
-        // return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 4. * ConvolutionP0qqBgamma;
-        // return k1qMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) * ConvolutionP0qqBgamma;
-        // return - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0qqBgamma;
+        return 4 / 3. * (
+                +                                         (20 * x * x -29 * x +14.)
+                - Pi2 / 3.                              * ( 4 * x * x - 4 * x + 2.)
+                - log(x)                                * (           - 4 * x + 1.)
+                + log(1 - x)                            * (                     4.)
+                - log(x) * log(x)                       * (           - 2 * x + 1.)
+                - log((1 - x) / x)                      * ( 8 * x * x - 8 * x + 4.)
+                + log((1 - x) / x) * log((1 - x) / x)   * ( 4 * x * x - 4 * x + 2.));
     };
 
 
-    double k1gMS(double const& x, int const& particleComb, int const& nf)
+    double k1g(double const& x)
     {
-        return 3 * nf * ExpE2(particleComb, nf) * 4 / 3. * (-16 + 8 * x + 20 / 3. * x * x + 4 / (3. * x) -(6 + 10 * x) * log(x) - 2 * (1 + x) * log(x) * log(x));
+        return 4 / (3. * x) * (
+                + 1. / 3.           * (20 * x * x * x +24 * x * x -48 * x + 4)
+                - log(x)            * (                10 * x * x + 6 * x    )
+                - log(x) * log(x)   * (                 2 * x * x + 2 * x    ));
     };
 
 
-    double k1gDIS(double const& x, int const& particleComb, int const& nf)
+    double ConvolutionP0qqBgamma(double const& x)
     {
-        double ConvolutionP0gqBgamma = 4. / (3. * x) * CF * (
-                        +                     (2 - 20 * x +  2 * x * x + 16 * x * x * x)
-                        + Pi2               * (         x +      x * x) 
-                        + log(1 - x)        * (4 +  3 * x -  3 * x * x -  4 * x * x * x) 
-                        - log(x)            * (     3 * x + 15 * x * x -  4 * x * x * x)
-                        - log(x) * log(x)   * (     3 * x +  3 * x * x)
-                        - dilog(x)          * (     6 * x +  6 * x * x));
-
-        return k1gMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0gqBgamma;
-        // return k1gMS(x, particleComb, nf) - 3. * nf * ExpE2(particleComb, nf) / 4. * ConvolutionP0gqBgamma;
-        // return - 3. * nf * ExpE2(particleComb, nf) / 2. * ConvolutionP0gqBgamma;
+        return - 4 * CF * ( 
+                + 5 * x - 3.5
+                + Pi2 / 6.                      * ( 4 * x * x -  4 * x + 2. ) 
+                - log(x)                        * (16 * x * x -  8 * x + 0.5)
+                + log(1 - x)                    * (16 * x * x - 18 * x + 2.5)
+                + log((1 - x) / x) * log(x)     * ( 4 * x * x -  2 * x + 1. ) 
+                - log((1 - x) / x) * log(1 - x) * ( 4 * x * x -  4 * x + 2. )
+                - dilog((-1 + x) / x)           * ( 4 * x * x -  2 * x + 1. ));
     };
 
 
-    std::map<int, double> PointlikeMap(int const& particleComb, int const& nf, double const& x)
+    double ConvolutionP0gqBgamma(double const& x)
     {
-        if (particleComb == GLUON)
-        {
-            return {{0, 0*x*nf*particleComb},       // k0g
-                    {1, k1gDIS(x, particleComb, nf)}}; // k1gDIS
-        }
-        else
-        {           
-            return {{0, k0q(x, particleComb, nf)},  // k0q
-                    {1, k1qDIS(x, particleComb, nf)}}; // k1qDIS
-        }
+        return 4. / (3. * x) * CF * (
+                +                     (2 - 20 * x +  2 * x * x + 16 * x * x * x)
+                + Pi2               * (         x +      x * x) 
+                + log(1 - x)        * (4 +  3 * x -  3 * x * x -  4 * x * x * x) 
+                - log(x)            * (     3 * x + 15 * x * x -  4 * x * x * x)
+                - log(x) * log(x)   * (     3 * x +  3 * x * x)
+                - dilog(x)          * (     6 * x +  6 * x * x));
     };
 
+
+
+
+// photon-parton splitting functions for gluon
+    double k0Gluon(double const& x, int const& nf)
+    { 
+        return 0*x*nf; 
+    };
+
+
+    double k1GluonMS(double const& x, int const& nf)
+    { 
+        return coeffSinglet(nf) * k1g(x); 
+    };
+
+
+    double k1GluonDIS(double const& x, int const& nf)
+    { 
+        return k1GluonMS(x, nf) - coeffSinglet(nf) / 2. * ConvolutionP0gqBgamma(x); 
+    };
+
+
+
+
+// photon-parton splitting functions for quark singlet
+    double k0Singlet(double const& x, int const& nf)
+    { 
+        return coeffSinglet(nf) * k0q(x); 
+    };
+
+
+    double k1SingletMS(double const& x, int const& nf)
+    { 
+        return coeffSinglet(nf) * k1q(x); 
+    };
+
+
+    double k1SingletDIS(double const& x, int const& nf)
+    { 
+        return k1SingletMS(x, nf) - coeffSinglet(nf) / 2. * ConvolutionP0qqBgamma(x); 
+    };
+
+
+
+
+// photon-parton splitting functions for quark non-singlet
+    double k0NonSinglet(double const& x, int const& nf)
+    { 
+        return coeffNonSinglet(nf) * k0q(x); 
+    };
+
+
+    double k1NonSingletMS(double const& x, int const& nf)
+    { 
+        return coeffNonSinglet(nf) * k1q(x); 
+    };
+
+
+    double k1NonSingletDIS(double const& x, int const& nf)
+    { 
+        return k1NonSingletMS(x, nf) - coeffNonSinglet(nf) / 2. * ConvolutionP0qqBgamma(x); 
+    };
+
+
+
+
+// calculation of the pointlike contribution
+    std::map<int, double> PointlikeMap(int const& contribution, int const& nf, double const& x)
+    {
+        if (contribution == GLUONS)
+            return {{0, k0Gluon(x, nf)},
+                    {1, k1GluonDIS(x, nf)}};
+        
+        else if (contribution == SINGLET)
+            return {{0, k0Singlet(x, nf)},
+                    {1, k1SingletDIS(x, nf)}};
+
+        else if (contribution == NONSINGLET2)
+            return {{0, coeffNonSingletContribution(2) * k0NonSinglet(x, 2)},
+                    {1, coeffNonSingletContribution(2) * k1NonSingletDIS(x, 2)}};
+        
+        else if (contribution == NONSINGLET3)
+            return {{0, coeffNonSingletContribution(3) * k0NonSinglet(x, 3)},
+                    {1, coeffNonSingletContribution(3) * k1NonSingletDIS(x, 3)}};
+        
+        else if (contribution == NONSINGLET4)
+            return {{0, coeffNonSingletContribution(4) * k0NonSinglet(x, 4)},
+                    {1, coeffNonSingletContribution(4) * k1NonSingletDIS(x, 4)}};
+        
+        else if (contribution == NONSINGLET5)
+            return {{0, coeffNonSingletContribution(5) * k0NonSinglet(x, 5)},
+                    {1, coeffNonSingletContribution(5) * k1NonSingletDIS(x, 5)}};
+        
+        else if (contribution == NONSINGLET6)
+            return {{0, coeffNonSingletContribution(6) * k0NonSinglet(x, 6)},
+                    {1, coeffNonSingletContribution(6) * k1NonSingletDIS(x, 6)}};
+        
+        else 
+            return {{0, 0},
+                    {1, 0}};
+        
+    };
 
 
     std::function<double(double const&)> PointlikeContribution (int    const& particleComb,
@@ -126,11 +245,31 @@ namespace apfel
     {
         return [&] (double const& x) -> double 
             {
+                int particleCombTemp = particleComb;
+                int testInt = 0;
+
+                // test, if quarks, that aren't produced at that nf, would contribute to that particleComb
+                // can only happen for the Ts
+                for(int j = nf+1; j <=6; j++)
+                    testInt += std::abs(contributingKs.at(particleComb)[j]);
+                
+                // if quarks, that aren't produced at that nf, would contribute, 
+                // the pointlike contribution is the same as the one of the Singlet
+                if (testInt > 0)
+                    particleCombTemp = SIGMA;
+
                 double result = 0;
+
+                // loop through all perturbation orders <= to the current 
                 for (int i = 0; i<= pto; i++)
                 {
-                    result += coeffGeneral(x) * PointlikeMap(particleComb, nf, x).at(i) * coeffQED * pow(coeffQCD(alphasAtQ), i);
+                    for (int contribution = ContributionsEnumerator::GLUONS; contribution <= ContributionsEnumerator::NONSINGLET6; contribution++)
+                    {
+                        double tempResult = contributingKs.at(particleCombTemp)[contribution] * PointlikeMap(contribution, nf, x).at(i);
+                        result += coeffGeneral(x) * coeffQED * pow(coeffQCD(alphasAtQ), i) * tempResult;
+                    };
                 };
+
                 return result;
             };
     };
