@@ -110,16 +110,6 @@ namespace apfel
         // calculate Alphas(Q)
         double const& alphasAtQ = Alphas(exp(t / 2));
 
-        /*
-        // calculate Alphas(Q) using equation(8) given in Glück, Reya & Vogt - Physical Review D, Volume 46, Number 5 (1992.09.01)
-        // debug
-        std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
-        double beta0 = 11 - 2. * nf / 3.; 
-        double beta1 = 102 - 38. * nf / 3.; 
-        double lnQ2Lambda2 = log((exp(t/2)*exp(t/2)) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
-        double const& alphasAtQ = 4*3.1515*(1. / (beta0 * lnQ2Lambda2) - (beta1 * log(lnQ2Lambda2)) / (beta0*beta0*beta0 * lnQ2Lambda2*lnQ2Lambda2)); 
-        */
-
         // right hand side of homogeneous DGLAP evolution equation
         Set<Distribution> rhsGeneral = Derivative(nf, t, Obj);
         

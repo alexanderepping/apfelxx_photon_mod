@@ -1,0 +1,63 @@
+This are the things that should be added to calculate the Momentum Sum Rule (only works for LHAPDF atm):
+
+
+
+
+
+
+//debug MomentumSumRule
+const int numberOfIntegrationSteps = 5000;
+
+double MomentumSumRulePDFs(std::function<double(int const& flavor, double const& x)> const& pdfs, int const& nsteps)
+{
+  std::vector<double> vec_Mom{0., 0., 0., 0., 0., 0., 0., 0.};
+
+  for (int flavors = 0; flavors<=6; flavors++)
+  {
+    double flavorMom = 0.;
+    double currentX;
+    double factor = 2.;
+    if (flavors == 0)
+      factor = 1.;
+
+    for (int i_nsteps = 1; i_nsteps <= nsteps; i_nsteps++)
+    {
+      currentX = (- 0.5 + i_nsteps * 1.) /nsteps;
+      flavorMom += 1. / nsteps * pdfs(flavors, currentX) * factor;
+      // std::cout << std::to_string(currentX) << ", ";
+    };
+    
+    vec_Mom[flavors] = flavorMom;
+    vec_Mom[7] += flavorMom;
+
+    std::cout << "     Momentum of particle " << std::to_string(flavors) << ": " << std::to_string(flavorMom) << std::endl;
+  };
+
+  std::cout << "    Total Momentum: " << std::to_string(vec_Mom[7]) << std::endl;
+  return vec_Mom[7];
+};
+
+
+
+
+
+//debug - calculating the Momentum Sum Rule
+for (int i_mu=0; i_mu<sizeof(arr_mu)/sizeof(arr_mu[0]); i_mu++)
+  {
+    double mu = arr_mu[i_mu];
+
+    std::cout << std::scientific;
+
+    std::cout << "\n\nmu = " << mu << " GeV\n" << std::endl;
+
+    const std::map<int, apfel::Distribution> tpdfs = apfel::QCDEvToPhys(TabulatedPDFs.Evaluate(mu).GetObjects());
+
+    const auto pdfsEvo = [&] (int const& flavor, double const& x) -> double{ return tpdfs.at(flavor).Evaluate(x); };
+    const auto pdfsGRV = [&] (int const& flavor, double const& x) -> double{ return dist->xfxQ(flavor, x, mu); };
+
+    std::cout << "  Evolved PDFs:" << std::endl;
+    double totMomentumEvo = MomentumSumRulePDFs(pdfsEvo,numberOfIntegrationSteps);
+
+    std::cout << "  GRV PDFs:" << std::endl;
+    double totMomentumGRV = MomentumSumRulePDFs(pdfsGRV,numberOfIntegrationSteps);
+  }

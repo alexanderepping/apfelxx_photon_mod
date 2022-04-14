@@ -1,0 +1,36 @@
+For plot_LO:
+    in EvolutionFlavors.cc:
+        use the LO LHAPDF Set
+        activate asGRV
+    in GRVCustomSetHO.info:
+        QMin: 1.295000e+00
+        AlphaS_MZ: 0.12824970371302857
+        AlphaS_Vals: [0.12824970371302857]
+
+For plot_HO:
+    in EvolutionFlavors.cc:
+        use the HO LHAPDF Set
+        activate asGRV
+    in GRVCustomSetHO.info:
+        QMin: 1.295000e+00
+        AlphaS_MZ: 0.11087771034313237
+        AlphaS_Vals: [0.11087771034313237]
+
+
+For plot_LO_ratioVadim:
+    in EvolutionFlavors.cc:
+        use the LO LHAPDF Set
+        activate asApfel
+    in GRVCustomSetLO.info:
+        QMin: 1.510000e+00
+        AlphaS_MZ: 0.128
+        AlphaS_Vals: [0.128]
+
+For plot_HO_ratioVadim:
+    in EvolutionFlavors.cc:
+        use the HO LHAPDF Set
+        activate asApfel
+    in GRVCustomSetHO.info:
+        QMin: 1.510000e+00
+        AlphaS_MZ: 0.1109
+        AlphaS_Vals: [0.1109]

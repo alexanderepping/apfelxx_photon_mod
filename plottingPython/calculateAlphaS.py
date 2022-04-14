@@ -14,7 +14,7 @@ def alphas(Q, nf, order):
     if (order == 0):
         return 4*np.pi / (beta_0*lnQ2L2)
     if (order == 1):
-        return 4*np.pi * (1/(beta_0*lnQ2L2) - beta_1/(beta_0**3) * np.log(lnQ2L2)/(lnQ2L2**2))
+        return 4*np.pi / ((beta_0*lnQ2L2) + beta_1/beta_0 * np.log(lnQ2L2))
 
 
     
