@@ -62,14 +62,13 @@ namespace apfel
 // coefficients for the photon-parton splitting functions
     double coeffSinglet(int const& nf)
     { 
-        return 3 * nf * ExpE2(nf); 
+        return 3. * nf * ExpE2(nf); 
     };
 
 
     double coeffNonSinglet(int const& nf)
     { 
-        return 3 * nf * (ExpE4(nf) - ExpE2(nf) * ExpE2(nf)); 
-        // return 3 * nf * (ExpE4(nf) - ExpE2(nf) * ExpE2(nf)) * 0; //debug
+        return 3. * nf * (ExpE4(nf) - ExpE2(nf) * ExpE2(nf)); 
     };
 
 

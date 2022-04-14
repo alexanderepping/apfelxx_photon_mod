@@ -1,0 +1,35 @@
+# General:
+This method gives the same results as the method used before! Meaning, these results can be reproduced with the other method. For the other method I just didnt experiment with the alphaS!
+
+
+# Comparison with GRV:
+- for comparison with GRV I get the best results by using the equation 2.11 (exact equation) for alphaS and not using apfel to evolve alphaS
+- the plots regarding this are:
+    - plot_HO_2022_04_11_GRVas.png
+    - plot_HO_2022_04_11_GRVas_ylim.png
+    - plot_LO_2022_04_11_GRVas.png
+    - plot_LO_2022_04_11_GRVas_ylim.png
+- if we use the exact results (0.12824970371302857 and 0.11087771034313237) for alphaS and evolve it using apfel we get:
+    - plot_HO_2022_04_13_exactAsEvolution.png
+    - plot_LO_2022_04_13_exactAsEvolution.png
+- for the comparison with GRV I used Q_0 = 1.295
+
+# Comparison with Vadim:
+- for this comparison I get the best results by using the equation 2.11 (exact equation), rounding the values (to 0.128 and 0.1109) and evolving them with apfel
+- I also have to use Q_0 = 1.51 GeV in the LHAPDF files!!
+- the plots regarding this are:
+    - plot_HO_ratioVadimMe_2022_04_13_exactAsEvolution.png
+    - plot_LO_ratioVadimMe_2022_04_13_exactAsEvolution.png
+- if we use the equation 2.11 for alphaS and not use apfel to evolve it we get:
+    - plot_HO_ratioVadimMe_2022_04_13_GRVas.png
+    - plot_LO_ratioVadimMe_2022_04_13_GRVas.png
+- to generate the data to compare the values, use the correct arr_mu and xlha2
+- also maybe change the Q_0 and asref!!!
+
+
+# alphaS values:
+The exact Values are: 
+- at pto=0: 0.12824970371302857, rounded to 0.128
+- at pto=1: 0.11087771034313237, rounded to 0.1109
+Vadim uses the rounded values.
+

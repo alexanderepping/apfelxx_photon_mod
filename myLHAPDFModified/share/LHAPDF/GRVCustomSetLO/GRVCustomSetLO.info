@@ -24,8 +24,8 @@ MStrange: 0
 MCharm: 1.5
 MBottom: 4.5
 MTop: 100
-AlphaS_MZ: 0.128000
+AlphaS_MZ: 0.12824970371302857
 AlphaS_OrderQCD: 2
 AlphaS_Type: ipol
 AlphaS_Qs:  [91.1876]
-AlphaS_Vals: [0.128]
+AlphaS_Vals: [0.12824970371302857]

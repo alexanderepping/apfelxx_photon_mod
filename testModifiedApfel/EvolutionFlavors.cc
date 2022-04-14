@@ -35,27 +35,32 @@
 #include<fstream>
 
 
+
 ///////////////////////////////////////
 // definitions; can be changed by user
 ///////////////////////////////////////
 
-// Name of the output file
+//----Name of the output file----
 const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
-// name of the used LHAPDF set
+//----Name of the used LHAPDF set----
 // const std::string NameLHAPDFSet = "GRVCustomSetLO";
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
-// array of final scale values for which data should be output
-double arr_mu[] = {1.295, 4., 10., 20.}; 
-// double arr_mu[] = {1.295, 1.35, 1.49, 1.51, 1.6, 3.}; 
-// double arr_mu[] = {1.295, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}; 
-// double arr_mu[] = {1.295, 1.4, 1.5, 1.7, 1.9, 2.1}; 
+//----Change the way alpha_s is calculated----
+// #define asApfel
+#define asGRV
 
-// Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)
+//----Array of final scale values for which data should be output----
+double arr_mu[] = {1.295, 4., 10., 20.}; 
+
+//----Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)----
 std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
-// std::vector<double> xlha{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1 , 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2 , 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3 , 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39, 0.4 , 0.41, 0.42, 0.43, 0.44, 0.45, 0.46, 0.47, 0.48, 0.49, 0.5 , 0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59, 0.6 , 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7 , 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8 , 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9 , 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99};
 std::vector<double> xlha2{0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9};
+
+//----Values for comparison with Vadim----
+// double arr_mu[] = {4.}; 
+// std::vector<double> xlha2{0.00010, 0.00020, 0.00030, 0.00040, 0.00050, 0.00060, 0.00070, 0.00080, 0.00090, 0.00100, 0.00200, 0.00300, 0.00400, 0.00500, 0.00600, 0.00700, 0.00800, 0.00900, 0.01000, 0.02000, 0.03000, 0.04000, 0.05000, 0.06000, 0.07000, 0.08000, 0.09000, 0.10000, 0.20000, 0.30000, 0.40000, 0.50000, 0.60000, 0.70000, 0.80000, 0.90000};
 
 
 
@@ -128,6 +133,12 @@ int main()
 
   // Vector of masses (set equal to thresholds but can be different)
   const std::vector<double> Masses = Thresholds;
+  
+
+
+  /////////////////////////////////////
+  // Calculate alpha_s
+  /////////////////////////////////////
 
   // Construct alpha_s object
   apfel::AlphaQCD a{asref, Qref, Masses, Thresholds, pto};
@@ -138,41 +149,43 @@ int main()
   // interpolation degree to 3.
   const apfel::TabulateObject<double> Alphas{a, 100, 0.9, 1001, 3};
 
-  const auto as = [&] (double const& mu) -> double{
-    std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
+  //----calculate alphas(Q) using the evolution calculated by apfel----
+  #ifdef asApfel
+  const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
+  #endif
 
+  //----calculate Alphas(Q) using equation(2.11) given in                  ----
+  //----Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)----
+  #ifdef asGRV
+  const auto as = [&] (double const& mu) -> double
+  {
     int nf;
-    if (mu < 1.5)
-      nf = 3;
-    else if (mu < 4.5)
-      nf = 4;
-    else if (mu < 100.)
-      nf = 5;
-    else
-      nf = 5;
 
-    double beta0 = 11 - 2. * nf / 3.; 
-    double beta1;
+    if (mu < 1.5)       nf = 3;
+    else if (mu < 4.5)  nf = 4;
+    else if (mu < 100.) nf = 5;
+    else                nf = 5;
 
-    if (pto == 0)
-      beta1 = 0.;
-    else if (pto == 1)
-      beta1 = 102 - 38. * nf / 3.;
+
+    double beta0 =  11 -  2. * nf / 3.; 
+    double beta1 = 102 - 38. * nf / 3.;
+
+    if (pto == 0) beta1 = 0.;
+
+
+    std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
 
     double lnQ2Lambda2 = log((mu * mu) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
 
-    // calculate alphas(Q) using the evolution calculated by apfel
-    // double alphasAtQ = Alphas.Evaluate(mu);
+    return 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); 
+  };
+  #endif
+  
 
-    // calculate Alphas(Q) using equation(2.11) given in Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)
-    // produces best results for GRV atm
-    double alphasAtQ = 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); 
 
-    // calculate Alphas(Q) using equation(8) given in Glück, Reya & Vogt - Physical Review D, Volume 46, Number 5 (1992.09.01)
-    // this is not as good as 
-    // double alphasAtQ = 4*M_PI*(1. / (beta0 * lnQ2Lambda2) - (beta1 * log(lnQ2Lambda2)) / (beta0*beta0*beta0 * lnQ2Lambda2*lnQ2Lambda2)); 
-
-    return alphasAtQ; };
+  /////////////////////////////////////
+  // Calculate PDFs
+  /////////////////////////////////////
 
   // Define input PDFs as a lambda function using the LHAPDF
   // set. Notice that APFEL++ takes PDFs in the QCD evolution basis
@@ -247,7 +260,15 @@ int main()
   std::cout << std::defaultfloat;
   std::cout << "Used Perturbative Order   : " << std::to_string(pto) << std::endl;
   std::cout << "Used ZBoson Mass          : " << Qref << " GeV" << std::endl;
-  std::cout << "Used alphas @ ZBoson Mass : " << asref << "\n" << std::endl;
+  #ifdef asApfel
+  std::cout << "Used alphas Calculation   : " << "Evolution using Apfel++" << std::endl;
+  std::cout << "Used alphas @ ZBoson Mass : " << asref << std::endl;
+  #endif
+  #ifdef asGRV
+  std::cout << "Used alphas Calculation   : " << "Equation used by GRV" << std::endl;
+  std::cout << "Used alphas @ ZBoson Mass : " << std::to_string(as(Qref)) << std::endl;
+  #endif
+  std::cout << "Used Q_0                  : " << std::to_string(Qin) << " GeV\n" << std::endl;
   std::cout << "Used Charm Quark Mass     : " << mc << " GeV" << std::endl;
   std::cout << "Used Bottom Quark Mass    : " << mb << " GeV" << std::endl;
   std::cout << "Used Top Quark Mass       : " << mt << " GeV\n" << std::endl;
