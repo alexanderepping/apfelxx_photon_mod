@@ -39,6 +39,8 @@
 // name of the used LHAPDF set
 const std::string NameLHAPDFSet = "GRVCustomSetHO";
 
+#define asGRV
+
 // Name of the output file for the Evolved PDFs
 const std::string OutputFileEvolved = "/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
 
@@ -123,7 +125,38 @@ int main()
     // Calculate AlphaS(Q)
     apfel::AlphaQCD a{asref, Qref, Masses, Thresholds, pto};
     const apfel::TabulateObject<double> Alphas{a, 100, 0.9, 1001, 3};
-    const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
+    // const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
+//----calculate alphas(Q) using the evolution calculated by apfel----
+  #ifdef asApfel
+  const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
+  #endif
+
+  //----calculate Alphas(Q) using equation(2.11) given in                  ----
+  //----Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)----
+  #ifdef asGRV
+  const auto as = [&] (double const& mu) -> double
+  {
+    int nf;
+
+    if (mu < 1.5)       nf = 3;
+    else if (mu < 4.5)  nf = 4;
+    else if (mu < 100.) nf = 5;
+    else                nf = 5;
+
+
+    double beta0 =  11 -  2. * nf / 3.; 
+    double beta1 = 102 - 38. * nf / 3.;
+
+    if (pto == 0) beta1 = 0.;
+
+
+    std::map<int,std::vector<double>> lambdas = {{0, {0, 0, 0, 0.232, 0.200, 0.153, 0.082}}, {1, {0, 0, 0, 0.248, 0.200, 0.131, 0.053}}}; 
+
+    double lnQ2Lambda2 = log((mu * mu) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
+
+    return 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); 
+  };
+  #endif
 
 
     // Define Input PDFs

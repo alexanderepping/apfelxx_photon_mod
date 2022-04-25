@@ -1,0 +1,73 @@
+# INITIALPDFS_SAL3 (K_S = 0.5)
+## Used InitialPDFs:
+INITIALPDFS_SAL3
+## Used experimentalData (134 data points):
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.5, -0.290716, 3, 0.444219, 0.261989, 1, 0, 1, 0.151961
+## chi2:
+128.146
+## chi2/NumberOfDataPoints:
+0.956312
+
+
+# INITIALPDFS_SAL3 (K_S = 0.3)
+## Used InitialPDFs:
+INITIALPDFS_SAL3
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.3, -0.298791, 3, 0.464334, 0.265692, 1, 0, 1, 0.214826
+## chi2:
+124.456
+## chi2/NumberOfDataPoints:
+0.928777
+
+
+# INITIALPDFS_SAL4
+## Used InitialPDFs:
+INITIALPDFS_SAL4
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+4.81049e-10, -0.314553, 3, 0.497431, 0.271455, 1, 0, 1, 0.31245
+## chi2:
+119.37
+## chi2/NumberOfDataPoints:
+0.890824
+
+
+# INITIALPDFS_SAL5
+## Used InitialPDFs:
+INITIALPDFS_SAL5
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.3, -0.185909, 3, 0.565416, 0.734498, 1, 0.381047, 0.399418, 0.518411
+## chi2:
+96.4508
+## chi2/NumberOfDataPoints:
+0.719782
+
+
+# INITIALPDFS_SAL6
+## Used InitialPDFs:
+INITIALPDFS_SAL6
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+4.61032e-09, -0.183213, 3, 0.630064, 0.758714, 1, 0.382165, 0.482942, 0.61562
+## chi2:
+92.5013
+## chi2/NumberOfDataPoints:
+0.690308

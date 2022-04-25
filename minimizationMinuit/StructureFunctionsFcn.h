@@ -127,8 +127,8 @@ public:
      * @return AN_g1
      * 
      */
-double MomentumSumRule0(std::vector<double> const& params,
-                        double              const& totMom = totalMomentum) const;
+    double MomentumSumRule0(std::vector<double> const& params,
+                            double              const& totMom = totalMomentum) const;
 
     /**
      * @brief Calculate the normalization constant A_G_HAD for InitialPDFsMainSAL using the FG momentum sum rule
@@ -140,8 +140,8 @@ double MomentumSumRule0(std::vector<double> const& params,
      * @return A_G_HAD
      * 
      */
-double MomentumSumRuleSAL(std::vector<double> const& params,
-                          double              const& Q) const;
+    double MomentumSumRuleSAL(std::vector<double> const& params,
+                            double              const& Q) const;
 
 
     /**
@@ -275,7 +275,7 @@ double MomentumSumRuleSAL(std::vector<double> const& params,
      * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
      * Default is false.
      */
-    std::map<int, double> InitialPDFs_SAL8(double             const& x,
+    std::map<int, double> InitialPDFs_SAL8(double              const& x,
                                            double              const& Q,
                                            std::vector<double> const& params,
                                            bool                const& returnParameters = false) const;  
@@ -290,7 +290,7 @@ double MomentumSumRuleSAL(std::vector<double> const& params,
      * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
      * Default is false.
      */
-    std::map<int, double> InitialPDFs_SAL6(double             const& x,
+    std::map<int, double> InitialPDFs_SAL6(double              const& x,
                                            double              const& Q,
                                            std::vector<double> const& params,
                                            bool                const& returnParameters = false) const;  
@@ -306,14 +306,30 @@ double MomentumSumRuleSAL(std::vector<double> const& params,
      * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
      * Default is false.
      */
-    std::map<int, double> InitialPDFs_SAL5(double             const& x,
+    std::map<int, double> InitialPDFs_SAL5(double              const& x,
+                                           double              const& Q,
+                                           std::vector<double> const& params,
+                                           bool                const& returnParameters = false) const; 
+
+    /**
+     * @brief InitialPDFs with 4 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3 and  C_Q_HAD to 1
+     * and the pointlike parts of the quarks are set to zero. Like SAL6 w/out PL part.
+     * @param x
+     * @param Q
+     * @param params: vector with 4 parameters: 
+     *        K_S (0), B_G_HAD(1), A_Q_HAD(2), B_Q_HAD(3)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL4(double              const& x,
                                            double              const& Q,
                                            std::vector<double> const& params,
                                            bool                const& returnParameters = false) const; 
 
     /**
      * @brief InitialPDFs with 3 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3, C_Q_HAD to 1, K_S to 0.5
-     * and the pointlike parts of the quarks are set to zero.
+     * and the pointlike parts of the quarks are set to zero. Like SAL5 w/out PL part.
      * @param x
      * @param Q
      * @param params: vector with 3 parameters: 
@@ -326,51 +342,6 @@ double MomentumSumRuleSAL(std::vector<double> const& params,
                                            double              const& Q,
                                            std::vector<double> const& params,
                                            bool                const& returnParameters = false) const;                                      
-
-    /**
-     * @brief InitialPDFs with nine params; 3 for gluon, up- and down-quark
-     * Uses 1 / alpha_em * an * x**a * (1-x)**b for gluon, up and down; the GRV PDFs for the rest.
-     * 
-     * @param x
-     * @param Q
-     * @param params: vector with 9 parameters: 
-     *        AN_g1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_9gdu  (double                const& x,
-                                             double                const& Q,
-                                             std::vector<double>   const& params,
-                                             LHAPDF::PDF*                 dist) const;
-
-    /**
-     * @brief InitialPDFs with two params; 3 for gluon
-     * Uses 1 / alpha_em * an * x**a * (1-x)**b for gluon
-     * 
-     * @param x
-     * @param Q
-     * @param params: vector with 2 parameters: 
-     *        AN_g1 (0), A_g1 (1), B_g1 (2)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_3g    (double                const& x,
-                                             double                const& Q,
-                                             std::vector<double>   const& params,
-                                             LHAPDF::PDF*                 dist) const;
-
-    /**
-     * @brief InitialPDFs with two params; 2 for gluon
-     * Uses 1 / alpha_em * x**a * (1-x)**b for gluon
-     * 
-     * @param x
-     * @param Q
-     * @param params: vector with 2 parameters: 
-     *        A_g1 (0), B_g1 (1)
-     * @param dist: LHAPDF data set
-     */
-    std::map<int, double> InitialPDFs_2g    (double                const& x,
-                                             double                const& Q,
-                                             std::vector<double>   const& params,
-                                             LHAPDF::PDF*                 dist) const;
     ///@}
 
 

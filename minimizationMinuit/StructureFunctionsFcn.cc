@@ -141,17 +141,11 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
     case INITIALPDFS_SAL5:
         return InitialPDFs_SAL5(x, Q, params, returnParameters);
         break;
+    case INITIALPDFS_SAL4:
+        return InitialPDFs_SAL4(x, Q, params, returnParameters);
+        break;
     case INITIALPDFS_SAL3:
         return InitialPDFs_SAL3(x, Q, params, returnParameters);
-        break;
-    case INITIALPDFS_9GDU:
-        return InitialPDFs_9gdu(x, Q, params, dist);
-        break;
-    case INITIALPDFS_3G:
-        return InitialPDFs_3g(x, Q, params, dist);
-        break;
-    case INITIALPDFS_2G:
-        return InitialPDFs_2g(x, Q, params, dist);
         break;
     default:
         break;
@@ -216,26 +210,30 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     // Integral over A_Q_PL x (x^2 + (1-x)^2) / (1 - B_Q_PL ln(1-x)a
     const double lhsPLQ  = -1 * params[6] / params[7] * ( helperFunction(1,params[7]) - 3 * helperFunction(2,params[7]) + 4 * helperFunction(3,params[7]) - 2 * helperFunction(4,params[7]) );
 
-/* debug
+    /*
+    //debug v
     std::cout << "§ Parameters:" << std::endl;
     for (int i=0; i<params.size(); i++) 
     {
-        if (i == params.size()-1)
-        std::cout << "§ " << params[i] << std::endl << std::endl;
-        else
+        // if (i == params.size()-1)
+        // std::cout << "§ " << params[i] << std::endl << std::endl;
+        // else
         std::cout << "§ " << params[i] << std::endl;
     }
 
-    // std::cout << "§ lhsHadG: " << lhsHadG << std::endl;
+    std::cout << "§ lhsHadG: " << lhsHadG << std::endl;
 
-    // std::cout << "§ lhsHadQ: " << lhsHadQ << std::endl;
+    std::cout << "§ lhsHadQ: " << lhsHadQ << std::endl;
 
-    // std::cout << "§ helperFunction(1,params[7]): " << helperFunction(1,params[7]) << std::endl;
-    // std::cout << "§ helperFunction(2,params[7]): " << helperFunction(2,params[7]) << std::endl;
-    // std::cout << "§ helperFunction(3,params[7]): " << helperFunction(3,params[7]) << std::endl;
-    // std::cout << "§ helperFunction(4,params[7]): " << helperFunction(4,params[7]) << std::endl;
-    std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl;
-*/
+    std::cout << "§ helperFunction(1,params[7]): " << helperFunction(1,params[7]) << std::endl;
+    std::cout << "§ helperFunction(2,params[7]): " << helperFunction(2,params[7]) << std::endl;
+    std::cout << "§ helperFunction(3,params[7]): " << helperFunction(3,params[7]) << std::endl;
+    std::cout << "§ helperFunction(4,params[7]): " << helperFunction(4,params[7]) << std::endl;
+    // std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl;
+    std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl << std::endl;
+    //debug ^
+    */
+
     return (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
 }
 
@@ -512,20 +510,21 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL5(double            
             return InitialPDFsMainSAL(x, Q, parameters);
     };
 
-std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double             const& x,
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL4(double             const& x,
                                                              double              const& Q,
                                                              std::vector<double> const& params,
                                                              bool                const& returnParameters) const
     {
         std::vector<double> parameters;
-        parameters.push_back(0.5);                  //parameters[0] = K_S
-        parameters.push_back(params[0]);            //parameters[1] = B_G_HAD
-        parameters.push_back(3);                    //parameters[2] = C_G_HAD
-        parameters.push_back(params[1]);            //parameters[3] = A_Q_HAD
-        parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
-        parameters.push_back(1);                    //parameters[5] = C_Q_HAD
-        parameters.push_back(0);                    //parameters[6] = A_Q_PL
+        parameters.push_back(params[0]);            //parameters[0] = K_S
+        parameters.push_back(params[1]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3.);                   //parameters[2] = C_G_HAD
+        parameters.push_back(params[2]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[3]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
+        parameters.push_back(0.);                   //parameters[6] = A_Q_PL
         parameters.push_back(1.);                   //parameters[7] = B_Q_PL
+        // B_Q_PL is set to 1 to avoid problems in the calculations, but the pointlike part still doesn't contribute
         
         if (returnParameters)
         {
@@ -540,79 +539,31 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double            
             return InitialPDFsMainSAL(x, Q, parameters);
     };
 
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double             const& x,
+                                                             double              const& Q,
+                                                             std::vector<double> const& params,
+                                                             bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(0.3);                  //parameters[0] = K_S
+        parameters.push_back(params[0]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3.);                   //parameters[2] = C_G_HAD
+        parameters.push_back(params[1]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
+        parameters.push_back(0.);                   //parameters[6] = A_Q_PL
+        parameters.push_back(1.);                   //parameters[7] = B_Q_PL
+        // B_Q_PL is set to 1 to avoid problems in the calculations, but the pointlike part still doesn't contribute
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
 
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
 
-std::map<int, double> StructureFunctionsFcn::InitialPDFs_9gdu(double                const& x,
-                                                              double                const& Q,
-                                                              std::vector<double>   const& params,
-                                                              LHAPDF::PDF*                 dist) const
-    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
-
-        std::map<int, double> result;
-
-        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
-        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
-        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
-        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
-        result.insert(std::pair<int, double>(-2, 1./137. * params[6] * pow(x, params[7]) * pow( (1.0 - x) , params[8])));
-        result.insert(std::pair<int, double>(-1, 1./137. * params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])));
-        result.insert(std::pair<int, double>( 0, 1./137. * params[0] * pow(x, params[1]) * pow( (1.0 - x) , params[2])));
-        result.insert(std::pair<int, double>( 1, 1./137. * params[3] * pow(x, params[4]) * pow( (1.0 - x) , params[5])));
-        result.insert(std::pair<int, double>( 2, 1./137. * params[6] * pow(x, params[7]) * pow( (1.0 - x) , params[8])));
-        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
-        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
-        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
-        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
-
-        return apfel::PhysToQCDEv(result);
-    };
-
-std::map<int, double> StructureFunctionsFcn::InitialPDFs_3g(double                const& x,
-                                                           double                const& Q,
-                                                           std::vector<double>   const& params,
-                                                           LHAPDF::PDF*                 dist) const
-    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
-
-        std::map<int, double> result;
-
-        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
-        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
-        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
-        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
-        result.insert(std::pair<int, double>(-2, dist->xfxQ(x, Q).at(-2)));
-        result.insert(std::pair<int, double>(-1, dist->xfxQ(x, Q).at(-1)));
-        result.insert(std::pair<int, double>( 0, 1./137. * params[0] * pow(x, params[1]) * pow( (1.0 - x) , params[2])));
-        result.insert(std::pair<int, double>( 1, dist->xfxQ(x, Q).at(1)));
-        result.insert(std::pair<int, double>( 2, dist->xfxQ(x, Q).at(2)));
-        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
-        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
-        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
-        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
-
-        return apfel::PhysToQCDEv(result);
-    };
-
-std::map<int, double> StructureFunctionsFcn::InitialPDFs_2g(double                const& x,
-                                                           double                const& Q,
-                                                           std::vector<double>   const& params,
-                                                           LHAPDF::PDF*                 dist) const
-    {   // particles:   0: gluon, 1: d, 2: u, 3: s, 4: c, 5: b, 6: t
-
-        std::map<int, double> result;
-
-        //result.insert(std::pair<int, double>(-6, dist->xfxQ(x, Q).at(-6)));
-        result.insert(std::pair<int, double>(-5, dist->xfxQ(x, Q).at(-5)));
-        result.insert(std::pair<int, double>(-4, dist->xfxQ(x, Q).at(-4)));
-        result.insert(std::pair<int, double>(-3, dist->xfxQ(x, Q).at(-3)));
-        result.insert(std::pair<int, double>(-2, dist->xfxQ(x, Q).at(-2)));
-        result.insert(std::pair<int, double>(-1, dist->xfxQ(x, Q).at(-1)));
-        result.insert(std::pair<int, double>( 0, 1./137. * pow(x, params[0]) * pow( (1.0 - x) , params[1])));
-        result.insert(std::pair<int, double>( 1, dist->xfxQ(x, Q).at(1)));
-        result.insert(std::pair<int, double>( 2, dist->xfxQ(x, Q).at(2)));
-        result.insert(std::pair<int, double>( 3, dist->xfxQ(x, Q).at(3)));
-        result.insert(std::pair<int, double>( 4, dist->xfxQ(x, Q).at(4)));
-        result.insert(std::pair<int, double>( 5, dist->xfxQ(x, Q).at(5)));
-        //result.insert(std::pair<int, double>( 6, dist->xfxQ(x, Q).at(6)));
-
-        return apfel::PhysToQCDEv(result);
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters);
     };

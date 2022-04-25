@@ -8,6 +8,7 @@
 #pragma once 
 
 #include <string>
+#include <cmath>
 #include <map>
 #include <vector>
 #include <functional> 
@@ -28,18 +29,14 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
                        // InitialPDFs related to InitialPDFsMainSAL
                        INITIALPDFS_SAL8, 
                        INITIALPDFS_SAL6, 
-                       INITIALPDFS_SAL5, // calculated parameters can be compared to the SAL input PDFs
-                       INITIALPDFS_SAL3, // here one can also change K_S in the definition of the parameters in the function
-
-                       // some custom InitialPDF
-                       INITIALPDFS_9GDU, 
-                       INITIALPDFS_3G, 
-                       INITIALPDFS_2G }; 
+                       INITIALPDFS_SAL5,  // calculated parameters can be compared to the SAL input PDFs
+                       INITIALPDFS_SAL4,  // same as SAL6 w/out PL part
+                       INITIALPDFS_SAL3}; // same as SAL5 w/out PL part
 
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_SAL5;
+const int usedInitialPDFs = INITIALPDFS_SAL4;
 
 /**
  * @brief initial parameters for the PDFs
@@ -52,11 +49,8 @@ const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDUS, {0
                                                           {INITIALPDFS_SAL8,  {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_SAL6,  {0.5, 0.5, 0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_SAL5,  {0.5, 0.5, 0.5, 0.5, 0.5}},
-                                                          {INITIALPDFS_SAL3,  {0.5, 0.5, 0.5}},
-
-                                                          {INITIALPDFS_9GDU,  {1., 1., 1., 1., 1., 1., 1., 1., 1.}},
-                                                          {INITIALPDFS_3G,    {1., 1., 1.}},
-                                                          {INITIALPDFS_2G,    {1., 1.}}};
+                                                          {INITIALPDFS_SAL4,  {0.5, 0.5, 0.5, 0.5}},
+                                                          {INITIALPDFS_SAL3,  {0.5, 0.5, 0.5}}};
 
 /**
  * @brief initial errors for the parameters for the PDFs
@@ -69,17 +63,8 @@ const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GD
                                                                 {INITIALPDFS_SAL8,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_SAL6,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_SAL5,  {0.1, 0.1, 0.1, 0.1, 0.1}},
-                                                                {INITIALPDFS_SAL3,  {0.1, 0.1, 0.1}},
-                                                                
-                                                                {INITIALPDFS_9GDU,  {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}},
-                                                                {INITIALPDFS_3G,    {0.1, 0.1, 0.1}},
-                                                                {INITIALPDFS_2G,    {0.1, 0.1}}};
-
-/**
- * @brief default values for upper bounds,
- * 0: general, 1: B (only hadronic)
- */
-const std::vector<double> defaultUB = {40., 5.};
+                                                                {INITIALPDFS_SAL4,  {0.1, 0.1, 0.1, 0.1}},
+                                                                {INITIALPDFS_SAL3,  {0.1, 0.1, 0.1}}};
 
 /**
  * @brief upper bounds for the initial parameters for the PDFs.
@@ -88,31 +73,34 @@ const std::vector<double> defaultUB = {40., 5.};
  */
         // Main0:  K_s1 (0), A_g1 (1), B_g1 (2), AN_d1 (3), A_d1 (4), B_d1 (5), AN_u1 (6), A_u1 (7), B_u1 (8)
         // SAL:    K_S (0), B_G_HAD(1), C_G_HAD(2), A_Q_HAD(3), B_Q_HAD(4), C_Q_HAD(5), A_Q_PL(6), B_Q_PL(7)
-const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
-                                                                 {INITIALPDFS_8GDU,  {1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
-                                                                 {INITIALPDFS_6GQS,  {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
-                                                                 {INITIALPDFS_5GQ,   {1., defaultUB[1], defaultUB[0], 1., defaultUB[1]}},
+const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9GDUS, { 1.,  1.,  5., 40.,  1.,  5., 40.,  1.,  5.}},
+                                                                 {INITIALPDFS_8GDU,  { 1.,  5., 40.,  1.,  5., 40.,  1.,  5.}},
+                                                                 {INITIALPDFS_6GQS,  { 1.,  1.,  5., 40.,  1.,  5.}},
+                                                                 {INITIALPDFS_5GQ,   { 1.,  5., 40.,  1.,  5.}},
 
-                                                                 {INITIALPDFS_SAL8,  {1., 1., defaultUB[1], defaultUB[0], 1., defaultUB[1], defaultUB[0], defaultUB[0]}},
-                                                                 {INITIALPDFS_SAL6,  {1., 1., defaultUB[0], 1., defaultUB[0], defaultUB[0]}},
-                                                                 {INITIALPDFS_SAL5,  {1., defaultUB[0], 1., defaultUB[0], defaultUB[0]}}, 
-                                                                 {INITIALPDFS_SAL3,  {1., defaultUB[0], 1.}}};
+                                                                 {INITIALPDFS_SAL8,  { 1.,  1.,  5., 40.,  1.,  5., 40., 40.}},
+                                                                 {INITIALPDFS_SAL6,  { 1.,  1., 40.,  1., 40., 40.}},
+                                                                 {INITIALPDFS_SAL5,  { 1., 40.,  1., 40., 40.}}, 
+                                                                 {INITIALPDFS_SAL4,  { 1.,  1., 40.,  1.}},
+                                                                 {INITIALPDFS_SAL3,  { 1., 40.,  1.}}};
 
 /**
  * @brief lower bounds for the initial parameters for the PDFs.
  * bounds come from the fact that the gamma function only takes values bigger than zero,
  * the argument of the exponential integral shouldn't go to -inf and 
- * the PDFs should be positive
+ * the PDFs should be positive.
+ * Also, the B_Q_HAD are limited such that ExpInt and Exp in the MomentumSumRuleSAL don't get too big. 
  */
-const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDUS, {0., -1., 0., 0., -1., 0., 0., -1., 0.}},
-                                                                 {INITIALPDFS_8GDU,  {-1., 0., 0., -1., 0., 0., -1., 0.}},
-                                                                 {INITIALPDFS_6GQS,  {0., -1., 0., 0., -1., 0.}},
-                                                                 {INITIALPDFS_5GQ,   {-1., 0., 0., -1., 0.}},
+const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9GDUS, { 0., -1.,  0.,  0., -1.,  0.,  0., -1.,  0.}},
+                                                                 {INITIALPDFS_8GDU,  {-1.,  0.,  0., -1.,  0.,  0., -1.,  0.}},
+                                                                 {INITIALPDFS_6GQS,  { 0., -1.,  0.,  0., -1.,  0.}},
+                                                                 {INITIALPDFS_5GQ,   {-1.,  0.,  0., -1.,  0.}},
 
-                                                                 {INITIALPDFS_SAL8,  {0., -1., 0., 0., -1., 0., 0., 0.}},
-                                                                 {INITIALPDFS_SAL6,  {0., -1., 0., -1., 0., 0.}},
-                                                                 {INITIALPDFS_SAL5,  {-1., 0., -1., 0., 0.}},
-                                                                 {INITIALPDFS_SAL3,  {-1., 0., -1.}}};
+                                                                 {INITIALPDFS_SAL8,  { 0., -1.,  0.,  0., -1.,  0.,  0.,  0.1}},
+                                                                 {INITIALPDFS_SAL6,  { 0., -1.,  0., -1.,  0.,  0.1}},
+                                                                 {INITIALPDFS_SAL5,  {-1.,  0., -1.,  0.,  0.1}},
+                                                                 {INITIALPDFS_SAL4,  { 0., -1.,  0., -1.}},
+                                                                 {INITIALPDFS_SAL3,  {-1.,  0., -1.}}};
 
 /**
  * @brief names of the parameters
@@ -125,11 +113,8 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
                                                                     {INITIALPDFS_SAL8,  {"K_S", "B_G_HAD", "C_G_HAD", "A_Q_HAD", "B_Q_HAD", "C_Q_HAD", "A_Q_PL", "B_Q_PL"}},
                                                                     {INITIALPDFS_SAL6,  {"K_S", "B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL", "B_Q_PL"}},
                                                                     {INITIALPDFS_SAL5,  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL", "B_Q_PL"}},
-                                                                    {INITIALPDFS_SAL3,  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD"}},
-                                                                    
-                                                                    {INITIALPDFS_9GDU,  {"AN_g1", "A_g1", "B_g1", "AN_d1", "A_d1", "B_d1", "AN_u1", "A_u1", "B_u1"}},
-                                                                    {INITIALPDFS_3G,    {"AN_g1", "A_g1", "B_g1"}},
-                                                                    {INITIALPDFS_2G,    {"A_g1", "B_g1"}}};
+                                                                    {INITIALPDFS_SAL4,  {"K_S", "B_G_HAD", "A_Q_HAD", "B_Q_HAD"}},
+                                                                    {INITIALPDFS_SAL3,  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD"}}};
 
 /**
  * @brief names of the InitialPDFs
@@ -141,11 +126,8 @@ const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDUS, "INITIA
                                                      {INITIALPDFS_SAL8,  "INITIALPDFS_SAL8"},
                                                      {INITIALPDFS_SAL6,  "INITIALPDFS_SAL6"},
                                                      {INITIALPDFS_SAL5,  "INITIALPDFS_SAL5"},
-                                                     {INITIALPDFS_SAL3,  "INITIALPDFS_SAL3"},
-                                                     
-                                                     {INITIALPDFS_9GDU,  "INITIALPDFS_9GDU"},
-                                                     {INITIALPDFS_3G,    "INITIALPDFS_3G"},
-                                                     {INITIALPDFS_2G,    "INITIALPDFS_2G"}};
+                                                     {INITIALPDFS_SAL4,  "INITIALPDFS_SAL4"},
+                                                     {INITIALPDFS_SAL3,  "INITIALPDFS_SAL3"}};
 
 
 
@@ -201,7 +183,8 @@ const double mb           = 4.5;
 /// @brief mass of the top quark 
 const double mt           = 100;
 /// @brief initial energy; lowest energy 
-const double Qin          = 1.295000e+00;
+const double Qin          = std::sqrt(2.);
+// const double Qin          = 1.295000e+00;
 ///@}
 #endif //GRVCustomSetLO
 
