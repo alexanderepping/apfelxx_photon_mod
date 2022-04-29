@@ -273,10 +273,34 @@ int main()
         std::cout << x << "\t" << F2totalEvolved.EvaluatexQ(x, mu) << "\t" << F2total.EvaluatexQ(x, mu) << "\t" << F2totalEvolved.EvaluatexQ(x, mu)/F2total.EvaluatexQ(x, mu) << std::endl;
 
 
+      const std::function<double(double const&, double const&)> F2GRVManual = [&] (double const& x, double const& mu) -> double
+      {
+        int nf;
+
+        if (mu < 1.5)       nf = 3;
+        else if (mu < 4.5)  nf = 4;
+        else if (mu < 100.) nf = 5;
+        else                nf = 5;
+        
+        const std::map<int, double> quarkCharges2 = {{1, 1./9.}, {2, 4./9.}, 
+                                                     {3, 1./9.}, {4, 4./9.}, 
+                                                     {5, 1./9.}, {6, 4./9.}};
+
+        double result = 0.;
+
+        for (int i = 1; i<=nf; i++)
+          result += 2 * dist->xfxQ(i, x, mu) * quarkCharges2.at(i);
+
+        return result;
+      };
+
+
       // file output:
       // Print down PDF at "mu"
       for (double x : xlha2)
         file2 << x << ", " << F2totalEvolved.EvaluatexQ(x, mu) << ", " << F2total.EvaluatexQ(x, mu) << ", " << F2totalEvolved.EvaluatexQ(x, mu)/F2total.EvaluatexQ(x, mu) << std::endl;
+        // manual calculation of F2 for GRV (only LO):
+        // file2 << x << ", " << F2totalEvolved.EvaluatexQ(x, mu) << ", " << F2GRVManual(x, mu) << ", " << F2totalEvolved.EvaluatexQ(x, mu)/F2GRVManual(x, mu) << std::endl; //debug
     }
 
     // terminal output:

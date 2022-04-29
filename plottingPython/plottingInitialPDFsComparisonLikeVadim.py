@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 c = 1.75
 show_all_legends = False
 
+order = "HO"
+
 # save figure options
 save_fig = False
 pltdir = "/home/alexander/Documents/apfelxx_photon_mod/plots/mainPlots/" 
@@ -30,17 +32,25 @@ array_particles = ["gluon", "d", "u", "s"]
 SAL_Parameters       = [0.3, -0.57, 3, 0.065, -0.16, 1, 4.45, 1.9, 0.027]
 
 # calculated parameters, using ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ (134 points), at Q^2=4
-SAL6_Parameters      = [4.61032e-09, -0.183213, 3, 0.630064, 0.758714, 1, 0.382165, 0.482942, 0.61562]
-SAL4_Parameters      = [4.81049e-10, -0.314553, 3, 0.497431, 0.271455, 1, 0, 1, 0.31245] # = SAL6_had
-SAL5_KS03_Parameters = [0.3, -0.185909, 3, 0.565416, 0.734498, 1, 0.381047, 0.399418, 0.518411] # same as SAL6 but fixed KS, comparable to SAL
-SAL3_KS03_Parameters = [0.3, -0.298791, 3, 0.464334, 0.265692, 1, 0, 1, 0.214826] # = SAL5_had
-SAL3_KS05_Parameters = [0.5, -0.290716, 3, 0.444219, 0.261989, 1, 0, 1, 0.151961] # = SAL5_had
+
+if order == "LO":
+    SAL6_Parameters      = [4.61032e-09, -0.183213, 3, 0.630064, 0.758714, 1, 0.382165, 0.482942, 0.61562]
+    SAL4_Parameters      = [4.81049e-10, -0.314553, 3, 0.497431, 0.271455, 1, 0, 1, 0.31245] # = SAL6_had
+    SAL5_KS03_Parameters = [0.3, -0.185909, 3, 0.565416, 0.734498, 1, 0.381047, 0.399418, 0.518411] # same as SAL6 but fixed KS, comparable to SAL
+    SAL3_KS03_Parameters = [0.3, -0.298791, 3, 0.464334, 0.265692, 1, 0, 1, 0.214826] # = SAL5_had
+    SAL3_KS05_Parameters = [0.5, -0.290716, 3, 0.444219, 0.261989, 1, 0, 1, 0.151961] # = SAL5_had
+    array_chi2PerDP      = [0, 0.690308, 0.890824, 0.719782, 0.928777, 0.956312]
+
+if order == "HO":
+    SAL6_Parameters      = [2.66005e-09, -0.172879, 3, 0.640524, 0.614294, 1, 0.319267, 0.992109, 0.497544]
+    SAL4_Parameters      = [0.3, -0.196667, 3, 0.584508, 0.606934, 1, 0.322353, 0.825024, 0.364456] # = SAL6_had
+    SAL5_KS03_Parameters = [1.4222e-10, -0.112081, 3, 0.52892, 0.282323, 1, 0, 1, 0.407849] # same as SAL6 but fixed KS, comparable to SAL
+    SAL3_KS03_Parameters = [0.3, -0.128374, 3, 0.493618, 0.277336, 1, 0, 1, 0.218647] # = SAL5_had
+    SAL3_KS05_Parameters = [0.5, -0.136891, 3, 0.472198, 0.274209, 1, 0, 1, 0.113126] # = SAL5_had
+    array_chi2PerDP      = [0, 0.768736, 0.797023, 0.860964, 0.898902, 0.924739]
 
 # array of parameters
 array_parameters = [SAL_Parameters, SAL5_KS03_Parameters, SAL3_KS03_Parameters]
-
-# array of chi^2/numberOfDataPoints
-array_chi2PerDP = [0, 0.719782, 0.928777]
 
 # array of parameter labels
 array_labels = ["SAL, $Q^2_0=2$ GeV$^2$", "calculated SAL5 input PDFs", "calculated SAL3=SAL5_had, $K_S=0.3$"]
@@ -56,7 +66,10 @@ array_colors = ["red", "black", "black"]
 ###################
 # loading GRV data
 ###################
-GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/dataGRVInitialPDFs.txt" 
+if order == "LO":
+    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/dataGRVInitialPDFsLO.txt" 
+if order == "HO":
+    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/dataGRVInitialPDFsHO.txt" 
 GRV_label = 'GRVLO, $Q^2=2$ GeV$^2$'
 range_particles = 6
 

@@ -144,7 +144,7 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
 /**
  * @brief change which LHAPDF data set is used 
  */
-#define GRVCustomSetLO
+#define GRVCustomSetHO
 
 
 
@@ -202,7 +202,7 @@ const int    pto          = 1;
 /// @brief reference for energy; mass of the z-boson 
 const double Qref         = 91.1876;
 /// @brief reference for the strong coupling constant at Qref 
-const double asref        = 0.10902561127771493;
+const double asref        = 0.11087771034313237;
 /// @brief mass of the charm quark 
 const double mc           = 1.5;
 /// @brief mass of the bottom quark 
@@ -210,6 +210,7 @@ const double mb           = 4.5;
 /// @brief mass of the top quark 
 const double mt           = 100;
 /// @brief initial energy; lowest energy 
-const double Qin          = 1.295000e+00;
+const double Qin          = std::sqrt(2.);
+// const double Qin          = 1.295000e+00;
 ///@}
 #endif //GRVCustomSetHO

@@ -111,9 +111,9 @@ for i_mu in range(len(mu_vals)):
             subplt[i_mu].plot(x[i_mu], lhapdf[i_mu], label="Structure function values, PDFs given by LHAPDF")
 
         elif (mode == "ratio"):
-            subplt[i_mu].plot(x[i_mu], ratio[i_mu], label="ratio SF of Apfel++ / SF of LHAPDF")
+            subplt[i_mu].plot(x[i_mu], ratio[i_mu], label="Structure Function Ratio Apfel++/GRV")
 
-        subplt[i_mu].set_title("F_2^gamma/alpha at µ²="+str(mu2_vals[i_mu])+"GeV")
+        subplt[i_mu].set_title("F_2^gamma/x at µ²="+str(mu2_vals[i_mu])+"GeV")
         subplt[i_mu].tick_params('x', labelbottom=True)
 
 
@@ -123,7 +123,7 @@ for i_mu in range(len(mu_vals)):
         subplt[i_mu].plot(x[i_mu], apfel[i_mu], label="Structure function values, PDFs calculated by Apfel++")
         subplt[i_mu].errorbar(DataSet["x_data"][i_mu], DataSet["F2Gamma"][i_mu], xerr=DataSet["x_error"][i_mu], yerr=DataSet["y_error"][i_mu], linestyle=" ", color="red", capsize=6, elinewidth=1.65, label=lbl)
 
-        subplt[i_mu].set_title("F_2^gamma/alpha at µ²="+str(mu2_vals[i_mu])+"GeV")
+        subplt[i_mu].set_title("F_2^gamma/x at µ²="+str(mu2_vals[i_mu])+"GeV")
         subplt[i_mu].tick_params('x', labelbottom=True)
 
 

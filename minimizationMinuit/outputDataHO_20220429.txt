@@ -1,0 +1,73 @@
+# INITIALPDFS_SAL3 (K_S = 0.5)
+## Used InitialPDFs:
+INITIALPDFS_SAL3
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.5, -0.136891, 3, 0.472198, 0.274209, 1, 0, 1, 0.113126
+## chi2:
+123.915
+## chi2/NumberOfDataPoints:
+0.924739
+
+
+# INITIALPDFS_SAL3 (K_S = 0.3)
+## Used InitialPDFs:
+INITIALPDFS_SAL3
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.3, -0.128374, 3, 0.493618, 0.277336, 1, 0, 1, 0.218647
+## chi2:
+120.453
+## chi2/NumberOfDataPoints:
+0.898902
+
+
+# INITIALPDFS_SAL4
+## Used InitialPDFs:
+INITIALPDFS_SAL4
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+1.4222e-10, -0.112081, 3, 0.52892, 0.282323, 1, 0, 1, 0.407849
+## chi2:
+115.369
+## chi2/NumberOfDataPoints:
+0.860964
+
+
+# INITIALPDFS_SAL5
+## Used InitialPDFs:
+INITIALPDFS_SAL5
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.3, -0.196667, 3, 0.584508, 0.606934, 1, 0.322353, 0.825024, 0.364456
+## chi2:
+106.801
+## chi2/NumberOfDataPoints:
+0.797023
+
+
+# INITIALPDFS_SAL6
+## Used InitialPDFs:
+INITIALPDFS_SAL6
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+2.66005e-09, -0.172879, 3, 0.640524, 0.614294, 1, 0.319267, 0.992109, 0.497544
+## chi2:
+103.011
+## chi2/NumberOfDataPoints:
+0.768736
