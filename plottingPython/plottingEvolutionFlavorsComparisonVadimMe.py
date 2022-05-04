@@ -14,7 +14,7 @@ import os
 mode = "ratio"
 ylim_bool = True
 ylim = 0.02
-input_file_Vadim = "Vadim_data_LO_Q4_2022_04_13.dat"
+input_file_Vadim = "/home/alexander/Documents/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/Vadim_data_LO_Q4_2022_04_13.dat"
 input_file = "data_EvolutionFlavors.txt"
 range_particles = 6
 range_particles_vadim = 8

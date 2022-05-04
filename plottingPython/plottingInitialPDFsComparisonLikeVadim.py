@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 c = 1.75
 show_all_legends = False
 
-order = "HO"
+order = "LO"
 
 # save figure options
 save_fig = False
@@ -67,10 +67,11 @@ array_colors = ["red", "black", "black"]
 # loading GRV data
 ###################
 if order == "LO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/dataGRVInitialPDFsLO.txt" 
+    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsLO.txt" 
+    GRV_label = 'GRVLO, $Q^2=2$ GeV$^2$'
 if order == "HO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/dataGRVInitialPDFsHO.txt" 
-GRV_label = 'GRVLO, $Q^2=2$ GeV$^2$'
+    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsHO.txt" 
+    GRV_label = 'GRVHO, $Q^2=2$ GeV$^2$'
 range_particles = 6
 
 # loading basic information on the following data
