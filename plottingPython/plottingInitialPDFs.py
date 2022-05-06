@@ -13,8 +13,8 @@ import sys
 # definitions
 ###################
 # variables changeable by user
-# input_file = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
-input_file = "/home/alexander/Documents/apfelxx_photon_mod/minimizationMinuit/outputData.md"
+# input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
+input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputData.md"
 startingLine = 102 # line in which # INITIALPDFS_... is written
 
 c = 1.75
@@ -23,7 +23,7 @@ showSALInitialPDFs = True
 
 # save figure options
 save_fig = False
-pltdir = "/home/alexander/Documents/apfelxx_photon_mod/plots/mainPlots/" 
+pltdir = "/home/alexander/Uni/apfelxx_photon_mod/plots/mainPlots/" 
 pltname = pltdir + "PlotInitialPdfs_LO_SAL3_Ks03_pto0_pl0.pdf"
 dpi = 200 # default is 100
 
@@ -76,7 +76,7 @@ def InitialPDFstrangeSAL(x, K, A_had, B_had, C_had, A_pl, B_pl):
 ###################
 # import data
 ###################
-if input_file == "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt":
+if input_file == "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt":
     startingLine = 1
 usedInitialPDFs      = np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+1, max_rows=1)
 usedExperimentalData = np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+3, max_rows=1)

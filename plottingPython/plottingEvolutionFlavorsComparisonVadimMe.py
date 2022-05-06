@@ -14,7 +14,7 @@ import os
 mode = "ratio"
 ylim_bool = True
 ylim = 0.02
-input_file_Vadim = "/home/alexander/Documents/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/Vadim_data_LO_Q4_2022_04_13.dat"
+input_file_Vadim = "/home/alexander/Uni/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/Vadim_data_LO_Q4_2022_04_13.dat"
 input_file = "data_EvolutionFlavors.txt"
 range_particles = 6
 range_particles_vadim = 8
@@ -115,5 +115,5 @@ for i_mu in range(len(mu_vals)):
 
 plt.xscale('log')
 plt.xlim(left=10**(-4), right=1)
-#plt.savefig('/home/alexander/Documents/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/plot_LO_ratioVadim_2022_04_14.pdf', bbox_inches='tight')
+#plt.savefig('/home/alexander/Uni/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/plot_LO_ratioVadim_2022_04_14.pdf', bbox_inches='tight')
 plt.show()

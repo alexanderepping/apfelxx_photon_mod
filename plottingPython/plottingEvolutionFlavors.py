@@ -142,5 +142,5 @@ for i_mu in range(len(mu_vals)):
 
 plt.xscale('log')
 plt.xlim(left=10**(-4), right=1)
-#plt.savefig('/home/alexander/Documents/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/plot_HO_ratioGRV_2022_04_14.pdf', bbox_inches='tight')
+#plt.savefig('/home/alexander/Uni/apfelxx_photon_mod/results/FinalEvolution01_2022_04_14/plot_HO_ratioGRV_2022_04_14.pdf', bbox_inches='tight')
 plt.show()

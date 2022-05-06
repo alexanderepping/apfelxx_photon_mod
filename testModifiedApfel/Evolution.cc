@@ -41,7 +41,7 @@
 ///////////////////////////////////////
 
 // Name of the output file
-const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_Evolution.txt";
+const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_Evolution.txt";
 
 // name of the used LHAPDF set
 const std::string NameLHAPDFSet = "GRVCustomSetLO";

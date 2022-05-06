@@ -6,13 +6,13 @@
 #  Quick program to run the makeLHAPDFLO.f program and copy the file into the LHAPDF share directory. #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-cd ~/Documents/apfelxx_photon_mod/makeLHAPDF
+cd ~/Uni/apfelxx_photon_mod/makeLHAPDF
 
 gfortran -o makeLHAPDFLO makeLHAPDFLO.f grvphoton.f
 
 ./makeLHAPDFLO
 
-rm ~/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/GRVCustomSetLO_0000.dat
-rm ~/Documents/apfelxx_photon_mod/makeLHAPDF/makeLHAPDFLO
-cp ~/Documents/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat ~/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/
-rm ~/Documents/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat
+rm ~/Uni/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/GRVCustomSetLO_0000.dat
+rm ~/Uni/apfelxx_photon_mod/makeLHAPDF/makeLHAPDFLO
+cp ~/Uni/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat ~/Uni/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/GRVCustomSetLO/
+rm ~/Uni/apfelxx_photon_mod/makeLHAPDF/GRVCustomSetLO_0000.dat

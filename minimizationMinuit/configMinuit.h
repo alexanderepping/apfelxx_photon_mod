@@ -154,7 +154,7 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
 /**
  * @brief path of the file where data should be saved
  */
-const std::string outputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
+const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
 
 /**
  * @brief the total momentum / result of MomentumSumRule0

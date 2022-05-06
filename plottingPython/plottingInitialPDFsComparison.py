@@ -16,7 +16,7 @@ order = "LO"
 
 # save figure options
 save_fig = False
-pltdir = "/home/alexander/Documents/apfelxx_photon_mod/plots/mainPlots/" 
+pltdir = "/home/alexander/Uni/apfelxx_photon_mod/plots/mainPlots/" 
 pltname = pltdir + "PlotInitialPdfs_LO_SAL3_Ks03_pto0_pl0.pdf"
 dpi = 200 # default is 100
 
@@ -69,10 +69,10 @@ array_colors = ["tab:blue", "tab:green", "tab:green", "tab:orange", "tab:orange"
 # loading GRV data
 ###################
 if order == "LO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsLO.txt" 
+    GRV_file = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsLO.txt" 
     GRV_label = 'GRVLO "Initial PDFs"'
 if order == "HO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsHO.txt" 
+    GRV_file = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsHO.txt" 
     GRV_label = 'GRVHO "Initial PDFs"'
 range_particles = 6
 
@@ -189,18 +189,13 @@ for i in range(len(array_labels)):
         subplt[1].legend(loc="upper left")
 
 
-#title = "InitialPDFs: " + str(usedInitialPDFs)
-#title += ",\nchi2: " + str(chi2) + ", chi2/NumberOfDataPoints: " + str(chi2PerDP) + ",\nexperimentalData: "
-#for text in usedExperimentalData:
-#    title += text + "," 
-#title = title[:len(title)-1] + ",\nParameters: "
-#for i in range(len(Parameters)):
-#    title += ParametersNames[i] + "=" + str(Parameters[i]) + ", " 
-#title = title[:len(title)-2]
-
-#plt.suptitle(title)
-plt.xscale('log')
 plt.xlim(left=10**(-4), right=1)
+# subplt[0].set_ylim(bottom=-0.005, top=16)
+# subplt[1].set_ylim(bottom=-0.005, top=0.425)
+# subplt[2].set_ylim(bottom=-0.005, top=0.425)
+# subplt[3].set_ylim(bottom=-0.005, top=0.425)
+
+plt.xscale('log')
 if save_fig:
     plt.savefig(pltname, bbox_inches='tight', dpi=dpi)
 plt.show()

@@ -42,10 +42,10 @@ const std::string NameLHAPDFSet = "GRVCustomSetHO";
 #define asGRV
 
 // Name of the output file for the Evolved PDFs
-const std::string OutputFileEvolved = "/home/alexander/Documents/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
+const std::string OutputFileEvolved = "/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileStructureFunctions = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_StructureFunctions.txt";
+const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_StructureFunctions.txt";
 
 
 

@@ -16,7 +16,7 @@ order = "LO"
 
 # save figure options
 save_fig = False
-pltdir = "/home/alexander/Documents/apfelxx_photon_mod/plots/mainPlots/" 
+pltdir = "/home/alexander/Uni/apfelxx_photon_mod/plots/mainPlots/" 
 pltname = pltdir + "PlotInitialPdfs_LO_SAL3_Ks03_pto0_pl0.pdf"
 dpi = 200 # default is 100
 
@@ -67,10 +67,10 @@ array_colors = ["red", "black", "black"]
 # loading GRV data
 ###################
 if order == "LO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsLO.txt" 
+    GRV_file = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsLO.txt" 
     GRV_label = 'GRVLO, $Q^2=2$ GeV$^2$'
 if order == "HO":
-    GRV_file = "/home/alexander/Documents/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsHO.txt" 
+    GRV_file = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_05_01/dataGRVInitialPDFsHO.txt" 
     GRV_label = 'GRVHO, $Q^2=2$ GeV$^2$'
 range_particles = 6
 

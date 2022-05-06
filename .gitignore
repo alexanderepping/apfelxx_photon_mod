@@ -2,6 +2,11 @@
 # my own things
 ####
 
+# file where I write my commit messages
+commit_msg.tx
+# file where I write my commit messages
+commit_msg.txt
+
 # myapfel folder since it is just the standard version
 myapfel/*
 # myLHAPDF folder since it is just the standard version

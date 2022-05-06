@@ -41,7 +41,7 @@
 ///////////////////////////////////////
 
 //----Name of the output file----
-const std::string OutputFile = "/home/alexander/Documents/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
+const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_EvolutionFlavors.txt";
 
 //----Name of the used LHAPDF set----
 // const std::string NameLHAPDFSet = "GRVCustomSetLO";
@@ -72,6 +72,7 @@ int main()
   ///////////////////////////////////////
   // opening and preparing output file
   ///////////////////////////////////////
+std::cout << "test" << std::endl;
 
   // opening output file
   std::ofstream file;
@@ -103,6 +104,7 @@ int main()
   
   // Open LHAPDF set
   LHAPDF::PDF* dist = LHAPDF::mkPDF(NameLHAPDFSet);
+std::cout << "test" << std::endl;
   
 
   // Retrieve evolution parameters from the LHAPDF set
