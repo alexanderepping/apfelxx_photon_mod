@@ -1,0 +1,23 @@
+function Derivative(function, x0, h, parameter)
+{
+    lambda-function f(i){return function(x0_0, .., x0_parameter+i*h, ..., x0_n)};
+
+    // taken from nCTEQ15.pdf
+    return (f(1)-f(-1) + 2(f(2)-f(-2)) + 3(f(3)-f(-3)))/(28h);
+}
+
+function SecondDerivative(function, x0, h, parameter1, parameter2)
+{
+    return Derivative(Derivative(function, x0, h, parameter1), x0, h, parameter2);
+}
+
+// now use the eigen-library to calculate the eigenvectors and eigenvalues!
+
+
+// 2n new parameter sets:
+vector<vector<double>> newParameterSets; 
+// k = 0, ..., n-1
+newParameterSets[2k, i]   = ai0 + sqrt(deltaXi2/lambda_k)*V_i^k;
+newParameterSets[2k+1, i] = ai0 - sqrt(deltaXi2/lambda_k)*V_i^k;
+
+// calculate 2.33 for the pdfs
