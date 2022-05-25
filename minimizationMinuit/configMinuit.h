@@ -36,7 +36,7 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_SAL4;
+const int usedInitialPDFs = INITIALPDFS_SAL3;
 
 /**
  * @brief initial parameters for the PDFs
@@ -146,6 +146,11 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
  */
 #define GRVCustomSetHO
 
+/**
+ * @brief change if ErrorPDFs should be calculated
+ */
+#define ErrorPDFs
+
 
 
 ///////////////////////////////////////
@@ -160,6 +165,13 @@ const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingP
  * @brief the total momentum / result of MomentumSumRule0
  */
 const double totalMomentum = 1.;
+
+/**
+ * @brief Delta Chi^2, used to calculate the error PDFs
+ */
+#ifdef ErrorPDFs
+const double DeltaChi2 = 1.;
+#endif //ErrorPDFs
 
 #ifdef GRVCustomSetLO
 /**

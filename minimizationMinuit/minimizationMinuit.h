@@ -20,3 +20,4 @@
 #include "configMinuit.h"
 #include "experimentalData.h"
 #include "StructureFunctionsFcn.h"
+#include "ErrorPDFs.h"

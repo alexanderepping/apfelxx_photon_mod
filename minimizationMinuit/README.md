@@ -21,8 +21,14 @@ File that contains the class that calculates the StructureFunctions, takes the e
 Not ready to use yet. See "running the program" below.
 
 ## running the program 
+### compile, execute and time the runtime:
+```time g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc experimentalData.h ErrorPDFs.cc -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp && time ./minimizationStructureFunctions```
+
+### compile and execute:
+```g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc experimentalData.h ErrorPDFs.cc -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp && ./minimizationStructureFunctions```
+
 ### compile:
-```g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp```
+```g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc experimentalData.h ErrorPDFs.cc -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp```
 
 ### execute:
 ```./minimizationStructureFunctions```
@@ -32,9 +38,3 @@ Not ready to use yet. See "running the program" below.
 
 ### execute with just comments as output:
 ```./minimizationStructureFunctions | grep §```
-
-### compile and execute:
-```g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF  -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp && ./minimizationStructureFunctions```
-
-### compile and execute with just comments as output:
-```g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc StructureFunctionsFcn.h minimizationMinuit.h configMinuit.h experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp && ./minimizationStructureFunctions | grep §```

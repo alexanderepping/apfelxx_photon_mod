@@ -37,8 +37,25 @@ export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/lib:$LD_LIBRARY
 export PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/bin:$PATH
 export CURRENT_LHAPDF=~/Uni/apfelxx_photon_mod/myLHAPDFModified;;
 esac
+
+
+
+###################
+# minuit
+###################
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/include/minuit-cpp:$PATH
+
+
+
 # maybe needed:
 #export PYTHONPATH=$PYTHONPATH:/foo/lhapdf/lib/python3.9/site-packages
+
+
+
+alias cdApfel="cd ~/Uni/apfelxx_photon_mod"	
+
+
 
 runEvolution () {
     cdApfel && cd bashFiles
@@ -49,5 +66,17 @@ runEvolution () {
 runEvolutionFlavors () {
     cdApfel && cd bashFiles
     bash run_EvolutionFlavors.sh
+    cd $CURRENT_APFEL && cd .. 
+}
+
+runStructureFunctions () {
+    cdApfel && cd bashFiles
+    bash run_StructureFunctions.sh
+    cd $CURRENT_APFEL && cd .. 
+}
+
+runMinimization () {
+    cdApfel && cd bashFiles
+    bash run_Minimization.sh
     cd $CURRENT_APFEL && cd .. 
 }
