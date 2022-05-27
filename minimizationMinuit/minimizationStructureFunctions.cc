@@ -116,28 +116,31 @@ int main()
  */
 #ifdef ErrorPDFs
     const Eigen::MatrixXd Hessian = CalculateHessian(StructureFunctions, finalParams);
+    // std::cout << "debug: calculated Hessian" << std::endl; //debug
 
     Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(Hessian);
+    // std::cout << "debug: made the Eigensolver" << std::endl; //debug
 
 
     std::vector<std::vector<double>> errorParamsPlus;
     std::vector<std::vector<double>> errorParamsMinus;
 
+    // std::cout << "debug: before the for loop" << std::endl; //debug
     for (int k=0; k<finalParams.size(); k++)
     {
         std::vector<double> tempPlus;
         std::vector<double> tempMinus;
+        // std::cout << "debug: before the second for loop" << std::endl; //debug
         for (int i=0; i<finalParams.size(); i++)
         {
             tempPlus.push_back(finalParams[i] + std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
             tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
-            // tempPlus.push_back( finalParams[i] + std::sqrt(DeltaChi2 / EigenSolverHessian.eigenvalues()[k].real()) * EigenSolverHessian.eigenvectors()(k,i)).real());
-            // tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / EigenSolverHessian.eigenvalues()[k].real()) * EigenSolverHessian.eigenvectors()(k,i)).real());
         }
         errorParamsPlus.push_back(tempPlus);
         errorParamsMinus.push_back(tempMinus);
     }
 
+    // std::cout << "debug: before errorParams" << std::endl; //debug
     std::map<std::string, std::vector<std::vector<double>>> errorParams = {{"+", errorParamsPlus},
                                                                            {"-", errorParamsMinus}};
 #endif //ErrorPDFs
@@ -151,18 +154,31 @@ int main()
     std::vector<std::vector<double>> finalErrorParametersPlus;
     std::vector<std::vector<double>> finalErrorParametersMinus;
 
+    // std::cout << "debug: before for-loop in outputprep" << std::endl; //debug
     for (int k=0; k<finalParams.size(); k++)
     {
         // get the finalErrorParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
         std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], LHAPDF::mkPDF(NameLHAPDFSet), true);
         std::map<int, double> finalErrorParametersMapMinus = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsMinus[k], LHAPDF::mkPDF(NameLHAPDFSet), true);
 
+        // std::cout << "debug: before 2nd for-loop" << std::endl; //debug
+
+        std::vector<double> finalErrorParametersPlusTemp;
+        std::vector<double> finalErrorParametersMinusTemp;
+
         for (int i=0; i<finalErrorParametersMapPlus.size(); i++)
         {
-            finalErrorParametersPlus[k].push_back(finalErrorParametersMapPlus.at(i));
-            finalErrorParametersMinus[k].push_back(finalErrorParametersMapMinus.at(i));
+            // std::cout << "debug: in 2nd for-loop 01" << std::endl; //debug
+            finalErrorParametersPlusTemp.push_back(finalErrorParametersMapPlus.at(i));
+            finalErrorParametersMinusTemp.push_back(finalErrorParametersMapMinus.at(i));
+            // std::cout << "debug: in 2nd for-loop 02" << std::endl; //debug
         }
 
+        // std::cout << "debug: after 2nd for-loop" << std::endl; //debug
+        finalErrorParametersPlus.push_back(finalErrorParametersPlusTemp);
+        finalErrorParametersMinus.push_back(finalErrorParametersMinusTemp);
+
+        // std::cout << "debug: before if" << std::endl; //debug
         if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
             {
                 // add AN_g1 to vector
@@ -182,15 +198,18 @@ int main()
 /**
  * File Output Minimization and ErrorPDFs
  */
+    // std::cout << "debug: before opening outputfile" << std::endl; //debug
     // opening output file
     std::ofstream file;
     file.open(outputFile);
 
     file << "# " << initialPDFsNames.at(usedInitialPDFs) << std::endl;
 
+    // std::cout << "## Used InitialPDFs:" << std::endl;//debug
     file << "## Used InitialPDFs:" << std::endl;
     file << initialPDFsNames.at(usedInitialPDFs) << std::endl;
 
+    // std::cout << "## Used experimentalData:" << std::endl; //debug
     file << "## Used experimentalData:" << std::endl;
     for (std::string data : IncludedExperimentalData) 
     {
@@ -200,6 +219,7 @@ int main()
             file << data << ", ";
     }
 
+    // std::cout << "## finalParameters names:" << std::endl; //debug
     file << "## finalParameters names:" << std::endl;
 
     if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
@@ -215,6 +235,7 @@ int main()
         file << "A_G_HAD" << std::endl;
     }
 
+    // std::cout << "## finalParameters:" << std::endl; //debug
     file << "## finalParameters:" << std::endl;
     for (double data : finalParameters) 
     {
@@ -225,6 +246,7 @@ int main()
     }
 
 #ifdef ErrorPDFs
+    // std::cout << "## finalErrorParametersPlus:" << std::endl; //debug
     file << "## finalErrorParametersPlus:" << std::endl;
     for (std::vector<double> vectorData : finalErrorParametersPlus) 
     {
@@ -237,6 +259,7 @@ int main()
         }
     }
 
+    // std::cout << "## finalErrorParametersMinus:" << std::endl; //debug
     file << "## finalErrorParametersMinus:" << std::endl;
     for (std::vector<double> vectorData : finalErrorParametersMinus) 
     {
@@ -250,19 +273,23 @@ int main()
     }
 #endif //ErrorPDFs
 
+    // std::cout << "## chi2:" << std::endl; //debug
     file << "## chi2:" << std::endl;
     file << chi2 << std::endl;
 
+    // std::cout << "## chi2/NumberOfDataPoints:" << std::endl; //debug
     file << "## chi2/NumberOfDataPoints:" << std::endl;
     file << chi2 / StructureFunctions.F2Gamma().size() << std::endl;
 
 #ifdef ErrorPDFs
+    // std::cout << "## delta chi2:" << std::endl; //debug
     file << "## delta chi2:" << std::endl;
     file << DeltaChi2 << std::endl;
 #endif //ErrorPDFs
 
     // close output file
     file.close();
+    // std::cout << "debug: cloesed file" << std::endl; //debug
     
 
 

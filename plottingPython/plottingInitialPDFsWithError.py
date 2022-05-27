@@ -13,12 +13,13 @@ import sys
 # definitions
 ###################
 # variables changeable by user
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputData.md"
-input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs_Sample.txt"
-startingLine = 102 # line in which # INITIALPDFS_... is written
+input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
+# input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs_Sample.txt"
+# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputDataErrorPDFsHO.md"
+# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputDataErrorPDFsLO.md"
+startingLine = 1 # line in which # INITIALPDFS_... is written
 
-ratioError = False
+ratioError = True
 
 c = 1.75
 showSALInitialPDFs = True
