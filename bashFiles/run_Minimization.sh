@@ -64,6 +64,21 @@ cd $CURRENT_APFEL && cd .. && cd plottingPython
 python3 plottingInitialPDFsWithError.py &
 
 
+echo "Calculate the Structure Functions, including Errors? (y or n)"
+
+answer=
+
+while [[ $answer = "" ]]; do
+    read answer
+done
+
+echo ""
+
+if [ $answer = "y" ]; then
+    bash ../bashFiles/run_StructureFunctionsErrorPDFs.sh
+fi
+
+
 echo ""
 echo "Finished!!!"
 

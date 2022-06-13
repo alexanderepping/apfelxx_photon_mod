@@ -19,7 +19,7 @@ input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_Initial
 # input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputDataErrorPDFsLO.md"
 startingLine = 1 # line in which # INITIALPDFS_... is written
 
-ratioError = True
+ratioError = False
 
 c = 1.75
 showSALInitialPDFs = True
@@ -42,8 +42,10 @@ x = np.sort(np.outer(a2, a1).flatten())
 # order and name of particles
 array_particles = ["gluon", "d", "u", "s"]
 
-# parameters if the SAL input PDFs (taken from photon_pdfs_v3, eq. (5.3))
-SALParameters = [0.3, -0.57, 3, 0.065, -0.16, 1, 4.45, 1.9, 0.027]
+# parameters if the SAL input PDFs 
+# taken from photon_pdfs_v3, eq. (5.3), same as from SAL Table1 Zeus-TR, but B+1 because there they have f and not x*f
+#K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+SALParameters = [0.3, -0.57, 3, 0.065, -0.16, 1, 4.45, 1.9, 0.027] 
 
 
 ###################

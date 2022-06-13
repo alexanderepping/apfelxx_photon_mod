@@ -19,7 +19,7 @@ input_file = "data_StructureFunctions.txt"
 DataSetName = "GRV"
 
 # plot either the data or the ratio of Apfel and GRV
-mode = "ratio"
+mode = "data"
 
 # save figure options
 save_fig = False
@@ -63,11 +63,11 @@ if (DataSetName == "GRV"):
             mu2_vals = mu2_vals[0:3]
             mu_vals = np.sqrt(mu2_vals)
 elif (DataSetName == "ALEPH"):
-            DataSet = makeDataSet(ALEPH_DATA)
+            DataSet = makeDataSet(ALEPH_DATA_old)
             mu2_vals = mu2_vals[0:3]
             mu_vals = np.sqrt(mu2_vals)
 elif (DataSetName == "AMY"):
-            DataSet = makeDataSet(AMY_DATA)
+            DataSet = makeDataSet(AMY_DATA_old)
             mu2_vals = mu2_vals[3:6]
             mu_vals = np.sqrt(mu2_vals)
 
