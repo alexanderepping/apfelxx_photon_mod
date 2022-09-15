@@ -36,7 +36,7 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_SAL3;
+const int usedInitialPDFs = INITIALPDFS_SAL5;
 
 /**
  * @brief initial parameters for the PDFs
@@ -144,7 +144,7 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
 /**
  * @brief change which LHAPDF data set is used 
  */
-#define GRVCustomSetLO
+#define GRVCustomSetHO
 
 /**
  * @brief change if ErrorPDFs should be calculated
@@ -186,12 +186,10 @@ const std::string NameLHAPDFSet = "GRVCustomSetLO";
 const int    pto          = 0;
 
 /// @brief reference for energy; mass of the z-boson 
-const double Qref         = 91.188; // nCTEQ15 input
-// const double Qref         = 91.1876;
+const double Qref         = 91.1876;
 
 /// @brief reference for the strong coupling constant at Qref 
-const double asref        = 0.1179973; // nCTEQ15 input
-// const double asref        = 0.128;
+const double asref        = 0.128;
 
 /// @brief mass of the charm quark 
 const double mc           = 1.3; // nCTEQ15 input

@@ -36,7 +36,7 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = INITIALPDFS_SAL3;
+const int usedInitialPDFs = INITIALPDFS_SAL5;
 
 /**
  * @brief initial parameters for the PDFs

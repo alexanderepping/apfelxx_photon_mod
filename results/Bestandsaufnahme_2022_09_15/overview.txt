@@ -1,0 +1,33 @@
+XX = LO or HO
+
+SAL & Minuit SAL:
+    data_SAL3XXInitialPDFs.txt:
+        - contains the parameters for the SAL3 input type PDF at 1.3(mc) at XX
+        - config file: configMinuit_SAL3XXInitialPDFs.txt:
+
+    data_SAL5XXInitialPDFs.txt:
+        - contains the parameters for the SAL5 input type PDF at 1.3(mc) at XX
+        - config file: configMinuit_SAL5XXInitialPDFs.txt:
+
+    data_SAL3XXEvolved.txt:
+        - contains the data from the evolved InitialPDFs (SAL3, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+        - both at sqrt(2)
+
+    data_SAL5XXEvolved.txt:
+        - contains the data from the evolved InitialPDFs (SAL5, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+        - both at sqrt(2)
+
+
+
+GRV:
+    data_GRVXXSqrt2.txt:
+        - contains the data from GRV at XX, taken at 1.3(mc) and evolved to sqrt(2) (apfel++) and taken at sqrt(2) (lhapdf)
+
+    data_GRVXX13.txt:
+        - contains the data from GRV at XX, taken at 1.3 (mc) and evolved to 1.3 (apfel++) and taken at 1.3 (lhapdf)
+        - they are the same 
+
+    GRVCustomSetXX.info:
+        - contains the data, with which data_GRVXXSqrt2.txt and data_GRVXX13.txt were obtained
+        - for that I ran the Evolution Flavors program with mu = sqrt(2) and with mu = 1.3
+        - for alphas I used the asApfel method/precompiler statement

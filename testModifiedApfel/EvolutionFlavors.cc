@@ -59,16 +59,20 @@
 #ifdef useInitialPDFs
   // Name of the input file with the parameters etc
   // const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
-  // const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_06_23/data_SAL3HOInitialPDFs.txt";
-  const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_06_23/data_SAL5HOInitialPDFs.txt";
+  // const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL3HOInitialPDFs.txt";
+  // const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOInitialPDFs.txt";
+  // const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL3LOInitialPDFs.txt";
+  const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5LOInitialPDFs.txt";
 
   // Name of the output file for the Evolved PDFs
-  // const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_06_23/data_SAL3HOEvolved.txt";
-  const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_06_23/data_SAL5HOEvolved.txt";
+  // const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL3HOEvolved.txt";
+  // const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOEvolved.txt";
+  // const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL3LOEvolved.txt";
+  const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5LOEvolved.txt";
 
   // Decide whether LO or HO should be used
-  //#define LO
-  #define HO
+  #define LO
+  //#define HO
 
   // calculate alpha_s like Apfel does it
   #define asApfel
@@ -228,7 +232,6 @@ int main()
 
 #ifdef LO
   const int    pto          = 0;
-  const int    pto          = 1;
   const double Qref         = 91.188; // nCTEQ15 input
   const double asref        = 0.1179973; // nCTEQ15 input
   const double mc           = 1.3;
