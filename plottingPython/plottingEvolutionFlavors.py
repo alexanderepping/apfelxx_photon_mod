@@ -36,6 +36,8 @@ subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1]]
 mu_vals = np.loadtxt(open(input_file), delimiter=",", unpack=False, skiprows=1, max_rows=1)
 num_x_vals = int(np.loadtxt(open(input_file), delimiter=",", unpack=True, skiprows=3, max_rows=1))
 
+mu_vals = np.append([], mu_vals)
+
 
 # setting up arrays to save the data, val[particle, index of mu] gives the array of values
 x = np.zeros((range_particles, len(mu_vals), num_x_vals))

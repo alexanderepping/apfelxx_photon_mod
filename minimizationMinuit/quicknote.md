@@ -1,10 +1,5 @@
 
 # To-Do:
-[ ] At first, test the minimization in LO
-[ ] Then we can implement the additional terms for the HO
-[ ] maybe change asref in configMinuit.h to the more exact value?!
-
-
 [ ] what could be changed so that I get more similar values to the ones given by SAL? 
 [ ] to check how good the values for the parameters are we can look at the chi2 for the different experiments seperately
 
@@ -14,6 +9,11 @@
 
 
 ## done To-Dos:
+[x] At first, test the minimization in LO
+[x] Then we can implement the additional terms for the HO
+[x] maybe change asref in configMinuit.h to the more exact value?!
+
+
 [x] same results as Vadim - they are the same for the Evolution
 [x] what about my apfel NLO results? compare them to LO results (apfel and GRV) & compare the GRV LO and NLO results
 [x] make the descriptions in pointlike... correct and also include the sources

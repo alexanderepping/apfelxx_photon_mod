@@ -13,8 +13,8 @@ import sys
 # definitions
 ###################
 # variables changeable by user
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
-input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputData.md"
+input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
+# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputData.md"
 startingLine = 102 # line in which # INITIALPDFS_... is written
 
 c = 1.75

@@ -1,0 +1,33 @@
+SAL & Minuit SAL:
+    data_SAL3HOInitialPDFs.txt:
+        - contains the parameters for the SAL3 input type PDF at 1.3(mc) at HO
+        - config file: configMinuit_SAL3HOInitialPDFs.txt:
+
+    data_SAL5HOInitialPDFs.txt:
+        - contains the parameters for the SAL5 input type PDF at 1.3(mc) at HO
+        - config file: configMinuit_SAL5HOInitialPDFs.txt:
+
+    data_SAL3HOEvolved.txt:
+        - contains the data from the evolved InitialPDFs (SAL3, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+        - both at sqrt(2)
+
+    data_SAL5HOEvolved.txt:
+        - contains the data from the evolved InitialPDFs (SAL5, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+        - both at sqrt(2)
+
+
+
+GRV:
+    data_GRVHOSqrt2.txt:
+        - contains the data from GRV at HO, taken at 1.3(mc) and evolved to sqrt(2) (apfel++) and taken at sqrt(2) (lhapdf)
+
+    data_GRVHO13.txt:
+        - contains the data from GRV at HO, taken at 1.3 (mc) and evolved to 1.3 (apfel++) and taken at 1.3 (lhapdf)
+        - they are the same 
+
+    GRVCustomSetHO.info:
+        - contains the data, with which data_GRVHOSqrt2.txt and data_GRVHO13.txt were obtained
+        - for that I ran the Evolution Flavors program with mu = sqrt(2) and with mu = 1.3
+        - for alphas I used the asApfel method/precompiler statement
+
+
