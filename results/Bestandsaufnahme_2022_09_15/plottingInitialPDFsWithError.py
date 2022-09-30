@@ -13,10 +13,7 @@ import sys
 # definitions
 ###################
 # variables changeable by user
-input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt"
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs_Sample.txt"
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputDataErrorPDFsHO.md"
-# input_file = "/home/alexander/Uni/apfelxx_photon_mod/minimizationMinuit/outputDataErrorPDFsLO.md"
+input_file = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOInitialPDFsErrors.txt"
 startingLine = 1 # line in which # INITIALPDFS_... is written
 
 ratioError = False
@@ -46,6 +43,8 @@ array_particles = ["gluon", "d", "u", "s"]
 # taken from photon_pdfs_v3, eq. (5.3), same as from SAL Table1 Zeus-TR, but B+1 because there they have f and not x*f
 #K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 SALParameters = [0.3, -0.57, 3, 0.065, -0.16, 1, 4.45, 1.9, 0.027] 
+
+
 
 
 ###################

@@ -28,8 +28,7 @@ array_particles_short = ["g", "d", "u", "s", "c", "b", "t"]
 
 # setting up the layout of the plot
 fig, axs = plt.subplots(2, 3, sharex=True, figsize=(12*c,7*c))
-subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1]]
-
+subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1], axs[1,2]]
 
 
 ###################
@@ -137,16 +136,16 @@ for particle in range(range_particles):
 
 
 # plot singlet
-axs[1,2].plot(x[particle], Singlet_GRVEvolved,            label="GRV"+pto+", taken at 1.3 GeV,\nevolved to sqrt(2) GeV")
-axs[1,2].plot(x[particle], Singlet_GRVExact,              label="GRV"+pto+", taken at sqrt(2) GeV")
-axs[1,2].plot(x[particle], Singlet_SAL,                   label="SALHO at sqrt(2) GeV")
-axs[1,2].plot(x[particle], Singlet_SAL3Evolved,           label="calculated InitialPDF SAL3"+pto+",\nevolved from 1.3 GeV to sqrt(2) GeV")
-axs[1,2].plot(x[particle], Singlet_SAL5Evolved,           label="calculated InitialPDF SAL5"+pto+",\nevolved from 1.3 GeV to sqrt(2) GeV")
-axs[1,2].set_title("singlet PDF")
-axs[1,2].tick_params('x', labelbottom=True)
-axs[1,2].legend(loc="upper right")
-axs[1,2].set_xlabel("$x$")
-axs[1,2].set_ylabel("$x\Sigma(x)/\\alpha_{QED}$")
+subplt[5].plot(x[particle], Singlet_GRVEvolved,            label="GRV"+pto+", taken at 1.3 GeV,\nevolved to sqrt(2) GeV")
+subplt[5].plot(x[particle], Singlet_GRVExact,              label="GRV"+pto+", taken at sqrt(2) GeV")
+subplt[5].plot(x[particle], Singlet_SAL,                   label="SALHO at sqrt(2) GeV")
+subplt[5].plot(x[particle], Singlet_SAL3Evolved,           label="calculated InitialPDF SAL3"+pto+",\nevolved from 1.3 GeV to sqrt(2) GeV")
+subplt[5].plot(x[particle], Singlet_SAL5Evolved,           label="calculated InitialPDF SAL5"+pto+",\nevolved from 1.3 GeV to sqrt(2) GeV")
+subplt[5].set_title("singlet PDF")
+subplt[5].tick_params('x', labelbottom=True)
+subplt[5].legend(loc="upper right")
+subplt[5].set_xlabel("$x$")
+subplt[5].set_ylabel("$x\Sigma(x)/\\alpha_{QED}$")
     
 
 

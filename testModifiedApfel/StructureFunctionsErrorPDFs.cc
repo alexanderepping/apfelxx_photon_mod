@@ -22,10 +22,10 @@
 ////////////////////////////////////////////////////////////
 
 // Name of the input file with the parameters etc
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
+const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOInitialPDFsErrors.txt";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_StructureFunctionsErrorPDFs.txt";
+const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOStructureFunctionsErrors.txt";
 
 // Decide whether LO or HO should be used
 //#define LO
@@ -240,23 +240,33 @@ int main()
 
 #ifdef LO
   const int    pto          = 0;
-  const double Qref         = 91.1876;
-  const double asref        = 0.128;
-  const double mc           = 1.5;
+  const double Qref         = 91.188; // nCTEQ15 input
+  // const double Qref         = 91.1876;
+  const double asref        = 0.1179973; // nCTEQ15 input
+  // const double asref        = 0.128;
+  const double mc           = 1.3; // nCTEQ15 input
+  // const double mc           = 1.5;
   const double mb           = 4.5;
-  const double mt           = 100;
-  const double Qin          = std::sqrt(2.);
+  const double mt           = 174; // nCTEQ15 input
+  // const double mt           = 100;
+  const double Qin          = 1.3; // nCTEQ15 input
+  // const double Qin          = std::sqrt(2.);
   // const double Qin          = 1.295000e+00;
 #endif //LO
 
 #ifdef HO
   const int    pto          = 1;
-  const double Qref         = 91.1876;
-  const double asref        = 0.11087771034313237;
-  const double mc           = 1.5;
+  const double Qref         = 91.188; // nCTEQ15 input
+  // const double Qref         = 91.1876;
+  const double asref        = 0.1179973; // nCTEQ15 input
+  // const double asref        = 0.11087771034313237;
+  const double mc           = 1.3; // nCTEQ15 input
+  // const double mc           = 1.5;
   const double mb           = 4.5;
-  const double mt           = 100;
-  const double Qin          = std::sqrt(2.);
+  const double mt           = 174; // nCTEQ15 input
+  // const double mt           = 100;
+  const double Qin          = 1.3; // nCTEQ15 input
+  // const double Qin          = std::sqrt(2.);
   // const double Qin          = 1.295000e+00;
 #endif //HO
 
