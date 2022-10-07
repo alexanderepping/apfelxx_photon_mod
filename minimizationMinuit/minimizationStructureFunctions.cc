@@ -37,7 +37,7 @@ int main()
  * Initialization & Minimization
  */
     // create FCN function
-    StructureFunctionsFcn StructureFunctions(experimentalData, NameLHAPDFSet);
+    StructureFunctionsFcn StructureFunctions(experimentalData);
 
     // create initial starting values for parameters with the 
     MinuitCpp::MnUserParameters userParameters;
@@ -81,7 +81,7 @@ int main()
     const double chi2 = StructureFunctions(finalParams);
 
     // get the finalParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
-    std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0.5, Qin, finalParams, LHAPDF::mkPDF(NameLHAPDFSet), true);
+    std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0.5, Qin, finalParams, true);
 
     // make finalParametersMap into vector
     std::vector<double> finalParameters;
@@ -158,8 +158,8 @@ int main()
     for (int k=0; k<finalParams.size(); k++)
     {
         // get the finalErrorParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
-        std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], LHAPDF::mkPDF(NameLHAPDFSet), true);
-        std::map<int, double> finalErrorParametersMapMinus = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsMinus[k], LHAPDF::mkPDF(NameLHAPDFSet), true);
+        std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], true);
+        std::map<int, double> finalErrorParametersMapMinus = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsMinus[k], true);
 
         // std::cout << "debug: before 2nd for-loop" << std::endl; //debug
 
@@ -203,11 +203,16 @@ int main()
     std::ofstream file;
     file.open(outputFile);
 
-    file << "# " << initialPDFsNames.at(usedInitialPDFs) << std::endl;
+#ifdef ErrorPDFs
+    file << "# " << nameUsedInitialPDFs << " ERRORS" << std::endl;
+#endif //ErrorPDFs
+#ifndef ErrorPDFs
+    file << "# " << nameUsedInitialPDFs << std::endl;
+#endif //ErrorPDFs
 
     // std::cout << "## Used InitialPDFs:" << std::endl;//debug
     file << "## Used InitialPDFs:" << std::endl;
-    file << initialPDFsNames.at(usedInitialPDFs) << std::endl;
+    file << nameUsedInitialPDFs << std::endl;
 
     // std::cout << "## Used experimentalData:" << std::endl; //debug
     file << "## Used experimentalData:" << std::endl;
@@ -297,7 +302,7 @@ int main()
  * Terminal Output Minimization
  */
     std::cout << "§ Used InitialPDFs:" << std::endl;
-    std::cout << "§ " << initialPDFsNames.at(usedInitialPDFs) << std::endl << std::endl;
+    std::cout << "§ " << nameUsedInitialPDFs << std::endl << std::endl;
 
     std::cout << "§ Used experimentalData:" << std::endl;
     for (std::string data : IncludedExperimentalData) 

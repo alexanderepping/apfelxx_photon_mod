@@ -1,42 +1,19 @@
-#std, mod
-apfelInstallation="mod"
-lhapdfInstallation="mod"
-
-
-
 ###################
 # apfelxx
 ###################
-case $apfelInstallation in
-"std")
-export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myapfel/lib:$LD_LIBRARY_PATH
-export PATH=~/Uni/apfelxx_photon_mod/myapfel/bin:$PATH
-export CURRENT_APFEL=~/Uni/apfelxx_photon_mod/myapfel
-export CURRENT_APFEL_TEST=~/Uni/apfelxx_photon_mod/test_calculations ;;
-
-"mod")
 export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myApfelModified/lib:$LD_LIBRARY_PATH
 export PATH=~/Uni/apfelxx_photon_mod/myApfelModified/bin:$PATH
 export CURRENT_APFEL=~/Uni/apfelxx_photon_mod/myApfelModified
 export CURRENT_APFEL_TEST=~/Uni/apfelxx_photon_mod/testModifiedApfel;;
-esac
 
 
 
 ###################
 # lhapdf
 ###################
-case $lhapdfInstallation in
-"std")
-export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myLHAPDF/lib:$LD_LIBRARY_PATH
-export PATH=~/Uni/apfelxx_photon_mod/myLHAPDF/bin:$PATH
-export CURRENT_LHAPDF=~/Uni/apfelxx_photon_mod/myLHAPDF ;;
-
-"mod")
 export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/lib:$LD_LIBRARY_PATH
 export PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/bin:$PATH
 export CURRENT_LHAPDF=~/Uni/apfelxx_photon_mod/myLHAPDFModified;;
-esac
 
 
 
@@ -63,15 +40,15 @@ runEvolution () {
     cd $CURRENT_APFEL && cd .. 
 }
 
-runEvolutionFlavors () {
-    cdApfel && cd bashFiles
-    bash run_EvolutionFlavors.sh
-    cd $CURRENT_APFEL && cd .. 
-}
-
 runStructureFunctions () {
     cdApfel && cd bashFiles
     bash run_StructureFunctions.sh
+    cd $CURRENT_APFEL && cd .. 
+}
+
+runStructureFunctionsLHAPDF () {
+    cdApfel && cd bashFiles
+    bash run_StructureFunctionsLHAPDF.sh
     cd $CURRENT_APFEL && cd .. 
 }
 

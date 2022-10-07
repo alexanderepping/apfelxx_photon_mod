@@ -1,16 +1,3 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  run_EvolutionFlavors.sh                                                                                          #
-#  Author: Alexander Epping: a_eppi01@uni-muenster.de                                                               #
-#  22 Oct 2021                                                                                                      #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-#  Program to make and run the minimizationMinuit program and possibly reinstall the LHAPDF and/or Apfel++ library. #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  - The program also outputs the path of the currently used Apfel++ and LHAPDF Installation.                       #
-#    This output is aligned with he information output of the EvolutionFlavors.cc file.                             #
-#  - The variable $CURRENT_APFEL should point to the folder with the apfelxx folder inside.                         #
-#  - The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.                   #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 installApfel () {    
     #running the commands to install the package again
     cd $CURRENT_APFEL/apfelxx/build
@@ -60,11 +47,8 @@ rm ./minimizationStructureFunctions
 echo "Used Apfel++ Installation : "$CURRENT_APFEL
 echo "Used LHAPDF Installation  : "$CURRENT_LHAPDF
 
-cd $CURRENT_APFEL && cd .. && cd plottingPython
-python3 plottingInitialPDFsWithError.py &
-
-
-echo "Calculate the Structure Functions, including Errors? (y or n)"
+echo "Plot Initial PDFs, including Errors? (y or n)"
+echo "Depending on the In-/OutputFiles of the different programs, the plot might not be the calculated one."
 
 answer=
 
@@ -75,7 +59,25 @@ done
 echo ""
 
 if [ $answer = "y" ]; then
-    bash ../bashFiles/run_StructureFunctionsErrorPDFs.sh
+    cd $CURRENT_APFEL && cd .. && cd plottingPython
+    python3 plottingInitialPDFs.py &
+fi
+
+
+echo "Calculate the Structure Functions, including Errors? (y or n)"
+echo "Depending on the In-/OutputFiles of the different programs, the result might not be the calculated one."
+
+answer=
+
+while [[ $answer = "" ]]; do
+    read answer
+done
+
+echo ""
+
+if [ $answer = "y" ]; then
+    cd $CURRENT_APFEL && cd .. && cd bashFiles
+    bash run_StructureFunctions.sh
 fi
 
 

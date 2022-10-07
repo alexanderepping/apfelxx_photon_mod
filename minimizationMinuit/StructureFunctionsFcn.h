@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "LHAPDF/LHAPDF.h"
-
 #include "/usr/local/include/minuit-cpp/FCNBase.hh"
 
 #include "configMinuit.h"
@@ -40,7 +38,6 @@ public:
      * @param ErrorDef: default value = 1.
      */
     StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
-                          std::string const& NameLHAPDFSet,
                           double      const& ErrorDef = 1. );
 
     /**
@@ -57,7 +54,6 @@ public:
                           std::vector<double> const& xData,
                           std::vector<double> const& F2Gamma,
                           std::vector<double> const& F2GammaErr,
-                          std::string         const& NameLHAPDFSet,
                           double              const& ErrorDef = 1. );
 
     /**
@@ -87,7 +83,6 @@ public:
      * @param x
      * @param Q
      * @param params: vector with parameters 
-     * @param dist: LHAPDF data set
      * @param returnParameters: Boolean to either return the PDFs (false) 
      * or return the Parameters (in the form accepted by InitialPDFsMain0)(true). 
      * Default is false.
@@ -95,7 +90,6 @@ public:
     std::map<int, double> InitialPDFs(double              const& x,
                                       double              const& Q,
                                       std::vector<double> const& params,
-                                      LHAPDF::PDF*               dist,
                                       bool                const& returnParameters = false) const;
 
 
@@ -157,8 +151,6 @@ public:
     std::vector<double> F2Gamma()       const {return _F2Gamma;}
     /** @brief return vector of y errors */
     std::vector<double> F2GammaErr()    const {return _F2GammaErr;}
-    /** @brief return Name of the used LHAPDF Set */
-    std::string NameLHAPDFSet()         const {return _NameLHAPDFSet;}
     ///@}
 
 
@@ -351,6 +343,4 @@ private:
     std::vector<double> _F2Gamma;
     std::vector<double> _F2GammaErr;
     double              _ErrorDef;
-    std::string         _NameLHAPDFSet;
-    LHAPDF::PDF*        _LHAPDFSet;
 };

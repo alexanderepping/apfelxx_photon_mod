@@ -34,7 +34,7 @@ case $changedCode in
 esac
 
 echo ""
-echo "Running the Evolution.cc program!"
+echo "Running the StructureFunctionsLHAPDF.cc program!"
 echo ""
 
 # Changing into directory
@@ -43,22 +43,22 @@ cd $CURRENT_APFEL_TEST
 # temporary file to void unwanted console outputs 
 voidOutput='voidOutput.txt' 
 
-# Deleting previous Evolution program
+# Deleting previous StructureFunctionsLHAPDF program
 make clean > $voidOutput
 
-# Making new Evolution program
-make Evolution > $voidOutput
+# Making new StructureFunctionsLHAPDF program
+make StructureFunctionsLHAPDF > $voidOutput
 
-# Running Evolution program
-./Evolution
+# Running StructureFunctionsLHAPDF program
+./StructureFunctionsLHAPDF
 
-# Deleting previous Evolution program
+# Deleting previous StructureFunctionsLHAPDF program
 make clean > $voidOutput
 
 rm $voidOutput
 
 cd $CURRENT_APFEL && cd .. && cd plottingPython
-python3 plottingEvolvedPDFs.py &
+python3 plottingStructureFunctionsLHAPDF.py &
 
 
 echo ""

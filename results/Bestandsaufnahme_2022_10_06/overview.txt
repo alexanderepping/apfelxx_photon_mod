@@ -1,0 +1,29 @@
+There was an error when calculating the SAL data in the last Bestandsaufnahme_2022_09_15.
+This is similar to that Bestandsaufnahme_2022_09_15, but with that error corrected and a new naming scheme!
+
+All data etc (except for InitialPDFs) here is at sqrt2 GeC unless stated otherwise!
+All data was calculated on 2022.10.06.
+
+
+
+XX = LO or HO
+
+dataInitialPDFsSAL3XX.txt:
+    - contains the parameters for the SAL3 input type PDF at 1.3(mc) at XX
+    - config file: configMinuit_InitialPDFsSAL3XX_2022_09_15.txt
+    - this and config file are just taken from Bestandsaufnahme_2022_09_15
+
+dataInitialPDFsSAL5XX.txt:
+    - contains the parameters for the SAL5 input type PDF at 1.3(mc) at XX
+    - config file: configMinuit_InitialPDFsSAL5XX_2022_09_15.txt
+    - this and config file are just taken from Bestandsaufnahme_2022_09_15
+
+dataEvolvedPDFsSAL3XX.txt:
+    - contains the data from the evolved InitialPDFs (SAL3, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+    - both at sqrt(2)
+
+dataEvolvedPDFsSAL5XX.txt:
+    - contains the data from the evolved InitialPDFs (SAL5, parameters calculated by Minuit) and the data from the SAL InitialPDFs and their ratio
+    - both at sqrt(2)
+
+

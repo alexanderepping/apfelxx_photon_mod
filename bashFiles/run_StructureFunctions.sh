@@ -1,22 +1,3 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  run_EvolutionStructureFunctions.sh                                                                             #
-#  Author: Alexander Epping: a_eppi01@uni-muenster.de                                                             #
-#  11 Nov 2021                                                                                                    #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #    
-#  Program to make and run the StructureFunctions program to evolve the PDFs, calculate the Structure Functions   # 
-#  and plot them. It can also reinstall the LHAPDF and/or Apfel++ library.                                        #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-#  - The program also outputs the path of the currently used Apfel++ and LHAPDF Installation.                     #
-#    This output is aligned with he information output of the StructureFunctions.cc file.                         #
-#  - The variable $CURRENT_APFEL should point to the folder with the apfelxx folder inside.                       #
-#  - The variable $CURRENT_LHAPDF should point to the folder with the LHAPDF-6.4.0 folder inside.                 #
-#  - The variable $$CURRENT_APFEL_TEST should point to the folder with the StructureFunctions.cc file and         #
-#    its respective Makefile inside.                                                                              #                                                                                 # 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
-
-
 installApfel () {    
     #running the commands to install the package again
     cd $CURRENT_APFEL/apfelxx/build
@@ -38,34 +19,19 @@ installLHAPDF () {
 }
 
 
-echo "Was the code in the apfelxx and/or LHAPDF folder changed?"
-echo "Write 'both'/'b', 'apfel'/'a' or 'lhapdf'/'l' if so or anything else for no!"
+# change, which programs should be installed again
+changedCode="a"
 
-changedCode=
-
-while [[ $changedCode = "" ]]; do
-    read changedCode
-done
 
 case $changedCode in
-    both)
-        installApfel
-        installLHAPDF;;
     b)
         installApfel
         installLHAPDF;;
-    apfel)
-        installApfel;;
     a)
         installApfel;;
-    lhapdf)
-        installLHAPDF;;
     l)
         installLHAPDF;;
-        
 esac
-
-
 
 echo ""
 echo "Running the StructureFunctions.cc program!"
@@ -75,9 +41,9 @@ echo ""
 cd $CURRENT_APFEL_TEST
 
 # temporary file to void unwanted console outputs 
-voidOutput='voidOutput.txt'
+voidOutput='voidOutput.txt' 
 
-# Deleting previous programs
+# Deleting previous StructureFunctions program
 make clean > $voidOutput
 
 # Making new StructureFunctions program
@@ -86,20 +52,13 @@ make StructureFunctions > $voidOutput
 # Running StructureFunctions program
 ./StructureFunctions
 
-# Deleting programs
+# Deleting previous StructureFunctions program
 make clean > $voidOutput
 
 rm $voidOutput
 
-
-echo "Used Apfel++ Installation : "$CURRENT_APFEL
-echo "Used LHAPDF Installation  : "$CURRENT_LHAPDF
-
-
-
 cd $CURRENT_APFEL && cd .. && cd plottingPython
 python3 plottingStructureFunctions.py &
-
 
 
 echo ""

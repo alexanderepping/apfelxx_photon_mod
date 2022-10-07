@@ -1,0 +1,13 @@
+# INITIALPDFS_SAL5
+## Used InitialPDFs:
+INITIALPDFS_SAL5
+## Used experimentalData:
+ALEPH1, ALEPH2, AMY, DELPHI, JADE, L3, OPAL1, PLUTO, TASSO, TOPAZ
+## finalParameters names:
+K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
+## finalParameters:
+0.3, -0.286863, 3, 0.563353, 0.599801, 1, 0.302575, 1.02583, 0.277174
+## chi2:
+99.9632
+## chi2/NumberOfDataPoints:
+0.745994

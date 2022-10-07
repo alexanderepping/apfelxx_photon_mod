@@ -18,108 +18,6 @@
 // commonly changed
 ///////////////////////////////////////
 /**
- * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
- */
-const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
-
-/**
- * @brief change which perturbation order is used
- */
-#define HO
-
-/**
- * @brief change if ErrorPDFs should be calculated
- */
-#define ErrorPDFs
-
-
-
-///////////////////////////////////////
-// experimental Data selection
-///////////////////////////////////////
-
-/**
- * @brief Names of the included experimental data points (see experimentalData.h).
- * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ", "TPC"
- */
-const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
-
-
-
-///////////////////////////////////////
-// not changed that often
-///////////////////////////////////////
-/**
- * @brief path of the file where data should be saved
- */
-// #ifndef ErrorPDFs
-const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-// #endif //ErrorPDFs
-// #ifdef ErrorPDFs
-// const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFsWithErrors.txt";
-// #endif //ErrorPDFs
-
-/**
- * @brief the total momentum / result of MomentumSumRule0
- */
-const double totalMomentum = 1.;
-
-/**
- * @brief Delta Chi^2, used to calculate the error PDFs
- */
-#ifdef ErrorPDFs
-const double DeltaChi2 = 1.;
-#endif //ErrorPDFs
-
-#ifdef LO
-/**
- * @name LO parameters
- */
-///@{
-/// @brief perturbation order of Apfel
-const int    pto          = 0;
-/// @brief reference for energy; mass of the z-boson 
-const double Qref         = 91.188;
-/// @brief reference for the strong coupling constant at Qref 
-const double asref        = 0.1179973;
-/// @brief mass of the charm quark 
-const double mc           = 1.3;
-/// @brief mass of the bottom quark 
-const double mb           = 4.5;
-/// @brief mass of the top quark 
-const double mt           = 174;
-/// @brief initial energy; lowest energy 
-const double Qin          = 1.3;
-///@}
-#endif //LO
-
-#ifdef HO
-/**
- * @name HO parameters
- */
-///@{
-/// @brief perturbation order of Apfel
-const int    pto          = 1;
-/// @brief reference for energy; mass of the z-boson 
-const double Qref         = 91.188;
-/// @brief reference for the strong coupling constant at Qref 
-const double asref        = 0.1179973;
-/// @brief mass of the charm quark 
-const double mc           = 1.3;
-/// @brief mass of the bottom quark 
-const double mb           = 4.5;
-/// @brief mass of the top quark 
-const double mt           = 174;
-/// @brief initial energy; lowest energy 
-const double Qin          = 1.3;
-///@}
-#endif //HO
-
-
-///////////////////////////////////////
-// initialPDF parameter settings
-///////////////////////////////////////
-/**
  * @brief enumerating the different Initial PDFs
  */
 enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
@@ -136,22 +34,9 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
                        INITIALPDFS_SAL3}; // same as SAL5 w/out PL part
 
 /**
- * @brief names of the InitialPDFs
- */
-const std::map<std::string, int> initialPDFsNames = {{"INITIALPDFS_9GDUS", INITIALPDFS_9GDUS},
-                                                     {"INITIALPDFS_8GDU",  INITIALPDFS_8GDU},
-                                                     {"INITIALPDFS_6GQS",  INITIALPDFS_6GQS},
-                                                     
-                                                     {"INITIALPDFS_SAL8",  INITIALPDFS_SAL8},
-                                                     {"INITIALPDFS_SAL6",  INITIALPDFS_SAL6},
-                                                     {"INITIALPDFS_SAL5",  INITIALPDFS_SAL5},
-                                                     {"INITIALPDFS_SAL4",  INITIALPDFS_SAL4},
-                                                     {"INITIALPDFS_SAL3",  INITIALPDFS_SAL3}};
-
-/**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const int usedInitialPDFs = initialPDFsNames.at(nameUsedInitialPDFs);
+const int usedInitialPDFs = INITIALPDFS_SAL3;
 
 /**
  * @brief initial parameters for the PDFs
@@ -230,3 +115,136 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
                                                                     {INITIALPDFS_SAL5,  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL", "B_Q_PL"}},
                                                                     {INITIALPDFS_SAL4,  {"K_S", "B_G_HAD", "A_Q_HAD", "B_Q_HAD"}},
                                                                     {INITIALPDFS_SAL3,  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD"}}};
+
+/**
+ * @brief names of the InitialPDFs
+ */
+const std::map<int, std::string> initialPDFsNames = {{INITIALPDFS_9GDUS, "INITIALPDFS_9GDUS"},
+                                                     {INITIALPDFS_8GDU,  "INITIALPDFS_8GDU"},
+                                                     {INITIALPDFS_6GQS,  "INITIALPDFS_6GQS"},
+                                                     
+                                                     {INITIALPDFS_SAL8,  "INITIALPDFS_SAL8"},
+                                                     {INITIALPDFS_SAL6,  "INITIALPDFS_SAL6"},
+                                                     {INITIALPDFS_SAL5,  "INITIALPDFS_SAL5"},
+                                                     {INITIALPDFS_SAL4,  "INITIALPDFS_SAL4"},
+                                                     {INITIALPDFS_SAL3,  "INITIALPDFS_SAL3"}};
+
+
+
+///////////////////////////////////////
+// choose which data is used
+///////////////////////////////////////
+
+/**
+ * @brief Names of the included experimental data points (see experimentalData.h).
+ * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ", "TPC"
+ */
+const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
+
+/**
+ * @brief change which LHAPDF data set is used 
+ */
+#define GRVCustomSetLO
+
+/**
+ * @brief change if ErrorPDFs should be calculated
+ */
+// #define ErrorPDFs
+
+
+
+///////////////////////////////////////
+// not changed that often
+///////////////////////////////////////
+/**
+ * @brief path of the file where data should be saved
+ */
+const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFs.txt";
+
+/**
+ * @brief the total momentum / result of MomentumSumRule0
+ */
+const double totalMomentum = 1.;
+
+/**
+ * @brief Delta Chi^2, used to calculate the error PDFs
+ */
+#ifdef ErrorPDFs
+const double DeltaChi2 = 1.;
+#endif //ErrorPDFs
+
+#ifdef GRVCustomSetLO
+/**
+ * @name GRV LO values
+ * Some values, usually defined in the LHAPDF .info file, on the GRV LO PDFs.
+ */
+///@{
+/// @brief Name of the used LHAPDF data set
+const std::string NameLHAPDFSet = "GRVCustomSetLO";
+
+/// @brief perturbation order of Apfel
+const int    pto          = 0;
+
+/// @brief reference for energy; mass of the z-boson 
+const double Qref         = 91.188; // nCTEQ15 input
+// const double Qref         = 91.1876;
+
+/// @brief reference for the strong coupling constant at Qref 
+const double asref        = 0.1179973; // nCTEQ15 input
+// const double asref        = 0.128;
+
+/// @brief mass of the charm quark 
+const double mc           = 1.3; // nCTEQ15 input
+// const double mc           = 1.5;
+
+/// @brief mass of the bottom quark 
+const double mb           = 4.5;
+
+/// @brief mass of the top quark 
+const double mt           = 174; // nCTEQ15 input
+// const double mt           = 100;
+
+/// @brief initial energy; lowest energy 
+const double Qin          = 1.3; // nCTEQ15 input
+// const double Qin          = std::sqrt(2.);
+// const double Qin          = 1.295000e+00;
+///@}
+#endif //GRVCustomSetLO
+
+#ifdef GRVCustomSetHO
+/**
+ * @name GRV HO values
+ * Some values, usually defined in the LHAPDF .info file, on the GRV HO PDFs.
+ */
+///@{
+/// @brief Name of the used LHAPDF data set
+const std::string NameLHAPDFSet = "GRVCustomSetHO";
+
+/// @brief perturbation order of Apfel
+const int    pto          = 1;
+
+/// @brief reference for energy; mass of the z-boson 
+const double Qref         = 91.188; // nCTEQ15 input
+// const double Qref         = 91.1876;
+
+/// @brief reference for the strong coupling constant at Qref 
+const double asref        = 0.1179973; // nCTEQ15 input
+// const double asref        = 0.11087771034313237;
+
+/// @brief mass of the charm quark 
+const double mc           = 1.3; // nCTEQ15 input
+// const double mc           = 1.5;
+
+/// @brief mass of the bottom quark 
+const double mb           = 4.5;
+
+/// @brief mass of the top quark 
+const double mt           = 174; // nCTEQ15 input
+// const double mt           = 100;
+
+/// @brief initial energy; lowest energy 
+const double Qin          = 1.3; // nCTEQ15 input
+// const double Qin          = std::sqrt(2.);
+// const double Qin          = 1.295000e+00;
+///@}
+#endif //GRVCustomSetHO

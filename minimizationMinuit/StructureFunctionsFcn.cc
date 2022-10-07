@@ -6,7 +6,6 @@
  */
 
 #include "apfel/apfelxx.h"  
-#include "LHAPDF/LHAPDF.h"
 
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
@@ -22,14 +21,11 @@
 
 
 StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
-                                             std::string const& NameLHAPDFSet,
                                              double      const& ErrorDef): 
                 _Q2Data(combineData(experimentalData, "Q2Data")),
                 _xData(combineData(experimentalData, "xData")),
                 _F2Gamma(combineData(experimentalData, "F2Gamma")),
                 _F2GammaErr(combineData(experimentalData, "F2GammaErr")),
-                _NameLHAPDFSet(NameLHAPDFSet),
-                _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
     {}
 
@@ -37,14 +33,11 @@ StructureFunctionsFcn::StructureFunctionsFcn(std::vector<double> const& Q2Data,
                                              std::vector<double> const& xData,
                                              std::vector<double> const& F2Gamma,
                                              std::vector<double> const& F2GammaErr,
-                                             std::string         const& NameLHAPDFSet,
                                              double              const& ErrorDef): 
                 _Q2Data(Q2Data),
                 _xData(xData),
                 _F2Gamma(F2Gamma),
                 _F2GammaErr(F2GammaErr),
-                _NameLHAPDFSet(NameLHAPDFSet),
-                _LHAPDFSet(LHAPDF::mkPDF(NameLHAPDFSet)),
                 _ErrorDef(ErrorDef)
     {}
 
@@ -68,7 +61,7 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
 
     // Define Input PDFs
-    auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double> { return InitialPDFs(x, Q, params, _LHAPDFSet); };
+    auto InPDFs = [&] (double const& x, double const& Q) -> std::map<int, double> { return InitialPDFs(x, Q, params); };
 
     // Initialise and Build DglapObjects
     auto EvolvedPDFs = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFs, Qin, pto, as);
@@ -81,7 +74,6 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
     const std::function<std::vector<double>(double const&)> fBq = [=] (double const& Q) -> std::vector<double> { return apfel::ElectroWeakCharges(Q, false); };
 
     // Define PDFs functions 
-    //const auto PDFs        = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(dist->xfxQ(x, Q)); };
     const auto PDFsEvolved = [&] (double const& x, double const& Q) -> std::map<int, double>{ return TabulatedPDFs.EvaluateMapxQ(x,Q); };
 
     // Initialise and Build Structure Functions
@@ -115,7 +107,6 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
 std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              const& x,
                                                          double              const& Q,
                                                          std::vector<double> const& params,
-                                                         LHAPDF::PDF*               dist,
                                                          bool                const& returnParameters) const
 {   
     switch (usedInitialPDFs)

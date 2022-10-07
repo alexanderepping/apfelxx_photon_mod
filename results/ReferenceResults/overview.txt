@@ -1,0 +1,22 @@
+XX = LO or HO
+
+SAL:
+    dataPDFsSAL.txt:
+        - contains the data from SAL, taken at sqrt(2) GeV
+        - calculated: 2022.10.06
+
+
+
+GRV:
+    dataPDFsGRVXXSqrt2.txt:
+        - contains the data from GRV at XX, taken at 1.3(mc) and evolved to sqrt(2) (apfel++) and taken at sqrt(2) (lhapdf)
+        - calculated: 2022.10.06 
+        - LHAPDF-Set: GRVXX_nCTEQ15Parameters 
+        - precompiler-setting: asApfel
+
+    dataPDFsGRVXX13.txt:
+        - contains the data from GRV at XX, taken at 1.3 (mc) and evolved to 1.3 (apfel++) and taken at 1.3 (lhapdf)
+        - they are the same 
+        - calculated: 2022.10.06 
+        - LHAPDF-Set: GRVXX_nCTEQ15Parameters 
+        - precompiler-setting: asApfel
