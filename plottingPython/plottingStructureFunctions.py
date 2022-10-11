@@ -14,6 +14,7 @@ from experimentalData import *
 # variables changeable by user
 dirThisFile = os.path.dirname(__file__) + "/"
 input_file = dirThisFile+"dataStructureFunctions.txt"
+#input_file = dirThisFile+"../results/Bestandsaufnahme_2022_10_06/dataStructureFunctionsSAL5HOErrors.txt"
 
 # All DataSets and Energies:
 #       DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, OPAL2_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA, TPC_DATA]

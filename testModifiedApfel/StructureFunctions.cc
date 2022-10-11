@@ -24,7 +24,7 @@ const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plotti
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
 const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
-// const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOStructureFunctionsErrors.txt";
+//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataStructureFunctionsSAL5HOErrors.txt";
 
 // Decide whether LO or HO should be used
 //#define LO
