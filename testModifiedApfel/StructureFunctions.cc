@@ -1,6 +1,3 @@
-
-
-
 ////////////////////////////////////////////////////////////
 // imports
 ////////////////////////////////////////////////////////////
@@ -23,11 +20,11 @@
 
 // Name of the input file with the parameters etc
 const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOInitialPDFsErrors.txt";
+//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataInitialPDFsSAL5HOErrors.txt";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
-// const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOStructureFunctionsErrors.txt";
+const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
+// const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_09_15/data_SAL5HOStructureFunctionsErrors.txt";
 
 // Decide whether LO or HO should be used
 //#define LO
@@ -229,6 +226,7 @@ InputFileDataStruct GetData(std::string InputFileName){
 int main()
 {     
   // preparing vectors to save data
+  // the vector...Term vectors are for terminal output
   std::vector<std::vector<double>> vectorDeltaX(sizeof(arr_mu2)/sizeof(arr_mu2[0]), {0});
   for (int i=0; i<vectorDeltaX.size(); i++)
     vectorDeltaX[i].resize(xlha2.size());
@@ -263,6 +261,7 @@ int main()
   const double mb           = 4.5;
   const double mt           = 174;
   const double Qin          = 1.3;
+  const double QinSAL       = std::sqrt(2.); 
 #endif //LO
 
 #ifdef HO
@@ -273,6 +272,7 @@ int main()
   const double mb           = 4.5;
   const double mt           = 174; 
   const double Qin          = 1.3; 
+  const double QinSAL       = std::sqrt(2.); 
 #endif //HO
 
 
@@ -364,7 +364,7 @@ int main()
 
     // Initialise and Build DglapObjects
     auto EvolvedPDFs    = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFs,  Qin, pto, as);
-    auto EvolvedPDFsSAL = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFsSAL,  Qin, pto, as);
+    auto EvolvedPDFsSAL = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFsSAL,  QinSAL, pto, as);
 
     // Tabulate PDFs
     //const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 0.95, 1000, 3, as};
@@ -408,7 +408,7 @@ int main()
 
     // opening output file
     std::ofstream file;
-    file.open(OutputFileStructureFunctions);
+    file.open(OutputFileName);
 
     // print basic information on the following data
     file << "# mu2 values:" << std::endl;

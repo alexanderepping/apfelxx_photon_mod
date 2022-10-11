@@ -22,11 +22,11 @@ plotRatio = False
 plotRatioAlt = False
 
 # output file settings
-writeFile = True # only useful if data from multiple files is combined
+writeFile = False # only useful if data from multiple files is combined
 outputFileName = dirCurrent + "dataEvolvedPDFsAllLO.txt"
 
 # plot settings
-saveFig = True
+saveFig = False
 pltName = dirCurrent + "plotEvolvedPDFsAllLO"
 scale   = 1.75
 dpi = 200
@@ -34,7 +34,8 @@ dpi = 200
 # input data sets settings
 # some DataSets can be found in plottingEvolvedPDFsDataSets.py
 #DataSets = {"SAL": data_SAL, "SAL3LO": data_SAL3LO, "SAL5LO": data_SAL5LO, "SAL3HO": data_SAL3HO, "SAL5HO": data_SAL5HO}
-DataSets = {"SAL": data_SAL, "SAL3LO": data_SAL3LO, "SAL5LO": data_SAL5LO, "GRVLO": data_GRVLOSqrt2_Exact}
+DataSets = {"SAL": data_EvolvedPDFs2, "SAL5HO": data_EvolvedPDFs1}
+ErrorDataSets = {"SAL5HO": data_EvolvedPDFs4}
 
 
 
@@ -94,6 +95,17 @@ for Set in DataSets.keys():
         muVal = DataSets[Set]["MuVal"]
     elif muVal != DataSets[Set]["MuVal"]:
         sameMuVal = False
+
+for Set in ErrorDataSets.keys():
+    numXVals = DataSets[Set]["NumXVals"]
+    ErrorDataSets[Set]["Data"] = np.zeros((rangeParticles+1, numXVals)) # rangeParticles+1 because of Singlet
+
+    for particle in range(rangeParticles):
+        dataArrayTemp = np.loadtxt(open(DataSets[Set]["FilePath"]), delimiter=",", unpack=True, skiprows=(particle * numXVals + 5), max_rows=numXVals)
+        ErrorDataSets[Set]["Data"][particle] = dataArrayTemp[ErrorDataSets[Set]["DataColumn"]]
+
+        if particle != 0: # make Singlet data (gluon not included)
+            ErrorDataSets[Set]["Data"][rangeParticles] += 2 * ErrorDataSets[Set]["Data"][particle]
 
 
 
@@ -155,6 +167,11 @@ for particle in range(rangeParticles+1):
         else:
             for Set in DataSets.keys():
                 subplt[i].plot(xVals, DataSets[Set]["Data"][particle],  label=DataSets[Set]["Label"])
+                # plot ErrorPDFs
+                if Set in ErrorDataSets.keys():
+                    subplt[i].fill_between(xVals, DataSets[Set]["Data"][particle] - ErrorDataSets[Set]["Data"][particle], DataSets[Set]["Data"][particle] + ErrorDataSets[Set]["Data"][particle], alpha=0.2)
+                else: 
+                    subplt[i].fill_between(xVals, DataSets[Set]["Data"][particle], DataSets[Set]["Data"][particle], alpha=0.2)
 
         subplt[i].set_title(namesPlots[particle]+" PDF")
         subplt[i].tick_params('x', labelbottom=True)

@@ -26,21 +26,20 @@ data_SAL3HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL3HO
 data_SAL5HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL5HO.txt",
                                  "DataColumn": 1}                   
 
+data_EvolvedPDFs1             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
+                                 "DataColumn": 1}                   
+data_EvolvedPDFs2             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
+                                 "DataColumn": 2}                   
+data_EvolvedPDFs3             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
+                                 "DataColumn": 3}                   
+data_EvolvedPDFs4             = {"FilePath":   dirThisFile+"dataEvolvedPDFstxt",
+                                 "DataColumn": 4}                   
+
 
 
 #######################
 # data set directories
 #######################
-DataEvolvedPDFs = {
-            "Apfel++":          {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
-                                 "Label":      "Apfel++ values",   
-                                 "DataColumn": 1,                 
-                                 "XColumn":    0},               
-            "LHAPDF":           {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
-                                 "Label":      "LHAPDF values", 
-                                 "DataColumn": 2,              
-                                 "XColumn":    0}             
-            }
 
 
 

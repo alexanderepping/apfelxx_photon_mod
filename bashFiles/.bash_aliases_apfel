@@ -40,6 +40,12 @@ runEvolution () {
     cd $CURRENT_APFEL && cd .. 
 }
 
+runEvolutionLHAPDF () {
+    cdApfel && cd bashFiles
+    bash run_EvolutionLHAPDF.sh
+    cd $CURRENT_APFEL && cd .. 
+}
+
 runStructureFunctions () {
     cdApfel && cd bashFiles
     bash run_StructureFunctions.sh
