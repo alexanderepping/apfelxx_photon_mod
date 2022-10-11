@@ -64,12 +64,19 @@ const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingP
  */
 const double totalMomentum = 1.;
 
+
+/**
+ * @brief change the derivative used in the Calculation of the Hessian.
+ * The more function calls, the lower the numerical noise of derivative but also takes longer.
+ *      - StandardCentralDifferences: two function calls per derivative
+ *      - SevenPointLowNoise: six function calls per derivative
+ */
+#define StandardCentralDifferences
+
 /**
  * @brief Delta Chi^2, used to calculate the error PDFs
  */
-#ifdef ErrorPDFs
 const double DeltaChi2 = 1.;
-#endif //ErrorPDFs
 
 #ifdef LO
 /**

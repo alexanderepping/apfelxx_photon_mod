@@ -166,6 +166,7 @@ int main()
         std::vector<double> finalErrorParametersPlusTemp;
         std::vector<double> finalErrorParametersMinusTemp;
 
+        // copy data finalErrorParameters from Map into vector
         for (int i=0; i<finalErrorParametersMapPlus.size(); i++)
         {
             // std::cout << "debug: in 2nd for-loop 01" << std::endl; //debug
@@ -175,6 +176,8 @@ int main()
         }
 
         // std::cout << "debug: after 2nd for-loop" << std::endl; //debug
+
+        // save finalErrorParameters...Temp in the "big" vector
         finalErrorParametersPlus.push_back(finalErrorParametersPlusTemp);
         finalErrorParametersMinus.push_back(finalErrorParametersMinusTemp);
 
@@ -182,14 +185,14 @@ int main()
         if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
             {
                 // add AN_g1 to vector
-                finalErrorParametersPlus[k].push_back(finalParameters[finalParameters.size()-1]);
-                finalErrorParametersMinus[k].push_back(finalParameters[finalParameters.size()-1]);
+                finalErrorParametersPlus[k].push_back(StructureFunctions.MomentumSumRule0(finalErrorParametersPlus[k]));
+                finalErrorParametersMinus[k].push_back(StructureFunctions.MomentumSumRule0(finalErrorParametersMinus[k]));
             }
         else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
             {
                 // add A_G_Had to vector
-                finalErrorParametersPlus[k].push_back(finalParameters[finalParameters.size()-1]);
-                finalErrorParametersMinus[k].push_back(finalParameters[finalParameters.size()-1]);
+                finalErrorParametersPlus[k].push_back(StructureFunctions.MomentumSumRuleSAL(finalErrorParametersPlus[k], Qin));
+                finalErrorParametersMinus[k].push_back(StructureFunctions.MomentumSumRuleSAL(finalErrorParametersMinus[k], Qin));
             }
     }
 #endif //ErrorPDFs

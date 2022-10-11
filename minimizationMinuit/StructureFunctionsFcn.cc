@@ -201,6 +201,8 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     // Integral over A_Q_PL x (x^2 + (1-x)^2) / (1 - B_Q_PL ln(1-x)a
     const double lhsPLQ  = -1 * params[6] / params[7] * ( helperFunction(1,params[7]) - 3 * helperFunction(2,params[7]) + 4 * helperFunction(3,params[7]) - 2 * helperFunction(4,params[7]) );
 
+    const double A_G_Had = (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
+
     /*
     //debug v
     std::cout << "§ Parameters:" << std::endl;
@@ -225,7 +227,7 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     //debug ^
     */
 
-    return (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
+    return A_G_Had;
 }
 
 

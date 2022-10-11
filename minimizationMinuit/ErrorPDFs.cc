@@ -27,6 +27,16 @@ double SecondDerivative(StructureFunctionsFcn const& function,
         return a1;
     };
 
+#ifdef StandardCentralDifferences
+    std::function<double(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> double 
+        {
+            return (function(a1(a0, parameter1, 1)) - function(a1(a0, parameter1, -1))) / (2 * h);
+        };
+
+    return (FirstDerivative(a1(a0, parameter2, 1)) - FirstDerivative(a1(a0, parameter2, -1))) / (2 * h);
+#endif //StandardCentralDifferences
+
+#ifdef SevenPointLowNoise
     std::function<double(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> double 
         {
             return ((function(a1(a0, parameter1, 1)) - function(a1(a0, parameter1, -1))) 
@@ -37,6 +47,7 @@ double SecondDerivative(StructureFunctionsFcn const& function,
     return ((FirstDerivative(a1(a0, parameter2, 1)) - FirstDerivative(a1(a0, parameter2, -1))) 
       + 2 * (FirstDerivative(a1(a0, parameter2, 2)) - FirstDerivative(a1(a0, parameter2, -2))) 
       + 3 * (FirstDerivative(a1(a0, parameter2, 3)) - FirstDerivative(a1(a0, parameter2, -3)))) / (28 * h);
+#endif //SevenPointLowNoise
 };
 
 
