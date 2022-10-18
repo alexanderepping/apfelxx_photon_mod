@@ -18,14 +18,14 @@ dirApfel = "/home/alexander/Uni/apfelxx_photon_mod/"
 dirName = dirApfel+"results/Bestandsaufnahme_2022_10_06/"
 
 input_file = dirThisFile+"dataInitialPDFs.txt"
-#input_file = dirName+"dataInitialPDFsSAL5HOErrors.txt"
+#input_file = dirName+"dataInitialPDFsSAL3LO.txt"
 startingLine = 1 # line in which # INITIALPDFS_... is written, usually 1
 
 ratioError = False
-showSALInitialPDFs = True
+showSALInitialPDFs = False #SALInitialPDFs are at sqrt2 GeV, whereas out InitialPDFs are most likely at 1.3 GeV
 
 save_fig = False
-pltname=dirThisFile+"plotInitialPDFs"
+pltname=dirThisFile+"../plots/plotInitialPDFsSAL3LO_woutOPAL2"
 #pltname=dirName+"plotInitialPDFsSAL5HOErrors"
 scale = 1.75
 dpi = 200 # default is 100
@@ -76,26 +76,41 @@ usedExperimentalData = np.genfromtxt(input_file,    delimiter=",", unpack=False,
 ParametersNames      = np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+5, max_rows=1)
 Parameters           = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+7,    max_rows=1)
 
-if (str(np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+8, max_rows=1)) != "## chi2:"):
+if (str(np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+8, max_rows=1, comments="§#§")) != "## chi2:"):
     # get the number of free parameters and the number of overall parameters
     a = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+9,    max_rows=1)
-    # remove the fixed variables
+    # remove the fixed variables (finalErrorParameters are the same as the finalParameters if the variables are fixed)
     a -= Parameters
+    # the AGHad doesn't count as free parameter, but is changed. Therefore ignore it
+    aTemp = a[0:-1]
     # get the number of free parameters that can contribute to error pdfs
-    numErrorParams   = len(a[a != 0])
+    numErrorParams   = len(aTemp[aTemp != 0])
     # prepare the arrays for the error parameters
     ErrorParametersPlus  = np.zeros((numErrorParams, len(a)))
     ErrorParametersMinus = np.zeros((numErrorParams, len(a)))
     for i in range(numErrorParams):
         ErrorParametersPlus[i]  = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+9+i,    max_rows=1)
         ErrorParametersMinus[i] = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+10+numErrorParams+i,    max_rows=1)
+
+    # check if the file includes chi2 for each experiment
+    if (str(np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+12+2*numErrorParams, max_rows=1, comments="§#§")) != "## chi2/NumberOfDataPoints:"):
+        additionalLines = 2
+    else:
+        additionalLines = 0
+
     chi2             = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+11+2*numErrorParams,    max_rows=1)
-    chi2PerDP        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+13+2*numErrorParams,   max_rows=1)
-    deltaChi2        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+15+2*numErrorParams,   max_rows=1)
+    chi2PerDP        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+additionalLines+13+2*numErrorParams,   max_rows=1)
+    deltaChi2        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+2*additionalLines+15+2*numErrorParams,   max_rows=1)
     ErrorPDFs = True
 else:
+    # check if the file includes chi2 for each experiment
+    if (str(np.genfromtxt(input_file,    delimiter=",", unpack=False, dtype='str',   skip_header=startingLine+10, max_rows=1, comments="§#§")) != "## chi2/NumberOfDataPoints:"):
+        additionalLines = 2
+    else:
+        additionalLines = 0
+
     chi2             = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+9,    max_rows=1)
-    chi2PerDP        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+11,   max_rows=1)
+    chi2PerDP        = np.loadtxt(open(input_file), delimiter=",", unpack=False, dtype='float', skiprows=startingLine+additionalLines+11,   max_rows=1)
     ErrorPDFs = False
 
 
@@ -109,7 +124,10 @@ fig, axs = plt.subplots(2, 2, sharex=True, figsize=(12*scale,7*scale))
 subplt = [axs[0,0], axs[0,1], axs[1,0], axs[1,1]]
 
 # making the Title
-title = makeTitle(usedInitialPDFs, chi2, chi2PerDP, usedExperimentalData, Parameters, ParametersNames, ErrorPDFs, deltaChi2)
+if ErrorPDFs:
+    title = makeTitle(usedInitialPDFs, chi2, chi2PerDP, usedExperimentalData, Parameters, ParametersNames, ErrorPDFs, deltaChi2)
+else:
+    title = makeTitle(usedInitialPDFs, chi2, chi2PerDP, usedExperimentalData, Parameters, ParametersNames)
 
 
 # plotting the SAL-type InitialPDFs

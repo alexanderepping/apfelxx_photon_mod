@@ -4,6 +4,10 @@ This is similar to that Bestandsaufnahme_2022_09_15, but with that error correct
 All data etc (except for InitialPDFs) here is at sqrt2 GeC unless stated otherwise!
 All data was calculated on 2022.10.06.
 
+The data with Errors was calculated using the 7-point-low-noise derivative and the errorPDFs did violate the Momentum Sum Rule
+
+There was also an error when calculating the StructureFunctions in a previous version of this folder but it is fixed now!
+
 
 
 XX = LO or HO

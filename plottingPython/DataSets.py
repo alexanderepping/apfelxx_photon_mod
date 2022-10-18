@@ -10,6 +10,8 @@ dirApfel = "/home/alexander/Uni/apfelxx_photon_mod/"
 dirReference = dirApfel+"results/ReferenceResults/"
 
 dirBestandsaufnahme = dirApfel+"results/Bestandsaufnahme_2022_10_06/"
+dirBestandsaufnahme2 = dirApfel+"results/Calculations_2022_10_13/"
+dirResults = dirApfel+"results/"
 dirCurrent = dirBestandsaufnahme
 
 
@@ -32,9 +34,17 @@ data_EvolvedPDFs2             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt"
                                  "DataColumn": 2}                   
 data_EvolvedPDFs3             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
                                  "DataColumn": 3}                   
-data_EvolvedPDFs4             = {"FilePath":   dirThisFile+"dataEvolvedPDFstxt",
+data_EvolvedPDFs4             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
                                  "DataColumn": 4}                   
 
+data_EvolvedPDFs5             = {"FilePath":   dirBestandsaufnahme2+"dataEvolvedPDFsSAL5HOErrors_withMSR.txt",
+                                 "DataColumn": 1}                   
+data_EvolvedPDFs5E            = {"FilePath":   dirBestandsaufnahme2+"dataEvolvedPDFsSAL5HOErrors_withMSR.txt",
+                                 "DataColumn": 4}                   
+data_EvolvedPDFs6             = {"FilePath":   dirBestandsaufnahme2+"dataEvolvedPDFsSAL5HOErrors_woutMSR.txt",
+                                 "DataColumn": 1}                   
+data_EvolvedPDFs6E            = {"FilePath":   dirBestandsaufnahme2+"dataEvolvedPDFsSAL5HOErrors_woutMSR.txt",
+                                 "DataColumn": 4}                   
 
 
 #######################
@@ -42,6 +52,11 @@ data_EvolvedPDFs4             = {"FilePath":   dirThisFile+"dataEvolvedPDFstxt",
 #######################
 
 
+
+
+##########################################################################################
+# REFERENCE DATA SETS
+##########################################################################################
 
 ##############################
 # single reference data sets

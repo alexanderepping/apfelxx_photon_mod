@@ -1,0 +1,14 @@
+
+Comparison SAL5HO using standard central differences derivative:
+    - dataInitialPDFsSAL5HOErrors_woutMSR.txt: 
+        - contains the parameters for the SAL5 input type PDF at 1.3(mc) at HO, including errorPDFs
+        - Errors violate MomentumSumRule
+    - dataInitialPDFsSAL5HOErrors_withMSR.txt:
+        - contains the parameters for the SAL5 input type PDF at 1.3(mc) at HO, including errorPDFs
+        - Errors don't violate MomentumSumRule
+
+Comparison of SAL3LO with and without OPAL2 data:
+    - dataInitialPDFsSAL3LO_withOPAL2.txt
+    - plotInitialPDFsSAL3LO_withOPAL2.png
+    - dataInitialPDFsSAL3LO_woutOPAL2.txt
+    - plotInitialPDFsSAL3LO_woutOPAL2.png

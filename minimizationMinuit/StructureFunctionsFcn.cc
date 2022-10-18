@@ -21,23 +21,14 @@
 
 
 StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
-                                             double      const& ErrorDef): 
-                _Q2Data(combineData(experimentalData, "Q2Data")),
-                _xData(combineData(experimentalData, "xData")),
-                _F2Gamma(combineData(experimentalData, "F2Gamma")),
-                _F2GammaErr(combineData(experimentalData, "F2GammaErr")),
-                _ErrorDef(ErrorDef)
-    {}
-
-StructureFunctionsFcn::StructureFunctionsFcn(std::vector<double> const& Q2Data,
-                                             std::vector<double> const& xData,
-                                             std::vector<double> const& F2Gamma,
-                                             std::vector<double> const& F2GammaErr,
-                                             double              const& ErrorDef): 
-                _Q2Data(Q2Data),
-                _xData(xData),
-                _F2Gamma(F2Gamma),
-                _F2GammaErr(F2GammaErr),
+                                             std::vector<std::string>                                          const& IncludedExpData,
+                                             double                                                            const& ErrorDef): 
+                _ExperimentalData(experimentalData),
+                _IncludedExpData(IncludedExpData),
+                _Q2Data(combineData(experimentalData, IncludedExpData, "Q2Data")),
+                _xData(combineData(experimentalData, IncludedExpData, "xData")),
+                _F2Gamma(combineData(experimentalData, IncludedExpData, "F2Gamma")),
+                _F2GammaErr(combineData(experimentalData, IncludedExpData, "F2GammaErr")),
                 _ErrorDef(ErrorDef)
     {}
 
@@ -139,18 +130,19 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
         return InitialPDFs_SAL3(x, Q, params, returnParameters);
         break;
     default:
-        break;
+        abort();
     } 
 }
 
 
 
 std::vector<double> StructureFunctionsFcn::combineData(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
+                                                       std::vector<std::string>                                          const& IncludedExpData,
                                                        std::string                                                       const& dataName) const
 {
     std::vector<double> returnData{};
 
-    for (std::string DataSet : IncludedExperimentalData)
+    for (std::string DataSet : IncludedExpData)
         returnData.insert(std::end(returnData), std::begin(experimentalData.at(DataSet).at(dataName)), std::end(experimentalData.at(DataSet).at(dataName)));
 
     return returnData;

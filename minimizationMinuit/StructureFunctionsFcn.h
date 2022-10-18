@@ -35,26 +35,12 @@ public:
      * found in experimentalData.h
      * 
      * @param experimentalData: the experimental data in the format seen in experimentalData.h
+     * @param IncludedExpData: the experimental data, that is included from experimentalData.h
      * @param ErrorDef: default value = 1.
      */
     StructureFunctionsFcn(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
+                          std::vector<std::string>                                          const& IncludedExpData = IncludedExperimentalData,
                           double      const& ErrorDef = 1. );
-
-    /**
-     * @brief The StructureFunctionsFcn constructor for the seperate input of experimental data vectors.
-     * 
-     * @param Q2Data: vector of squared Energies from different experiments
-     * @param xData: vector of x data from different experiments
-     * @param F2Gamma: vector of F2Gamma values from different experiments; F2Gamma[i] = F2Gamma(xData[i], Q2Data[i])
-     * @param F2GammaErr: vector of the errors of the F2Gamma vector
-     * @param ErrorDef: default value = 1.
-     * 
-     */
-    StructureFunctionsFcn(std::vector<double> const& Q2Data,
-                          std::vector<double> const& xData,
-                          std::vector<double> const& F2Gamma,
-                          std::vector<double> const& F2GammaErr,
-                          double              const& ErrorDef = 1. );
 
     /**
      * @brief The StructureFunctionsFcn destructor.
@@ -97,11 +83,13 @@ public:
      * @brief function to combine the data from several experiments into only one vector
      * 
      * @param experimentalData: the experimental data in the format seen in experimentalData.h
+     * @param IncludedExpData: the experimental data, that is included from experimentalData.h
      * @param dataName: "Name" of the data whose vectors should be combined (e.g. "xData" or "Q2Data")
      * 
      * @return vector with combined data
      */
     std::vector<double> combineData(std::map<std::string, std::map<std::string, std::vector<double>>> const& experimentalData,
+                                    std::vector<std::string>                                          const& IncludedExpData,
                                     std::string                                                       const& dataName) const;
 
     /** 
@@ -143,6 +131,10 @@ public:
      * List of functions to return the different member data
      */
     ///@{
+    /** @brief return experimentalData map */
+    std::map<std::string, std::map<std::string, std::vector<double>>> ExperimentalData() const {return _ExperimentalData;}
+    /** @brief return included experimental Data */
+    std::vector<std::string> IncludedExpData() const {return _IncludedExpData;}
     /** @brief return vector of squared Energies */
     std::vector<double> Q2Data()        const {return _Q2Data;}
     /** @brief return vector of x data */
@@ -338,9 +330,11 @@ public:
 
 
 private:
-    std::vector<double> _Q2Data;
-    std::vector<double> _xData;
-    std::vector<double> _F2Gamma;
-    std::vector<double> _F2GammaErr;
-    double              _ErrorDef;
+    std::map<std::string, std::map<std::string, std::vector<double>>> _ExperimentalData;
+    std::vector<std::string> _IncludedExpData;
+    std::vector<double>      _Q2Data;
+    std::vector<double>      _xData;
+    std::vector<double>      _F2Gamma;
+    std::vector<double>      _F2GammaErr;
+    double                   _ErrorDef;
 };

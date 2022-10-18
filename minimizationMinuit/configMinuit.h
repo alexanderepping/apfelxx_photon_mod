@@ -20,17 +20,17 @@
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
+const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
 
 /**
  * @brief change which perturbation order is used
  */
-#define HO
+#define LO
 
 /**
  * @brief change if ErrorPDFs should be calculated
  */
-#define ErrorPDFs
+//#define ErrorPDFs
 
 
 
@@ -40,9 +40,10 @@ const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
 
 /**
  * @brief Names of the included experimental data points (see experimentalData.h).
- * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ", "TPC"
+ * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "OPAL2_dop", "PLUTO", "TASSO", "TOPAZ", "TPC"
  */
 const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
+//const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ"};
 
 
 
@@ -52,12 +53,7 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
 /**
  * @brief path of the file where data should be saved
  */
-// #ifndef ErrorPDFs
 const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-// #endif //ErrorPDFs
-// #ifdef ErrorPDFs
-// const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/data_InitialPDFsWithErrors.txt";
-// #endif //ErrorPDFs
 
 /**
  * @brief the total momentum / result of MomentumSumRule0

@@ -68,7 +68,7 @@ int main()
 
     
 /**
- * prepare Data Output and Calculation of Error PDFs
+ * prepare Data Output
  */
     // get the finalParams; ...Params are vectors etc. with not defined number of parameters
     std::vector<double> finalParams;
@@ -79,6 +79,14 @@ int main()
 
     // get chi2 of finalParams
     const double chi2 = StructureFunctions(finalParams);
+
+    // get chi2 for every experiment for finalParams
+    std::map<std::string, double> chi2PerExperiment;
+    for (std::string DataSet : StructureFunctions.IncludedExpData())
+    {
+        StructureFunctionsFcn StructureFunctionsTemp(StructureFunctions.ExperimentalData(), {DataSet});
+        chi2PerExperiment[DataSet] = StructureFunctionsTemp(finalParams);
+    }
 
     // get the finalParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
     std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0.5, Qin, finalParams, true);
@@ -93,28 +101,46 @@ int main()
         finalParameters.push_back(StructureFunctions.MomentumSumRule0(finalParameters));
     else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
         finalParameters.push_back(StructureFunctions.MomentumSumRuleSAL(finalParameters, Qin));    
-    
 
+
+
+#ifdef ErrorPDFs
 /**
  * just small, first output of minimization results (repeated later again, but bad behaviours or sth else can be already seen here)
  */
-#ifdef ErrorPDFs
     std::cout << "§ chi2:" << std::endl;
     std::cout << "§ " << chi2 << std::endl;
 
+    std::cout << "§ chi2 per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            std::cout << "§ " << chi2PerExperiment.at(data) << std::endl << std::endl;
+        else
+            std::cout << "§ " << chi2PerExperiment.at(data) << ", ";
+    }
+    
     std::cout << "§ chi2/NumberOfDataPoints:" << std::endl;
     std::cout << "§ " << chi2 / StructureFunctions.F2Gamma().size() << std::endl << std::endl << std::endl;
+
+    std::cout << "§ chi2/NumberOfDataPoints per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            std::cout << "§ " << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << std::endl << std::endl;
+        else
+            std::cout << "§ " << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << ", ";
+    }
     
 
     // output
     std::cout << "minimum: " << min << std::endl; 
-#endif //ErrorPDFs
+
 
 
 /**
- * Calculation Error PDFs
+ * Calculation Hessian and DeltaChi2
  */
-#ifdef ErrorPDFs
     const Eigen::MatrixXd Hessian = CalculateHessian(StructureFunctions, finalParams);
     // std::cout << "debug: calculated Hessian" << std::endl; //debug
 
@@ -122,6 +148,9 @@ int main()
     // std::cout << "debug: made the Eigensolver" << std::endl; //debug
 
 
+/**
+ * Calculation Error PDFs
+ */
     std::vector<std::vector<double>> errorParamsPlus;
     std::vector<std::vector<double>> errorParamsMinus;
 
@@ -143,13 +172,12 @@ int main()
     // std::cout << "debug: before errorParams" << std::endl; //debug
     std::map<std::string, std::vector<std::vector<double>>> errorParams = {{"+", errorParamsPlus},
                                                                            {"-", errorParamsMinus}};
-#endif //ErrorPDFs
+
 
 
 /**
  * prepare Data Output for Error PDFs
  */
-#ifdef ErrorPDFs
     // make finalParametersMap into vector
     std::vector<std::vector<double>> finalErrorParametersPlus;
     std::vector<std::vector<double>> finalErrorParametersMinus;
@@ -219,9 +247,9 @@ int main()
 
     // std::cout << "## Used experimentalData:" << std::endl; //debug
     file << "## Used experimentalData:" << std::endl;
-    for (std::string data : IncludedExperimentalData) 
+    for (std::string data : StructureFunctions.IncludedExpData()) 
     {
-        if (data == IncludedExperimentalData[IncludedExperimentalData.size()-1])
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
             file << data << std::endl;
         else
             file << data << ", ";
@@ -285,9 +313,27 @@ int main()
     file << "## chi2:" << std::endl;
     file << chi2 << std::endl;
 
+    file << "## chi2 per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            file << chi2PerExperiment.at(data) << std::endl;
+        else
+            file << chi2PerExperiment.at(data) << ", ";
+    }
+
     // std::cout << "## chi2/NumberOfDataPoints:" << std::endl; //debug
     file << "## chi2/NumberOfDataPoints:" << std::endl;
     file << chi2 / StructureFunctions.F2Gamma().size() << std::endl;
+
+    file << "## chi2/NumberOfDataPoints per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            file << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << std::endl;
+        else
+            file << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << ", ";
+    }
 
 #ifdef ErrorPDFs
     // std::cout << "## delta chi2:" << std::endl; //debug
@@ -308,12 +354,12 @@ int main()
     std::cout << "§ " << nameUsedInitialPDFs << std::endl << std::endl;
 
     std::cout << "§ Used experimentalData:" << std::endl;
-    for (std::string data : IncludedExperimentalData) 
+    for (std::string data : StructureFunctions.IncludedExpData()) 
     {
-        if (data == IncludedExperimentalData[IncludedExperimentalData.size()-1])
-        std::cout << "§ " << data << std::endl << std::endl;
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            std::cout << "§ " << data << std::endl << std::endl;
         else
-        std::cout << "§ " << data << ", ";
+            std::cout << "§ " << data << ", ";
     }
 
     if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
@@ -325,7 +371,7 @@ int main()
             if (i == finalParameters.size()-1)
                 std::cout << "§ AN_g1:\t" << finalParameters[i] << std::endl << std::endl;
             else
-            std::cout << "§ " << initialParamsNames.at(INITIALPDFS_9GDUS)[i] << ":\t" << finalParameters[i] << std::endl;
+                std::cout << "§ " << initialParamsNames.at(INITIALPDFS_9GDUS)[i] << ":\t" << finalParameters[i] << std::endl;
         }
     }
     else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
@@ -337,7 +383,7 @@ int main()
             if (i == finalParameters.size()-1)
                 std::cout << "§ A_G_HAD:\t" << finalParameters[i] << std::endl << std::endl;
             else
-            std::cout << "§ " << initialParamsNames.at(INITIALPDFS_SAL8)[i] << ":\t" << finalParameters[i] << std::endl;
+                std::cout << "§ " << initialParamsNames.at(INITIALPDFS_SAL8)[i] << ":\t" << finalParameters[i] << std::endl;
         }
     }
 
@@ -346,9 +392,27 @@ int main()
     std::cout << "§ chi2:" << std::endl;
     std::cout << "§ " << chi2 << std::endl;
 
+    std::cout << "§ chi2 per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            std::cout << "§ " << chi2PerExperiment.at(data) << std::endl << std::endl;
+        else
+            std::cout << "§ " << chi2PerExperiment.at(data) << ", ";
+    }
+    
     std::cout << "§ chi2/NumberOfDataPoints:" << std::endl;
     std::cout << "§ " << chi2 / StructureFunctions.F2Gamma().size() << std::endl << std::endl << std::endl;
-    
+
+    std::cout << "§ chi2/NumberOfDataPoints per experimentalDataSet:" << std::endl;
+    for (std::string data : StructureFunctions.IncludedExpData()) 
+    {
+        if (data == StructureFunctions.IncludedExpData()[StructureFunctions.IncludedExpData().size()-1])
+            std::cout << "§ " << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << std::endl << std::endl;
+        else
+            std::cout << "§ " << chi2PerExperiment.at(data)/StructureFunctions.ExperimentalData().at(data).at("F2Gamma").size() << ", ";
+    }
+
 
     // output
     std::cout << "minimum: " << min << std::endl;

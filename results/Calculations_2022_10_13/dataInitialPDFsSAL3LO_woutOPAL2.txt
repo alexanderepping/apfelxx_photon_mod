@@ -9,9 +9,5 @@ K_S, B_G_HAD, C_G_HAD, A_Q_HAD, B_Q_HAD, C_Q_HAD, A_Q_PL, B_Q_PL, A_G_HAD
 0.3, -0.353503, 3, 0.423403, 0.244205, 1, 0, 1, 0.204848
 ## chi2:
 120.11
-## chi2 per experimentalDataSet:
-4.74059, 15.7519, 5.94395, 3.01534, 12.527, 30.038, 12.7312, 12.3663, 7.59082, 15.4047
 ## chi2/NumberOfDataPoints:
 0.896343
-## chi2/NumberOfDataPoints per experimentalDataSet:
-0.430963, 0.984491, 0.742994, 0.753835, 1.56587, 1.306, 0.397851, 0.65086, 1.51816, 1.92559

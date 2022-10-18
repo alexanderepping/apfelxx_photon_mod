@@ -196,8 +196,19 @@ InputFileDataStruct GetData(std::string InputFileName){
     std::getline(InputFile, temp); 
     InputFileData.Chi2 = std::atof(temp.c_str());
 
-    //unimportant
+    // check if file includes chi2 for each experiment
     std::getline(InputFile, temp); 
+
+    bool hasChi2ForEachExp = False;
+    if (temp.find("experimentalDataSet") != std::string::npos)
+      hasChi2ForEachExp = true;
+
+    // skip two lines if file includes chi2 for each experiment
+    if (hasChi2ForEachExp)
+    {
+      std::getline(InputFile, temp); 
+      std::getline(InputFile, temp); 
+    }
 
     // Chi2PerDataPoint
     std::getline(InputFile, temp); 
@@ -205,6 +216,13 @@ InputFileDataStruct GetData(std::string InputFileName){
 
     if (InputFileData.HasErrors)
     {
+    // skip two lines if file includes chi2 for each experiment
+      if (hasChi2ForEachExp)
+      {
+        std::getline(InputFile, temp); 
+        std::getline(InputFile, temp); 
+      }
+
     //unimportant
       std::getline(InputFile, temp); 
 

@@ -19,11 +19,11 @@
 
 // Name of the input file with the parameters etc
 const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataInitialPDFsSAL3HO.txt";
+//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Calculations_2022_10_13/dataInitialPDFsSAL5HOErrors_withMSR.txt";
 
 // Name of the output file
 const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
-//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataEvolvedPDFsSAL3HO.txt";
+//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Calculations_2022_10_13/dataEvolvedPDFsSAL5HOErrors_withMSR.txt";
 
 // Decide whether LO or HO should be used
 #define HO

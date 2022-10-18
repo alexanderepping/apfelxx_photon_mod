@@ -50,7 +50,7 @@ echo "Used LHAPDF Installation  : "$CURRENT_LHAPDF
 echo "Plot Initial PDFs, including Errors? (y or n)"
 echo "Depending on the In-/OutputFiles of the different programs, the plot might not be the calculated one."
 
-answer=
+answer=""
 
 while [[ $answer = "" ]]; do
     read answer
@@ -67,7 +67,7 @@ fi
 echo "Calculate the Structure Functions, including Errors? (y or n)"
 echo "Depending on the In-/OutputFiles of the different programs, the result might not be the calculated one."
 
-answer=
+answer=""
 
 while [[ $answer = "" ]]; do
     read answer
