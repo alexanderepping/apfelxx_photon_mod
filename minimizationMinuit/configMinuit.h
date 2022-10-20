@@ -42,8 +42,9 @@ const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
  * @brief Names of the included experimental data points (see experimentalData.h).
  * All names: "ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "OPAL2_dop", "PLUTO", "TASSO", "TOPAZ", "TPC"
  */
-const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
+//const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"};
 //const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2", "PLUTO", "TASSO", "TOPAZ"};
+const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2_less", "PLUTO", "TASSO", "TOPAZ"};
 
 
 
