@@ -12,6 +12,9 @@
 #include <vector>
 #include <map>
 
+/**
+ * @brief struct, containing all the important results like final Parameters (with or wothout ErrorPDFs), chi2, etc.
+ */
 struct resultsDataStruct {
     std::vector<double>                 finalParameters;
     std::vector<std::vector<double>>    finalErrorParametersPlus;

@@ -23,3 +23,4 @@
 #include "ErrorPDFs.h"
 #include "OutputFunctions.h"
 #include "ResultsFunctions.h"
+#include "DeltaChi2.h"
