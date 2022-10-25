@@ -123,6 +123,9 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs(double              con
     case INITIALPDFS_SAL5:
         return InitialPDFs_SAL5(x, Q, params, returnParameters);
         break;
+    case INITIALPDFS_SAL4VADIM:
+        return InitialPDFs_SAL4Vadim(x, Q, params, returnParameters);
+        break;
     case INITIALPDFS_SAL4:
         return InitialPDFs_SAL4(x, Q, params, returnParameters);
         break;
@@ -191,7 +194,12 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     const double lhsHadQ = params[3] * betaFunction(params[4]+1, params[5]+1); 
 
     // Integral over A_Q_PL x (x^2 + (1-x)^2) / (1 - B_Q_PL ln(1-x)a
-    const double lhsPLQ  = -1 * params[6] / params[7] * ( helperFunction(1,params[7]) - 3 * helperFunction(2,params[7]) + 4 * helperFunction(3,params[7]) - 2 * helperFunction(4,params[7]) );
+    // depending on, if B_Q_PL is zero or not, differnt values for lhsPLQ
+    double lhsPLQ; 
+    if (params[7] != 0)
+        lhsPLQ  = -1 * params[6] / params[7] * ( helperFunction(1,params[7]) - 3 * helperFunction(2,params[7]) + 4 * helperFunction(3,params[7]) - 2 * helperFunction(4,params[7]) );
+    else
+        lhsPLQ  = params[6] / 3.;
 
     const double A_G_Had = (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
 
@@ -495,6 +503,34 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL5(double            
             return InitialPDFsMainSAL(x, Q, parameters);
     };
 
+std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL4Vadim(double             const& x,
+                                                                   double              const& Q,
+                                                                   std::vector<double> const& params,
+                                                                   bool                const& returnParameters) const
+    {
+        std::vector<double> parameters;
+        parameters.push_back(0.3);                  //parameters[0] = K_S
+        parameters.push_back(params[0]);            //parameters[1] = B_G_HAD
+        parameters.push_back(3.);                   //parameters[2] = C_G_HAD
+        parameters.push_back(params[1]);            //parameters[3] = A_Q_HAD
+        parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
+        parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
+        parameters.push_back(params[3]);            //parameters[6] = A_Q_PL
+        parameters.push_back(0.);                   //parameters[7] = B_Q_PL
+        
+        if (returnParameters)
+        {
+            std::map<int, double> parametersMap;
+
+            for (int i=0; i<parameters.size(); i++)
+                parametersMap.insert(std::pair<int, double>( i, parameters[i]));
+
+            return parametersMap;
+        } 
+        else
+            return InitialPDFsMainSAL(x, Q, parameters);
+    };
+
 std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL4(double             const& x,
                                                              double              const& Q,
                                                              std::vector<double> const& params,
@@ -508,8 +544,7 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL4(double            
         parameters.push_back(params[3]);            //parameters[4] = B_Q_HAD
         parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
         parameters.push_back(0.);                   //parameters[6] = A_Q_PL
-        parameters.push_back(1.);                   //parameters[7] = B_Q_PL
-        // B_Q_PL is set to 1 to avoid problems in the calculations, but the pointlike part still doesn't contribute
+        parameters.push_back(0.);                   //parameters[7] = B_Q_PL
         
         if (returnParameters)
         {
@@ -537,8 +572,7 @@ std::map<int, double> StructureFunctionsFcn::InitialPDFs_SAL3(double            
         parameters.push_back(params[2]);            //parameters[4] = B_Q_HAD
         parameters.push_back(1.);                   //parameters[5] = C_Q_HAD
         parameters.push_back(0.);                   //parameters[6] = A_Q_PL
-        parameters.push_back(1.);                   //parameters[7] = B_Q_PL
-        // B_Q_PL is set to 1 to avoid problems in the calculations, but the pointlike part still doesn't contribute
+        parameters.push_back(0.);                   //parameters[7] = B_Q_PL
         
         if (returnParameters)
         {

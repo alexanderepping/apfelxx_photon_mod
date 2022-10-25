@@ -296,6 +296,22 @@ public:
                                            bool                const& returnParameters = false) const; 
 
     /**
+     * @brief InitialPDFs with 4 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3, C_Q_HAD to 1, B_Q_PL to 0 and K_S to 0.3.
+     * Same as SAL5, but B_Q_PL is set to zero. Same as used by Vadim
+     * @param x
+     * @param Q
+     * @param params: vector with 4 parameters: 
+     *        B_G_HAD(0), A_Q_HAD(1), B_Q_HAD(2), A_Q_PL(3)
+     * @param returnParameters: Boolean to either return the PDFs (false) 
+     * or return the Parameters (in the form accepted by InitialPDFsMainSAL)(true). 
+     * Default is false.
+     */
+    std::map<int, double> InitialPDFs_SAL4Vadim(double              const& x,
+                                                double              const& Q,
+                                                std::vector<double> const& params,
+                                                bool                const& returnParameters = false) const; 
+
+    /**
      * @brief InitialPDFs with 4 params; has the form of InitialPDFsMainSAL, but C_G_HAD is set to 3 and  C_Q_HAD to 1
      * and the pointlike parts of the quarks are set to zero. Like SAL6 w/out PL part.
      * @param x
