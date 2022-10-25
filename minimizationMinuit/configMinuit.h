@@ -20,17 +20,22 @@
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL4VADIM";
+const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
 
 /**
  * @brief change which perturbation order is used
  */
-#define LO
+#define HO
 
 /**
  * @brief change if ErrorPDFs should be calculated
  */
 //#define ErrorPDFs
+
+/**
+ * @brief path of the file where data should be saved
+ */
+const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
 
 
 
@@ -51,11 +56,6 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
 ///////////////////////////////////////
 // not changed that often
 ///////////////////////////////////////
-/**
- * @brief path of the file where data should be saved
- */
-const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-
 /**
  * @brief the total momentum / result of MomentumSumRule0
  */

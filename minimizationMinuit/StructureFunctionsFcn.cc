@@ -205,25 +205,20 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
 
     /*
     //debug v
-    std::cout << "§ Parameters:" << std::endl;
-    for (int i=0; i<params.size(); i++) 
+    std::cout << "§ Parameters:" << std::endl << params[0];
+    for (int i=1; i<params.size(); i++) 
+        std::cout << ", " << params[i];
+    std::cout << std::endl;
+
+    std::cout << "§ lhsHadG, lhsHadQ, lhsPLQ: " << std::endl;
+    std::cout << "§ " << lhsHadG << ", " << lhsHadQ << ", " << lhsPLQ << std::endl;
+
+    if (params[7] != 0)
     {
-        // if (i == params.size()-1)
-        // std::cout << "§ " << params[i] << std::endl << std::endl;
-        // else
-        std::cout << "§ " << params[i] << std::endl;
+        std::cout << "§ helperFunction(1,params[7]), helperFunction(2,params[7]), helperFunction(3,params[7]), helperFunction(4,params[7]): " << std::endl;
+        std::cout << "§ " << helperFunction(1,params[7]) << ", " << helperFunction(2,params[7]) << ", " << helperFunction(3,params[7]) << ", " << helperFunction(4,params[7]) << std::endl;
     }
-
-    std::cout << "§ lhsHadG: " << lhsHadG << std::endl;
-
-    std::cout << "§ lhsHadQ: " << lhsHadQ << std::endl;
-
-    std::cout << "§ helperFunction(1,params[7]): " << helperFunction(1,params[7]) << std::endl;
-    std::cout << "§ helperFunction(2,params[7]): " << helperFunction(2,params[7]) << std::endl;
-    std::cout << "§ helperFunction(3,params[7]): " << helperFunction(3,params[7]) << std::endl;
-    std::cout << "§ helperFunction(4,params[7]): " << helperFunction(4,params[7]) << std::endl;
-    // std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl;
-    std::cout << "§ lhsPLQ: " << lhsPLQ << std::endl << std::endl;
+    std::cout << std:: endl;
     //debug ^
     */
 
