@@ -18,7 +18,7 @@ double XiP(int const& p,
     return 2. * boost::math::gamma_p_inv(N/2., p/100.);
 }
 
-double Xi90Rescale(int    const& Nk,
+double Xi90Rescaled(int    const& Nk,
                    double const& Chi2k0)
 {
     return XiP(90, Nk) / XiP(50, Nk) * Chi2k0;

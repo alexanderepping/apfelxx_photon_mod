@@ -25,15 +25,19 @@ StructureFunctionsFcn::StructureFunctionsFcn(std::map<std::string, std::map<std:
                                              double                                                            const& ErrorDef): 
                 _ExperimentalData(experimentalData),
                 _IncludedExpData(IncludedExpData),
-                _Q2Data(combineData(experimentalData, IncludedExpData, "Q2Data")),
-                _xData(combineData(experimentalData, IncludedExpData, "xData")),
-                _F2Gamma(combineData(experimentalData, IncludedExpData, "F2Gamma")),
-                _F2GammaErr(combineData(experimentalData, IncludedExpData, "F2GammaErr")),
                 _ErrorDef(ErrorDef)
     {}
 
 
+
 double StructureFunctionsFcn::operator()(std::vector<double> const& params) const 
+{
+    return Chi2PerExperiment(params).at("All");
+}
+
+
+
+std::map<std::string, double> StructureFunctionsFcn::Chi2PerExperiment(std::vector<double> const& params) const 
 {
     /////////////////////////////////////
     // Calculate Structure Function
@@ -80,17 +84,31 @@ double StructureFunctionsFcn::operator()(std::vector<double> const& params) cons
 
 
     /////////////////////////////////////
-    // Calulate chi2
+    // Calulate chi2PerExperiment
     /////////////////////////////////////
 
-    double chi2 = 0.;
-    
-    for (int i=0; i<Q2Data().size(); i++)
+    std::map<std::string, double> chi2PerExperiment;
+    chi2PerExperiment["All"] = 0.;
+
+    for (std::string DataSet : IncludedExpData())
     {
-        const double QData = pow(Q2Data()[i], 0.5);
-        chi2 += ((F2EvolvedAtXQ(xData()[i], QData) - F2Gamma()[i]) * (F2EvolvedAtXQ(xData()[i], QData) - F2Gamma()[i]) / (F2GammaErr()[i] * F2GammaErr()[i]));
+        chi2PerExperiment[DataSet] = 0.;
+
+        const std::vector<double> Q2Data     = ExperimentalData().at(DataSet).at("Q2Data");
+        const std::vector<double> xData      = ExperimentalData().at(DataSet).at("xData");
+        const std::vector<double> F2Gamma    = ExperimentalData().at(DataSet).at("F2Gamma");
+        const std::vector<double> F2GammaErr = ExperimentalData().at(DataSet).at("F2GammaErr");
+
+
+        for (int i=0; i<Q2Data.size(); i++)
+        {
+            const double QData = pow(Q2Data[i], 0.5);
+            chi2PerExperiment[DataSet] += ((F2EvolvedAtXQ(xData[i], QData) - F2Gamma[i]) * (F2EvolvedAtXQ(xData[i], QData) - F2Gamma[i]) / (F2GammaErr[i] * F2GammaErr[i]));
+        }
+        chi2PerExperiment["All"] += chi2PerExperiment[DataSet];
     }
-    return chi2;
+    
+    return chi2PerExperiment;
 }
 
 

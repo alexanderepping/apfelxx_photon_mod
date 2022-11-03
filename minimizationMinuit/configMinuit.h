@@ -23,14 +23,18 @@
 const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
 
 /**
- * @brief change which perturbation order is used
+ * @brief change some settings
  */
-#define HO
+#define HO                      // change which perturbation order is used
+#define ErrorPDFs               // change if ErrorPDFs should be calculated
+// #define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
 
 /**
- * @brief change if ErrorPDFs should be calculated
+ * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2
  */
-//#define ErrorPDFs
+#ifndef CalculateDeltaChi2
+const double DeltaChi2 = 1.;
+#endif //CalculateDeltaChi2
 
 /**
  * @brief path of the file where data should be saved
@@ -70,10 +74,6 @@ const double totalMomentum = 1.;
  */
 #define StandardCentralDifferences
 
-/**
- * @brief Delta Chi^2, used to calculate the error PDFs
- */
-const double DeltaChi2 = 1.;
 
 #ifdef LO
 /**

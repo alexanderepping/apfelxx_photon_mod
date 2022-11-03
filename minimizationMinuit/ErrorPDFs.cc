@@ -14,11 +14,12 @@
 
 
 
-double SecondDerivative(StructureFunctionsFcn const& function,
-                        std::vector<double>   const& a0,    
-                        int                   const& parameter1, 
-                        int                   const& parameter2, 
-                        double                const& h) 
+
+std::map<std::string, double> SecondDerivativeMap(StructureFunctionsFcn const& function,
+                                               std::vector<double>   const& a0,    
+                                               int                   const& parameter1, 
+                                               int                   const& parameter2, 
+                                               double                const& h) 
 {
     std::function<std::vector<double>(std::vector<double> const&, int const&, int const&)> a1 = [&] (std::vector<double> const& a0, int const& parameter, int const& k) -> std::vector<double>
     {
@@ -28,47 +29,124 @@ double SecondDerivative(StructureFunctionsFcn const& function,
     };
 
 #ifdef StandardCentralDifferences
-    std::function<double(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> double 
+    std::function<std::map<std::string, double>(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> std::map<std::string, double> 
         {
-            return (function(a1(a0, parameter1, 1)) - function(a1(a0, parameter1, -1))) / (2 * h);
+            std::map<std::string, double> map1 = function.Chi2PerExperiment(a1(a0, parameter1, 1));
+            std::map<std::string, double> map2 = function.Chi2PerExperiment(a1(a0, parameter1, -1));
+            std::map<std::string, double> map3;
+
+            for (std::string DataSet : function.IncludedExpData())
+                map3[DataSet] = (map1.at(DataSet) - map2.at(DataSet)) / (2 * h);
+            map3["All"] = (map1.at("All") - map2.at("All")) / (2 * h);
+
+            return map3;
         };
 
-    return (FirstDerivative(a1(a0, parameter2, 1)) - FirstDerivative(a1(a0, parameter2, -1))) / (2 * h);
+    std::map<std::string, double> map1 = FirstDerivative(a1(a0, parameter2, 1));
+    std::map<std::string, double> map2 = FirstDerivative(a1(a0, parameter2, -1));
+    std::map<std::string, double> map3;
+
+    for (std::string DataSet : function.IncludedExpData())
+        map3[DataSet] = (map1.at(DataSet) - map2.at(DataSet)) / (2 * h);
+    map3["All"] = (map1.at("All") - map2.at("All")) / (2 * h);
+
+    return map3;
 #endif //StandardCentralDifferences
 
 #ifdef SevenPointLowNoise
-    std::function<double(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> double 
+    std::function<std::map<std::string, double>(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> std::map<std::string, double> 
         {
-            return ((function(a1(a0, parameter1, 1)) - function(a1(a0, parameter1, -1))) 
-              + 2 * (function(a1(a0, parameter1, 2)) - function(a1(a0, parameter1, -2))) 
-              + 3 * (function(a1(a0, parameter1, 3)) - function(a1(a0, parameter1, -3)))) / (28 * h);
+            std::map<std::string, double> map1 = function.Chi2PerExperiment(a1(a0, parameter1, +1));
+            std::map<std::string, double> map2 = function.Chi2PerExperiment(a1(a0, parameter1, +2));
+            std::map<std::string, double> map3 = function.Chi2PerExperiment(a1(a0, parameter1, +3));
+            std::map<std::string, double> map4 = function.Chi2PerExperiment(a1(a0, parameter1, -1));
+            std::map<std::string, double> map5 = function.Chi2PerExperiment(a1(a0, parameter1, -2));
+            std::map<std::string, double> map6 = function.Chi2PerExperiment(a1(a0, parameter1, -3));
+            std::map<std::string, double> map7;
+
+            for (std::string DataSet : function.IncludedExpData())
+                map7[DataSet] = ((map1.at(DataSet) - map4.at(DataSet)) 
+                           + 2 * (map2.at(DataSet) - map5.at(DataSet)) 
+                           + 3 * (map3.at(DataSet) - map6.at(DataSet))) / (28 * h);
+            map7["All"] = ((map1.at("All") - map4.at("All")) 
+                       + 2 * (map2.at("All") - map5.at("All")) 
+                       + 3 * (map3.at("All") - map6.at("All"))) / (28 * h);
+
+            return map7;
         };
 
-    return ((FirstDerivative(a1(a0, parameter2, 1)) - FirstDerivative(a1(a0, parameter2, -1))) 
-      + 2 * (FirstDerivative(a1(a0, parameter2, 2)) - FirstDerivative(a1(a0, parameter2, -2))) 
-      + 3 * (FirstDerivative(a1(a0, parameter2, 3)) - FirstDerivative(a1(a0, parameter2, -3)))) / (28 * h);
+    std::map<std::string, double> map1 = FirstDerivative(a1(a0, parameter2, +1));
+    std::map<std::string, double> map2 = FirstDerivative(a1(a0, parameter2, +2));
+    std::map<std::string, double> map3 = FirstDerivative(a1(a0, parameter2, +3));
+    std::map<std::string, double> map4 = FirstDerivative(a1(a0, parameter2, -1));
+    std::map<std::string, double> map5 = FirstDerivative(a1(a0, parameter2, -2));
+    std::map<std::string, double> map6 = FirstDerivative(a1(a0, parameter2, -3));
+    std::map<std::string, double> map7;
+
+    for (std::string DataSet : function.IncludedExpData())
+        map7[DataSet] = ((map1.at(DataSet) - map4.at(DataSet)) 
+                    + 2 * (map2.at(DataSet) - map5.at(DataSet)) 
+                    + 3 * (map3.at(DataSet) - map6.at(DataSet))) / (28 * h);
+    map7["All"] = ((map1.at("All") - map4.at("All")) 
+                + 2 * (map2.at("All") - map5.at("All")) 
+                + 3 * (map3.at("All") - map6.at("All"))) / (28 * h);
+
+    return map7;
 #endif //SevenPointLowNoise
 };
+
+
+
+double SecondDerivative(StructureFunctionsFcn const& function,
+                        std::vector<double>   const& a0,    
+                        int                   const& parameter1, 
+                        int                   const& parameter2, 
+                        double                const& h) 
+{
+    return SecondDerivativeMap(function, a0, parameter1, parameter2, h).at("All");
+};
+
+
+
+std::map< std::string, Eigen::MatrixXd> CalculateHessianMap(StructureFunctionsFcn const& function,
+                                                         std::vector<double>   const& a0,
+                                                         double                const& h) 
+{
+    const int numberParams = a0.size();
+    std::map<std::string, Eigen::MatrixXd> Hessian;
+
+    for (std::string DataSet : function.IncludedExpData())
+        Hessian[DataSet] = Eigen::MatrixXd(numberParams, numberParams);
+    Hessian["All"] = Eigen::MatrixXd(numberParams, numberParams);
+
+        //Hessian[DataSet] = Eigen::MatrixXd::Zero(numberParams, numberParams);
+    //Hessian["All"] = Eigen::MatrixXd::Zero(numberParams, numberParams);
+
+    for (int i=0; i<a0.size(); i++)
+    {
+        for (int j=i; j<a0.size(); j++)
+        {
+            std::map<std::string, double> SD = SecondDerivativeMap(function, a0, i, j, h);
+
+            for (std::string DataSet : function.IncludedExpData())
+            {
+                Hessian.at(DataSet)(i, j) = 0.5 * SD.at(DataSet);
+                Hessian.at(DataSet)(j, i) = 0.5 * SD.at(DataSet);
+            }
+
+            Hessian.at("All")(i, j) = 0.5 * SD.at("All");
+            Hessian.at("All")(j, i) = 0.5 * SD.at("All");
+        }
+    }
+
+    return Hessian;
+};
+
 
 
 Eigen::MatrixXd CalculateHessian(StructureFunctionsFcn const& function,
                                  std::vector<double>   const& a0,
                                  double                const& h) 
 {
-    const int numberParams = a0.size();
-    Eigen::MatrixXd Hessian(numberParams, numberParams);
-    // Eigen::MatrixXd Hessian();
-    // Eigen::Matrix<double, numberParams, numberParams> Hessian = Eigen::Matrix<double, numberParams, numberParams>::Zero();
-
-    for (int i=0; i<a0.size(); i++)
-        for (int j=i; j<a0.size(); j++)
-            Hessian(i, j) = 0.5 * SecondDerivative(function, a0, i, j, h);
-
-    for (int i=0; i<a0.size(); i++)
-        for (int j=0; j<i; j++)
-            Hessian(i, j) = Hessian(j, i);
-
-    return Hessian;
+    return CalculateHessianMap(function, a0, h).at("All");
 };
-
-

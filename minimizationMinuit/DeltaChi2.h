@@ -35,5 +35,5 @@ double XiP(int const& p,
  * 
  * @return rescaled Xi90
  */
-double Xi90Rescale(int    const& Nk,
+double Xi90Rescaled(int    const& Nk,
                    double const& Chi2k0);

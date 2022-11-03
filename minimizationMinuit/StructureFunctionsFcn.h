@@ -54,7 +54,7 @@ public:
      * 
      * @param params: parameters for the initial PDFs
      * 
-     * @return returns the chi2 of the initial PDF with the given parameters
+     * @return returns the chi2 of the initial PDF with the given parameters, using Chi2PerExperiment()
      */
     virtual double operator()(std::vector<double> const& params) const;
 
@@ -62,6 +62,15 @@ public:
      * @brief virtual function to return _ErrorDef
      */
     virtual double Up() const {return _ErrorDef;}
+
+    /**
+     * @brief function used in operator() and can be used on its own aswell
+     * 
+     * @param params: parameters for the initial PDFs
+     * 
+     * @return returns the Chi2PerExperiment of the initial PDF with the given parameters
+     */
+    std::map<std::string, double> Chi2PerExperiment(std::vector<double> const& params) const;
 
     /**
      * @brief function to call the correct InitialPDF 
@@ -128,7 +137,7 @@ public:
 
     /**
      * @name get functions
-     * List of functions to return the different member data
+     * List of functions to return the different member data and data that is similar to that
      */
     ///@{
     /** @brief return experimentalData map */
@@ -136,13 +145,13 @@ public:
     /** @brief return included experimental Data */
     std::vector<std::string> IncludedExpData() const {return _IncludedExpData;}
     /** @brief return vector of squared Energies */
-    std::vector<double> Q2Data()        const {return _Q2Data;}
+    std::vector<double> Q2Data() const {return combineData(_ExperimentalData, _IncludedExpData, "Q2Data");}
     /** @brief return vector of x data */
-    std::vector<double> xData()         const {return _xData;}
+    std::vector<double> xData() const {return combineData(_ExperimentalData, _IncludedExpData, "xData");}
     /** @brief return vector of F2Gamma values */
-    std::vector<double> F2Gamma()       const {return _F2Gamma;}
+    std::vector<double> F2Gamma() const {return combineData(_ExperimentalData, _IncludedExpData, "F2Gamma");}
     /** @brief return vector of y errors */
-    std::vector<double> F2GammaErr()    const {return _F2GammaErr;}
+    std::vector<double> F2GammaErr() const {return combineData(_ExperimentalData, _IncludedExpData, "F2GammaErr");}
     ///@}
 
 
@@ -348,9 +357,5 @@ public:
 private:
     std::map<std::string, std::map<std::string, std::vector<double>>> _ExperimentalData;
     std::vector<std::string> _IncludedExpData;
-    std::vector<double>      _Q2Data;
-    std::vector<double>      _xData;
-    std::vector<double>      _F2Gamma;
-    std::vector<double>      _F2GammaErr;
     double                   _ErrorDef;
 };

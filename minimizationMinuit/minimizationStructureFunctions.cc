@@ -77,16 +77,9 @@ int main()
         finalParams.push_back(min.UserParameters().Parameters()[i].Value());
     }
 
-    // get chi2 of finalParams
-    const double chi2 = StructureFunctions(finalParams);
-
-    // get chi2 for every experiment for finalParams
-    std::map<std::string, double> chi2PerExperiment;
-    for (std::string DataSet : StructureFunctions.IncludedExpData())
-    {
-        StructureFunctionsFcn StructureFunctionsTemp(StructureFunctions.ExperimentalData(), {DataSet});
-        chi2PerExperiment[DataSet] = StructureFunctionsTemp(finalParams);
-    }
+    // get chi2 of finalParams and chi2 for every experiment for finalParams
+    const std::map<std::string, double> chi2PerExperiment = StructureFunctions.Chi2PerExperiment(finalParams);
+    const double chi2 = chi2PerExperiment.at("All");
 
     // get the finalParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
     std::map<int, double> finalParametersMap = StructureFunctions.InitialPDFs(0.5, Qin, finalParams, true);
@@ -124,13 +117,68 @@ int main()
 
 
 /**
- * Calculation Hessian and DeltaChi2
+ * Calculation Hessian
  */
-    const Eigen::MatrixXd Hessian = CalculateHessian(StructureFunctions, finalParams);
+    const std::map<std::string, Eigen::MatrixXd> Hessian = CalculateHessianMap(StructureFunctions, finalParams);
+    const Eigen::MatrixXd HessianAll = Hessian.at("All");
     // std::cout << "debug: calculated Hessian" << std::endl; //debug
 
-    Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(Hessian);
+    Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(HessianAll);
     // std::cout << "debug: made the Eigensolver" << std::endl; //debug
+
+
+
+/**
+ * Calculating the Tolerance, DeltaChi2
+ */
+
+/*
+define Xi90RescaledMap
+define Chi2Map= {Exp: {plus:  {i: {chi2PerExperiment vector},
+                               j: {chi2PerExperiment vector}},
+                       minus: {i: {chi2PerExperiment vector},
+                               j: {chi2PerExperiment vector}}}}
+define ziMap= {plus:  {n ziPlus values},
+               minus: {n ziMinus values}}
+
+
+for every Data Set:
+    calculate Xi90Rescaled and save in Map
+
+using hessian, calculate the ziTilde
+
+for a lot of different deltaZ:
+    ziTildePlus  = ziTilde + deltaZ
+    ziTildeMinus = ziTilde - deltaZ
+
+    calculate aiPlus and aiMinus from ziTildePlus and ziTildeMinus
+
+    for all i:
+        calculate chi2 and chi2PerExperiment using {a0, ..., ai-1, aiPlus,  ai+1, ..., an}
+        calculate chi2 and chi2PerExperiment using {a0, ..., ai-1, aiMinus, ai+1, ..., an}
+        save them in a Map
+
+for all i:
+    go through each experiment:
+        find chi2PerExperimentPlus  < Xi90Rescaled and save the zikPlus
+        find chi2PerExperimentMinus < Xi90Rescaled and save the zikMinus
+    
+    find smallest zikPlus and biggest zikMinus
+    and call them ziPlus and ziMinus
+
+define DeltaChi2=0
+Calculate DeltaChi2 using A6:
+for all i:
+    DeltaChi2 += ((ziPlus)^2 + (ziMinus)^2) / 2n
+
+
+
+
+
+
+
+
+*/
 
 
 /**
