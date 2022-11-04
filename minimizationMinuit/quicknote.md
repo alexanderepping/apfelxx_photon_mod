@@ -1,14 +1,20 @@
 
+# To-Do New:
+- maybe use Upper and Lower Parameter Bounds to lookfor the range, in which we can calculate the zi?
+- split up calculation of the plus and minus stuff
+- variable deltaZ?
+- so far, the problem is, that if deltaZ is larger than 2.119172, the BGHad will become smaller than one, causing an error in betaFunction when calculatin MSR
+
+
 # To-Do:
 [ ] what could be changed so that I get more similar values to the ones given by SAL? 
-[ ] to check how good the values for the parameters are we can look at the chi2 for the different experiments seperately
-
-
 [ ] makefile or sth like that
 [ ] I won't need to do the dijet stuff, I can just treat it as a black box an d vadim will send me the stuff I have to do
 
 
+
 ## done To-Dos:
+[x] to check how good the values for the parameters are we can look at the chi2 for the different experiments seperately
 [x] At first, test the minimization in LO
 [x] Then we can implement the additional terms for the HO
 [x] maybe change asref in configMinuit.h to the more exact value?!

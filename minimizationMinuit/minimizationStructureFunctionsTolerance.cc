@@ -60,22 +60,30 @@ int main()
             userParameters.SetUpperLimit(initialParamsNames.at(usedInitialPDFs)[i], initialParamsUBounds.at(usedInitialPDFs)[i]); 
     };
 
-    // create Migrad minimizer
-    MinuitCpp::MnMigrad migrad(StructureFunctions, userParameters);
-
-    // minimize
-    MinuitCpp::FunctionMinimum min = migrad();
-
     
 /**
  * prepare Data Output
  */
     // get the finalParams; ...Params are vectors etc. with not defined number of parameters
     std::vector<double> finalParams;
-    for (int i=0; i<initialParams.at(usedInitialPDFs).size(); i++)
-    {
-        finalParams.push_back(min.UserParameters().Parameters()[i].Value());
-    }
+
+#ifdef LO
+    if (usedInitialPDFs == INITIALPDFS_SAL3)
+        finalParams = {-0.384581, 0.439775, 0.256241};
+    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+        finalParams = {-0.224452, 0.436453, 0.570871, 0.320468};
+    else if (usedInitialPDFs == INITIALPDFS_SAL5)
+        finalParams = {-0.202210, 0.524953, 0.665115, 0.348421, 0.648468};
+#endif //LO
+#ifdef HO
+    if (usedInitialPDFs == INITIALPDFS_SAL3)
+        finalParams = {-0.182473, 0.483074, 0.285813};
+    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+        finalParams = {-0.215028, 0.491192, 0.505920, 0.247174};
+    else if (usedInitialPDFs == INITIALPDFS_SAL5)
+        finalParams = {-0.272855, 0.591875, 0.610880, 0.297112, 1.116165};
+#endif //HO
+
 
     // get chi2 of finalParams and chi2 for every experiment for finalParams
     const std::map<std::string, double> chi2PerExperiment = StructureFunctions.Chi2PerExperiment(finalParams);
@@ -112,19 +120,28 @@ int main()
  * just small, first output of minimization results (repeated later again, but bad behaviours or sth else can be already seen here)
  */
     TermOutputMinimization(StructureFunctions, results, false);
-    std::cout << "minimum: " << min << std::endl; 
 
 
 
 /**
  * Calculation Hessian
  */
-    const std::map<std::string, Eigen::MatrixXd> Hessian = CalculateHessianMap(StructureFunctions, finalParams);
-    const Eigen::MatrixXd HessianAll = Hessian.at("All");
-    // std::cout << "debug: calculated Hessian" << std::endl; //debug
+    // const std::map<std::string, Eigen::MatrixXd> Hessian = CalculateHessianMap(StructureFunctions, finalParams);
+    // const Eigen::MatrixXd HessianAll = Hessian.at("All");
+    //std::cout << "debug: calculated Hessian" << std::endl; //debug
+    Eigen::MatrixXd HessianAll(3,3);
+    HessianAll(0, 0) = 12.3034;
+    HessianAll(0, 1) = 59.0161;
+    HessianAll(0, 2) = -52.4119;
+    HessianAll(1, 0) = 59.0161;
+    HessianAll(1, 1) = 11570.5;
+    HessianAll(1, 2) = -14398.0;
+    HessianAll(2, 0) = -52.4119;
+    HessianAll(2, 1) = -14398.0;
+    HessianAll(2, 2) = 20965.8;
 
     Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(HessianAll);
-    // std::cout << "debug: made the Eigensolver" << std::endl; //debug
+    //std::cout << "debug: made the Eigensolver" << std::endl; //debug
 
 
 
@@ -142,31 +159,74 @@ int main()
 
     for (int i=0; i<finalParams.size(); i++)
     {
+        std::cout << "\ndebug: calculating with i=" << std::to_string(i) << std::endl; //debug
 
         zikPlusMinusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap);
 
         // calculate, what is given in nCTEQ15, (A5)
         double ziPlus = zikPlusMinusMap.at(i)[0][0];
         for (double zi : zikPlusMinusMap.at(i)[0])
+        {
+            std::cout << "ziPlus = " << std::to_string(ziPlus) << ", zi = " << std::to_string(zi) << std::endl; //debug
             if (zi < ziPlus)
                 ziPlus = zi;
+        }
 
         // calculate, what is given in nCTEQ15, (A5)
         double ziMinus = zikPlusMinusMap.at(i)[1][0];
         for (double zi : zikPlusMinusMap.at(i)[1])
+        {
+            std::cout << "ziMinus = " << std::to_string(ziMinus) << ", zi = " << std::to_string(zi) << std::endl; //debug
             if (zi > ziMinus)
                 ziMinus = zi;
+        }
         
         ziPlusMinus.push_back({ziPlus, ziMinus});
+//debug
+        std::cout << "z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl;
+
+        for (std::string DataSet : StructureFunctions.IncludedExpData())
+            std::cout << DataSet << " ";
+
+        std::cout << std::endl << "z_i^(k+): ";
+        for (double params : zikPlusMinusMap.at(i)[0])
+            std::cout << std::to_string(params) << "\t";
+
+        std::cout << std::endl << "z_i^(k-): ";
+        for (double params : zikPlusMinusMap.at(i)[1])
+            std::cout << std::to_string(params) << "\t";
+        
+        std::cout << std::endl << std::endl;
+//debug end
     }
     
+//debug 
+    std::cout << std::endl;
+    for (int i=0; i<finalParams.size(); i++)
+    {
+        std::cout << "z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl;
+
+        for (std::string DataSet : StructureFunctions.IncludedExpData())
+            std::cout << DataSet << " ";
+
+        std::cout << std::endl << "z_i^(k+): ";
+        for (double params : zikPlusMinusMap.at(i)[0])
+            std::cout << std::to_string(params) << "\t";
+
+        std::cout << std::endl << "z_i^(k-): ";
+        for (double params : zikPlusMinusMap.at(i)[1])
+            std::cout << std::to_string(params) << "\t";
+        
+        std::cout << std::endl << std::endl;
+    }
+//debug end
+
     double DeltaChi2 = 0.;
     for (std::vector<double> params : ziPlusMinus)
         DeltaChi2 += ((params[0] * params[0]) + (params[1] * params[1])) / ziPlusMinus.size();
 
     std::cout << std::endl << "DeltaChi2 = " << std::to_string(DeltaChi2) << std::endl;
 #endif //CalculateDeltaChi2
-
 
 
 /**
@@ -268,10 +328,6 @@ int main()
     std::cout << "Eigenvalues: "    << std::endl << EigenSolverHessian.eigenvalues() << std::endl << std::endl;
     std::cout << "Eigenvectors: "   << std::endl << EigenSolverHessian.eigenvectors() << std::endl << std::endl;
 #endif //ErrorPDFs
-
-    // output
-    std::cout << "minimum: " << min << std::endl;
-
 
     return 0;
 }

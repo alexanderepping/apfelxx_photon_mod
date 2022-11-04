@@ -20,14 +20,14 @@
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
+const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
 
 /**
  * @brief change some settings
  */
-#define HO                      // change which perturbation order is used
+#define LO                      // change which perturbation order is used
 #define ErrorPDFs               // change if ErrorPDFs should be calculated
-// #define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
+#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
 
 /**
  * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2

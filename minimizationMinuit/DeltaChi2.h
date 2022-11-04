@@ -13,6 +13,7 @@
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
 
+#include <Eigen/Eigenvalues>
 #include <boost/math/special_functions/gamma.hpp>
 #include <vector>
 
@@ -37,3 +38,41 @@ double XiP(int const& p,
  */
 double Xi90Rescaled(int    const& Nk,
                    double const& Chi2k0);
+
+/**
+ * @brief function to transform parameter set y to parameter set zTilde
+ * 
+ * @param y: parameter set y w/ y_i = a_i - a_i^0
+ * @param EigenSolverHessian: object to calculate the eigenvalues and eigenvectors of the Hessian
+ * 
+ * @return vector zTilde: {z_i^Tilde}
+ */
+std::vector<double> YToZTilde(std::vector<double>                 const& y,
+                              Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
+
+/**
+ * @brief function to transform parameter set zTilde back to parameter set y
+ * 
+ * @param zTilde: parameter set zTilde 
+ * @param EigenSolverHessian: object to calculate the eigenvalues and eigenvectors of the Hessian
+ * 
+ * @return vector y: {y_i} w/ y_i = a_i - a_i^0
+ */
+std::vector<double> ZTildeToY(std::vector<double>                 const& zTilde,
+                              Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
+
+std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           const& StructureFunctions,
+                                         Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
+                                         std::vector<double>                 const& finalParams,
+                                         double                              const& deltaZ,
+                                         int                                 const& i);
+
+double FindZikPlusMinus(std::vector<double> const& chi2kData,
+                        std::vector<double> const& zikData,
+                        double              const& Xi90Rescaled);
+
+std::vector<std::vector<double>> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
+                                                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
+                                                       int                                 const& i,
+                                                       std::vector<double>                 const& finalParams,
+                                                       std::map<std::string, double>       const& Xi90RescaledMap);
