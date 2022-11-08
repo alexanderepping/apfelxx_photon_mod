@@ -154,18 +154,21 @@ int main()
     for (std::string DataSet : StructureFunctions.IncludedExpData())
         Xi90RescaledMap[DataSet] = Xi90Rescaled(StructureFunctions.ExperimentalData().at(DataSet).at("Q2Data").size(), chi2PerExperiment.at(DataSet));
 
-    std::map<int, std::vector<std::vector<double>>> zikPlusMinusMap;
+    //std::map<int, std::vector<std::vector<double>>> zikPlusMinusMap;
+    std::map<int, std::vector<double>> zikPlusMap;
+    std::map<int, std::vector<double>> zikMinusMap;
     std::vector<std::vector<double>> ziPlusMinus;
 
     for (int i=0; i<finalParams.size(); i++)
     {
         std::cout << "\ndebug: calculating with i=" << std::to_string(i) << std::endl; //debug
 
-        zikPlusMinusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap);
+        zikPlusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "plus", 200.0, 1);
+        zikMinusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "minus", 2.119172, 0.1);
 
         // calculate, what is given in nCTEQ15, (A5)
-        double ziPlus = zikPlusMinusMap.at(i)[0][0];
-        for (double zi : zikPlusMinusMap.at(i)[0])
+        double ziPlus = zikPlusMap.at(i)[0];
+        for (double zi : zikPlusMap.at(i))
         {
             std::cout << "ziPlus = " << std::to_string(ziPlus) << ", zi = " << std::to_string(zi) << std::endl; //debug
             if (zi < ziPlus)
@@ -173,8 +176,8 @@ int main()
         }
 
         // calculate, what is given in nCTEQ15, (A5)
-        double ziMinus = zikPlusMinusMap.at(i)[1][0];
-        for (double zi : zikPlusMinusMap.at(i)[1])
+        double ziMinus = zikMinusMap.at(i)[0];
+        for (double zi : zikMinusMap.at(i))
         {
             std::cout << "ziMinus = " << std::to_string(ziMinus) << ", zi = " << std::to_string(zi) << std::endl; //debug
             if (zi > ziMinus)
@@ -189,11 +192,11 @@ int main()
             std::cout << DataSet << " ";
 
         std::cout << std::endl << "z_i^(k+): ";
-        for (double params : zikPlusMinusMap.at(i)[0])
+        for (double params : zikPlusMap.at(i))
             std::cout << std::to_string(params) << "\t";
 
         std::cout << std::endl << "z_i^(k-): ";
-        for (double params : zikPlusMinusMap.at(i)[1])
+        for (double params : zikMinusMap.at(i))
             std::cout << std::to_string(params) << "\t";
         
         std::cout << std::endl << std::endl;
@@ -210,11 +213,11 @@ int main()
             std::cout << DataSet << " ";
 
         std::cout << std::endl << "z_i^(k+): ";
-        for (double params : zikPlusMinusMap.at(i)[0])
+        for (double params : zikPlusMap.at(i))
             std::cout << std::to_string(params) << "\t";
 
         std::cout << std::endl << "z_i^(k-): ";
-        for (double params : zikPlusMinusMap.at(i)[1])
+        for (double params : zikMinusMap.at(i))
             std::cout << std::to_string(params) << "\t";
         
         std::cout << std::endl << std::endl;

@@ -4,6 +4,7 @@
 - split up calculation of the plus and minus stuff
 - variable deltaZ?
 - so far, the problem is, that if deltaZ is larger than 2.119172, the BGHad will become smaller than one, causing an error in betaFunction when calculatin MSR
+        - maybe we don't need to calculate all the z_i^k, but only find one per i, where we get results for a parameter bigger than -1 and from there, only calculate eith parameters bigger than -1 to look, if there is a zik
 
 
 # To-Do:

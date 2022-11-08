@@ -71,8 +71,11 @@ double FindZikPlusMinus(std::vector<double> const& chi2kData,
                         std::vector<double> const& zikData,
                         double              const& Xi90Rescaled);
 
-std::vector<std::vector<double>> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
+std::vector<double> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
                                                        Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
                                                        int                                 const& i,
                                                        std::vector<double>                 const& finalParams,
-                                                       std::map<std::string, double>       const& Xi90RescaledMap);
+                                                       std::map<std::string, double>       const& Xi90RescaledMap,
+                                                       std::string                         const& sign,
+                                                       double                              const& deltaZmax,
+                                                       double                              const& deltaZstepsize);

@@ -100,72 +100,68 @@ double FindZikPlusMinus(std::vector<double> const& chi2kData,
     return zikData[j];
 }
 
-std::vector<std::vector<double>> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
+std::vector<double> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
                                                        Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
                                                        int                                 const& i,
                                                        std::vector<double>                 const& finalParams,
-                                                       std::map<std::string, double>       const& Xi90RescaledMap)
+                                                       std::map<std::string, double>       const& Xi90RescaledMap,
+                                                       std::string                         const& sign,
+                                                       double                              const& deltaZmax,
+                                                       double                              const& deltaZstepsize)
 {
-    std::map<std::string, std::map<std::string, std::vector<double>>> chi2kMap;
+    std::map<std::string, std::vector<double>> chi2kMap;
 
     // setting up the chi2kMap
     for (std::string DataSet : StructureFunctions.IncludedExpData())
-    {
-        chi2kMap[DataSet]["+"] = {};
-        chi2kMap[DataSet]["-"] = {};
-    }
+        chi2kMap[DataSet] = {};
+
     // here we save the z, which lead to the chi2k, saved in this chi2kMap
-    chi2kMap["z"]["+"] = {};
-    chi2kMap["z"]["-"] = {};
+    chi2kMap["z"] = {};
 
     std::cout << "deltaZ: " << std::endl; //debug
 
     // for (a lot of different deltaZ)
     // here, maybe variable deltaZ?
     // for that, I need to record them and change the FindZikPlusMinusFunction
-    //for (double deltaZ=0.0001; deltaZ<0.03; deltaZ+=0.0005)
-    //for (double deltaZ=0.000001; deltaZ<2.119173; deltaZ+=0.05)
-    for (double deltaZ=2.11917; deltaZ<3.; deltaZ+=0.000101)
-    //for (double deltaZ=0.000001; deltaZ<0.050002; deltaZ+=0.01)
+    // the maximum for "minus" is 2.119172
+    for (double deltaZ=0.000001; deltaZ<=deltaZmax; deltaZ+=deltaZstepsize)
     {
 
         std::cout << "deltaZ: " << std::to_string(deltaZ) << std::endl; //debug
-        std::map<std::string, double> chi2kPlus  = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, +deltaZ, i);
-        std::map<std::string, double> chi2kMinus = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, -deltaZ, i);
+        std::map<std::string, double> chi2k;
+        if (sign == "plus")
+            chi2k = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, +deltaZ, i);
+        else if (sign == "minus")
+            chi2k = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, -deltaZ, i);
 
 
         for (std::string DataSet : StructureFunctions.IncludedExpData())
         {
             std::cout << " " << std::setw(12) << DataSet << ": "; //debug
-            std::cout << "+: " << std::to_string(chi2kPlus.at(DataSet)); //debug
-            std::cout << ", -: " << std::to_string(chi2kMinus.at(DataSet)); //debug
+            std::cout << "chi2k: " << std::to_string(chi2k.at(DataSet)); //debug
             std::cout << ", Xi: " << std::to_string(Xi90RescaledMap.at(DataSet)) << std::endl; //debug
-            // std::cout << "\tchi2kPlus:  " << std::to_string(chi2kPlus.at(DataSet)) << "(" << DataSet << ")" << std::endl; //debug
-            // std::cout << "\tchi2kMinus: " << std::to_string(chi2kMinus.at(DataSet)) << "(" << DataSet << ")" << std::endl; //debug
 
-            chi2kMap[DataSet]["+"].push_back(chi2kPlus.at(DataSet));
-            chi2kMap[DataSet]["-"].push_back(chi2kMinus.at(DataSet));
+            chi2kMap[DataSet].push_back(chi2k.at(DataSet));
         }
 
-        chi2kMap["z"]["+"].push_back(+deltaZ);
-        chi2kMap["z"]["-"].push_back(-deltaZ);
+        if (sign == "plus")
+            chi2kMap["z"].push_back(+deltaZ);
+        else if (sign == "minus")
+            chi2kMap["z"].push_back(-deltaZ);
     }
     std::cout << std::endl; //debug
 
     // vectors, in which the z_i^{(k)+} and z_i^{(k)-} for all experiments are saved
-    std::vector<double> zikPlus;
-    std::vector<double> zikMinus;
+    std::vector<double> zik;
 
     for (std::string DataSet : StructureFunctions.IncludedExpData())
     {
         std::cout << "DataSet: " << DataSet << std::endl; //debug
 
         // calculate the z_i^{(k)+} and z_i^{(k)-} for specific experiment (see nCTEQ15, (A4))
-        zikPlus.push_back(FindZikPlusMinus(chi2kMap.at(DataSet).at("+"), chi2kMap.at("z").at("+"), Xi90RescaledMap.at(DataSet)));
-        zikMinus.push_back(FindZikPlusMinus(chi2kMap.at(DataSet).at("-"), chi2kMap.at("z").at("-"), Xi90RescaledMap.at(DataSet)));
+        zik.push_back(FindZikPlusMinus(chi2kMap.at(DataSet), chi2kMap.at("z"), Xi90RescaledMap.at(DataSet)));
     }
         std::cout << std::endl; //debug
-        //std::cout << "size of zikPlus: " << std::to_string(zikPlus.size()) << std::endl; //debug
 
-    return {zikPlus, zikMinus};
+    return zik;
 }
