@@ -20,6 +20,7 @@
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
+//const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL4VADIM";
 const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
 
 /**
@@ -27,13 +28,16 @@ const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
  */
 #define LO                      // change which perturbation order is used
 #define ErrorPDFs               // change if ErrorPDFs should be calculated
-#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
+//#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
 
 /**
  * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2
  */
 #ifndef CalculateDeltaChi2
-const double DeltaChi2 = 1.;
+//const double DeltaChi2 = 1.;
+//const double DeltaChi2 = 4.490891;
+const double DeltaChi2 = 48.433018;
+
 #endif //CalculateDeltaChi2
 
 /**

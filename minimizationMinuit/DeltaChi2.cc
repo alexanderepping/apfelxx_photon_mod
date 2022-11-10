@@ -33,7 +33,8 @@ std::vector<double> YToZTilde(std::vector<double>                 const& y,
     for (int i=0; i<n; i++)
         for (int j=0; j<n; j++)
             // z_i^Tilde = sqrt(lambda_i) * Sum_j [ y_j * V_j^(i) ]
-            zTilde[i] += std::sqrt(std::real(EigenSolverHessian.eigenvalues()[i])) * y[j]* std::real(EigenSolverHessian.eigenvectors()(i,j));
+            // here was an error with the indizes of the eigenvectors
+            zTilde[i] += std::sqrt(std::real(EigenSolverHessian.eigenvalues()[i])) * y[j] * std::real(EigenSolverHessian.eigenvectors()(j,i));
 
     return zTilde;
 }
@@ -47,10 +48,95 @@ std::vector<double> ZTildeToY(std::vector<double>                 const& zTilde,
     for (int i=0; i<n; i++)
         for (int j=0; j<n; j++)
             // y_i = Sum_j [ 1/sqrt(lambda_j) * V_i^(j) * z_i^Tilde ]
-            y[i] += std::real(EigenSolverHessian.eigenvectors()(j,i)) * zTilde[j] / std::sqrt(std::real(EigenSolverHessian.eigenvalues()[i]));
+            // here was an error with the indizes of the eigenvectors
+            y[i] += std::real(EigenSolverHessian.eigenvectors()(i,j)) * zTilde[j] / std::sqrt(std::real(EigenSolverHessian.eigenvalues()[j]));
 
     return y;
 }
+
+std::vector<double> FindZTildeLimit(int                                 const& j,
+                                    std::vector<double>                 const& finalParams,
+                                    Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian)
+{
+    int size = finalParams.size();
+    std::vector<double> zTildeMax(size, 0);
+
+    for (int i=0; i<size; i++)
+    {
+        // calculated from nCTEQ15 (2.24), but only zTilde_j with the specific j (given to this function) is not zero
+        zTildeMax[i] = (initialParamsLBounds.at(usedInitialPDFs)[i] - finalParams[i]) * std::sqrt(std::real(EigenSolverHessian.eigenvalues()[j])) / std::real(EigenSolverHessian.eigenvectors()(i,j));
+
+        //debug beginning
+        std::cout << "§  a_" << std::to_string(j) << " = " << std::to_string(initialParamsLBounds.at(usedInitialPDFs)[i]) << " for zTilde_" << std::to_string(i) << " = " << std::to_string(zTildeMax[i]) << std::endl; //debug
+        /*
+        std::vector<double> zTildep(size, 0.);
+        zTildep[i]  = zTildeMax[j]+1;
+        std::vector<double> yp = ZTildeToY(zTildep, EigenSolverHessian);
+        std::cout << "  a_i+ = ";
+        for (int j=0; j<finalParams.size(); j++)
+            std::cout << std::to_string(yp[j] + finalParams[j]) << ", ";
+        std::cout << std::endl;
+        std::vector<double> zTildem(size, 0.);
+        zTildem[i]  = zTildeMax[j]-1;
+        std::vector<double> ym = ZTildeToY(zTildem, EigenSolverHessian);
+        std::cout << "  a_i- = ";
+        for (int j=0; j<finalParams.size(); j++)
+            std::cout << std::to_string(ym[j] + finalParams[j]) << ", ";
+        std::cout << std::endl;
+        */
+        //debug end
+    }
+
+    return zTildeMax;
+}
+
+int FindDeltaChi2Limit(std::vector<double>                 const& finalParams,
+                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian)
+{
+    int size = finalParams.size();
+
+    // loop through all the different functions fk-
+    for (int k=0; k<size; k++)
+    {
+        std::cout << "k = " << std::to_string(k) << std::endl;
+        
+        // loop throug all the parameters
+        for (int i=0; i<size; i++)
+        {
+            // calculated from nCTEQ15 (2.32)
+            double DeltaChi2Max = std::pow(-(initialParamsLBounds.at(usedInitialPDFs)[i] - finalParams[i]) / std::real(EigenSolverHessian.eigenvectors()(i,k)), 2.) * std::real(EigenSolverHessian.eigenvalues()[k]);
+            std::cout << "§  a_" << std::to_string(i) << " = " << std::to_string(initialParamsLBounds.at(usedInitialPDFs)[i]) << " for DeltaChi2" << " < " << std::to_string(DeltaChi2Max) << std::endl; //debug
+
+            std::cout << "§     -a_i- = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] - std::sqrt((DeltaChi2Max-1.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,j))) << ", ";
+            std::cout << std::endl;
+            std::cout << "§     -a_i  = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] - std::sqrt((DeltaChi2Max+0.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(j,k))) << ", ";
+            std::cout << std::endl;
+            std::cout << "§     -a_i+ = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] - std::sqrt((DeltaChi2Max+1.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,j))) << ", ";
+            std::cout << std::endl;
+
+            std::cout << "§     +a_i- = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] + std::sqrt((DeltaChi2Max-1.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,j))) << ", ";
+            std::cout << std::endl;
+            std::cout << "§     +a_i  = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] + std::sqrt((DeltaChi2Max+0.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(j,k))) << ", ";
+            std::cout << std::endl;
+            std::cout << "§     +a_i+ = ";
+            for (int j=0; j<size; j++)
+                std::cout << std::to_string(finalParams[j] + std::sqrt((DeltaChi2Max+1.) / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,j))) << ", ";
+            std::cout << std::endl;
+        }
+    }
+    return 0;
+}
+
 
 std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           const& StructureFunctions,
                                          Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
@@ -73,9 +159,9 @@ std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           con
         for (int j=0; j<finalParams.size(); j++)
             aParams[j]  = finalParams[j] + yParams[j];
         
-        for (int j=0; j<finalParams.size(); j++)
-            std::cout << std::to_string(aParams[j]) << ", ";
-        std::cout << std::endl;
+        for (int j=0; j<finalParams.size(); j++) //debug
+            std::cout << std::to_string(aParams[j]) << ", "; //debug
+        std::cout << std::endl; //debug
 
 
         // calculating the chi2k for the plus and minus parameters
@@ -164,4 +250,81 @@ std::vector<double> CalculateZikPlusMinus(StructureFunctionsFcn               co
         std::cout << std::endl; //debug
 
     return zik;
+}
+
+double CalculateZiPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
+                            Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
+                            int                                 const& i,
+                            std::vector<double>                 const& finalParams,
+                            std::map<std::string, double>       const& Xi90RescaledMap,
+                            std::string                         const& sign,
+                            double                              const& deltaZstepsize)
+{
+    double precision = 0.000001;
+    double deltaZ = 0.;
+    double deltaZMax = 0.;
+    double stepsize = deltaZstepsize;
+
+    std::vector<std::string> DataSetK = StructureFunctions.IncludedExpData();
+    bool FoundZiPlusMinus = false;
+
+
+    // find the deltaZ, for which the lower bound of one parameter is violated
+    std::cout << "§  Finding the ZTildeLimit for i=" << std::to_string(i) << ", " << sign << ": " << std::endl; //debug
+    std::vector<double> ZTildeLimit = FindZTildeLimit(i, finalParams, EigenSolverHessian);
+    for (double zTilde : ZTildeLimit)
+        if ((sign == "plus" && zTilde > 0.) || (sign == "minus" && zTilde < 0.))
+            if (deltaZMax == 0. || deltaZMax > std::abs(zTilde))
+                deltaZMax = std::abs(zTilde);
+    std::cout << "§  ZTildeLimit = " << std::to_string(deltaZMax) << std::endl << std::endl; //debug
+
+
+    while(stepsize >= precision)
+    {
+        std::vector<std::string> DataSetKTemp;
+        deltaZ += stepsize;
+
+        while(not FoundZiPlusMinus && deltaZ < deltaZMax)
+        {
+            std::map<std::string, double> chi2k;
+
+            std::cout << "debug: before CalculateChi2k, deltaZ = " << std::to_string(deltaZ) << std::endl; //debug
+            if (sign == "plus")
+                chi2k = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, +deltaZ, i);
+            else if (sign == "minus")
+                chi2k = CalculateChi2k(StructureFunctions, EigenSolverHessian, finalParams, -deltaZ, i);
+
+            if (sign == "plus") //debug
+                std::cout << "\n§  deltaZ_" << std::to_string(i) << "^+ = " << std::to_string(deltaZ) << ", deltaZMax = " << std::to_string(deltaZMax) << ", stepsize = " << std::to_string(stepsize) << std::endl; //debug
+            else if (sign == "minus") //debug
+                std::cout << "\n§  deltaZ_" << std::to_string(i) << "^- = " << std::to_string(deltaZ) << ", deltaZMax = " << std::to_string(deltaZMax) << ", stepsize = " << std::to_string(stepsize) << std::endl; //debug
+
+            for (std::string DataSet : DataSetK)
+            {
+                    std::cout << "§   " << std::setw(12) << DataSet << ": "; //debug
+                    std::cout << "chi2k: " << std::to_string(chi2k.at(DataSet)); //debug
+                    std::cout << ", Xi: " << std::to_string(Xi90RescaledMap.at(DataSet)) << std::endl; //debug
+
+                if (chi2k.at(DataSet) >= Xi90RescaledMap.at(DataSet))
+                {
+                    DataSetKTemp.push_back(DataSet);
+                    FoundZiPlusMinus = true;
+                    
+                    std::cout << "§  Found chi2k > Xi90Rescaled : " << DataSet << std::endl; //debug
+                }
+            }
+            std::cout << std::endl; //debug
+
+            if (not FoundZiPlusMinus)
+                deltaZ += stepsize;
+        }
+
+        deltaZ -= stepsize;
+        stepsize = stepsize/10.;
+        FoundZiPlusMinus = false;
+        if (DataSetKTemp.size() > 0)
+            DataSetK = DataSetKTemp;
+    }
+
+    return deltaZ;
 }

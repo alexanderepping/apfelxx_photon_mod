@@ -36,6 +36,10 @@ int main()
 /**
  * Initialization & Minimization
  */
+    std::cout << "get verbosity: " << std::to_string(apfel::GetVerbosityLevel()) << std::endl; //debug
+    apfel::SetVerbosityLevel(1);
+    std::cout << "get verbosity: " << std::to_string(apfel::GetVerbosityLevel()) << std::endl; //debug
+
     // create FCN function
     StructureFunctionsFcn StructureFunctions(experimentalData);
 
@@ -129,19 +133,61 @@ int main()
     // const std::map<std::string, Eigen::MatrixXd> Hessian = CalculateHessianMap(StructureFunctions, finalParams);
     // const Eigen::MatrixXd HessianAll = Hessian.at("All");
     //std::cout << "debug: calculated Hessian" << std::endl; //debug
-    Eigen::MatrixXd HessianAll(3,3);
-    HessianAll(0, 0) = 12.3034;
-    HessianAll(0, 1) = 59.0161;
-    HessianAll(0, 2) = -52.4119;
-    HessianAll(1, 0) = 59.0161;
-    HessianAll(1, 1) = 11570.5;
-    HessianAll(1, 2) = -14398.0;
-    HessianAll(2, 0) = -52.4119;
-    HessianAll(2, 1) = -14398.0;
-    HessianAll(2, 2) = 20965.8;
+    /*
+    for (int i=0; i<finalParams.size(); i++)
+        for (int j=0; j<finalParams.size(); j++)
+            std::cout << "HessianAll(" << std::to_string(i) << ", " << std::to_string(j) << ") = " << std::to_string(HessianAll(i,j)) << ";" << std::endl; //debug
+    */
+#ifdef LO
+    Eigen::MatrixXd HessianAll(finalParams.size(), finalParams.size());
+    if (usedInitialPDFs == INITIALPDFS_SAL3)
+    {
+        HessianAll(0, 0) = 12.3034;
+        HessianAll(0, 1) = 59.0161;
+        HessianAll(0, 2) = -52.4119;
+        HessianAll(1, 0) = 59.0161;
+        HessianAll(1, 1) = 11570.5;
+        HessianAll(1, 2) = -14398.0;
+        HessianAll(2, 0) = -52.4119;
+        HessianAll(2, 1) = -14398.0;
+        HessianAll(2, 2) = 20965.8;
+    }
+    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    {
+        HessianAll(0, 0) = 12.918952;
+        HessianAll(0, 1) = 33.834566;
+        HessianAll(0, 2) = -17.225163;
+        HessianAll(0, 3) = 5.593674;
+        HessianAll(1, 0) = 33.834566;
+        HessianAll(1, 1) = 2393.713372;
+        HessianAll(1, 2) = -2160.927266;
+        HessianAll(1, 3) = 3339.290884;
+        HessianAll(2, 0) = -17.225163;
+        HessianAll(2, 1) = -2160.927266;
+        HessianAll(2, 2) = 2777.751032;
+        HessianAll(2, 3) = -4563.768410;
+        HessianAll(3, 0) = 5.593674;
+        HessianAll(3, 1) = 3339.290884;
+        HessianAll(3, 2) = -4563.768410;
+        HessianAll(3, 3) = 7979.411564;
+    }
+    else if (usedInitialPDFs == INITIALPDFS_SAL5)
+    {
 
+    }
+#endif //LO
+
+    // V_i^(k) is the ith element of the kth eigenvector (V^(k) corresponding to lambda_k)
+    // EigenSolverHessian.eigenvectors().col(k) = V^(k)
+    // EigenSolverHessian.eigenvectors().col(k)[i] = V_i^(k)
+    // EigenSolverHessian.eigenvectors()(i,k) = V_i^(k)
     Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(HessianAll);
+
     //std::cout << "debug: made the Eigensolver" << std::endl; //debug
+
+    //debug begin
+    int trash = FindDeltaChi2Limit(finalParams, EigenSolverHessian); //debug
+    //debug end
 
 
 
@@ -161,8 +207,8 @@ int main()
 
     for (int i=0; i<finalParams.size(); i++)
     {
-        std::cout << "\ndebug: calculating with i=" << std::to_string(i) << std::endl; //debug
-
+        /* 
+        // calculation using CalculateZikPlusMinus
         zikPlusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "plus", 200.0, 1);
         zikMinusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "minus", 2.119172, 0.1);
 
@@ -183,11 +229,17 @@ int main()
             if (zi > ziMinus)
                 ziMinus = zi;
         }
+        */
+
+        double ziPlus  = CalculateZiPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "plus", 100);
+        double ziMinus = CalculateZiPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap, "minus", 100);
+
         
         ziPlusMinus.push_back({ziPlus, ziMinus});
 //debug
-        std::cout << "z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl;
+        std::cout << "§§ z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl;
 
+        /*
         for (std::string DataSet : StructureFunctions.IncludedExpData())
             std::cout << DataSet << " ";
 
@@ -200,33 +252,17 @@ int main()
             std::cout << std::to_string(params) << "\t";
         
         std::cout << std::endl << std::endl;
+        */
 //debug end
     }
     
-//debug 
-    std::cout << std::endl;
-    for (int i=0; i<finalParams.size(); i++)
-    {
-        std::cout << "z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl;
-
-        for (std::string DataSet : StructureFunctions.IncludedExpData())
-            std::cout << DataSet << " ";
-
-        std::cout << std::endl << "z_i^(k+): ";
-        for (double params : zikPlusMap.at(i))
-            std::cout << std::to_string(params) << "\t";
-
-        std::cout << std::endl << "z_i^(k-): ";
-        for (double params : zikMinusMap.at(i))
-            std::cout << std::to_string(params) << "\t";
-        
-        std::cout << std::endl << std::endl;
-    }
-//debug end
-
+    std::cout << std::endl; //debug
+    for (int i=0; i<finalParams.size(); i++) //debug
+        std::cout << "§§ z_" << std::to_string(i) << "^+ = " << std::to_string(ziPlusMinus[i][0]) << ", z_" << std::to_string(i) << "^- = " << std::to_string(ziPlusMinus[i][1]) << std::endl; //debug
+    
     double DeltaChi2 = 0.;
     for (std::vector<double> params : ziPlusMinus)
-        DeltaChi2 += ((params[0] * params[0]) + (params[1] * params[1])) / ziPlusMinus.size();
+        DeltaChi2 += ((params[0] * params[0]) + (params[1] * params[1])) / (2. * finalParams.size());
 
     std::cout << std::endl << "DeltaChi2 = " << std::to_string(DeltaChi2) << std::endl;
 #endif //CalculateDeltaChi2
@@ -235,27 +271,48 @@ int main()
 /**
  * Calculation Error PDFs
  */
+    std::cout << std::endl << "DeltaChi2 = " << std::to_string(DeltaChi2) << std::endl; //debug
     std::vector<std::vector<double>> errorParamsPlus;
     std::vector<std::vector<double>> errorParamsMinus;
 
-    // std::cout << "debug: before the for loop" << std::endl; //debug
+    std::cout << "debug: before the for loop" << std::endl; //debug
     for (int k=0; k<finalParams.size(); k++)
     {
         std::vector<double> tempPlus;
         std::vector<double> tempMinus;
-        // std::cout << "debug: before the second for loop" << std::endl; //debug
+        std::cout << "debug: before the second for loop" << std::endl; //debug
         for (int i=0; i<finalParams.size(); i++)
         {
-            tempPlus.push_back(finalParams[i] + std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
-            tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
+            // here was an error with the indizes of the eigenvectors
+            tempPlus.push_back(finalParams[i] + std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(i,k)));
+            tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(i,k)));
         }
         errorParamsPlus.push_back(tempPlus);
         errorParamsMinus.push_back(tempMinus);
     }
 
-    // std::cout << "debug: before errorParams" << std::endl; //debug
+    std::cout << "debug: before errorParams" << std::endl; //debug
     std::map<std::string, std::vector<std::vector<double>>> errorParams = {{"+", errorParamsPlus},
                                                                            {"-", errorParamsMinus}};
+
+    std::cout << "\nerrorParamsPlus: " << std::endl;; //debug
+    for (int k=0; k<finalParams.size(); k++)
+    {
+    std::cout << "§ "; //debug
+        for (int i=0; i<finalParams.size(); i++)
+            std::cout << std::to_string(errorParamsPlus[k][i]) << ", ";
+    std::cout << std::endl; //debug
+    }
+
+    std::cout << "\nerrorParamsMinus: " << std::endl;; //debug
+    for (int k=0; k<finalParams.size(); k++)
+    {
+    std::cout << "§ "; //debug
+        for (int i=0; i<finalParams.size(); i++)
+            std::cout << std::to_string(errorParamsMinus[k][i]) << ", ";
+    std::cout << std::endl; //debug
+    }
+
 
 
 
@@ -266,14 +323,14 @@ int main()
     std::vector<std::vector<double>> finalErrorParametersPlus;
     std::vector<std::vector<double>> finalErrorParametersMinus;
 
-    // std::cout << "debug: before for-loop in outputprep" << std::endl; //debug
+    std::cout << "debug: before for-loop in outputprep" << std::endl; //debug
     for (int k=0; k<finalParams.size(); k++)
     {
         // get the finalErrorParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
         std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], true);
         std::map<int, double> finalErrorParametersMapMinus = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsMinus[k], true);
 
-        // std::cout << "debug: before 2nd for-loop" << std::endl; //debug
+        std::cout << "debug: before 2nd for-loop" << std::endl; //debug
 
         std::vector<double> finalErrorParametersPlusTemp;
         std::vector<double> finalErrorParametersMinusTemp;
@@ -281,19 +338,19 @@ int main()
         // copy data finalErrorParameters from Map into vector
         for (int i=0; i<finalErrorParametersMapPlus.size(); i++)
         {
-            // std::cout << "debug: in 2nd for-loop 01" << std::endl; //debug
+            std::cout << "debug: in 2nd for-loop 01" << std::endl; //debug
             finalErrorParametersPlusTemp.push_back(finalErrorParametersMapPlus.at(i));
             finalErrorParametersMinusTemp.push_back(finalErrorParametersMapMinus.at(i));
-            // std::cout << "debug: in 2nd for-loop 02" << std::endl; //debug
+            std::cout << "debug: in 2nd for-loop 02" << std::endl; //debug
         }
 
-        // std::cout << "debug: after 2nd for-loop" << std::endl; //debug
+        std::cout << "debug: after 2nd for-loop" << std::endl; //debug
 
         // save finalErrorParameters...Temp in the "big" vector
         finalErrorParametersPlus.push_back(finalErrorParametersPlusTemp);
         finalErrorParametersMinus.push_back(finalErrorParametersMinusTemp);
 
-        // std::cout << "debug: before if" << std::endl; //debug
+        std::cout << "debug: before if" << std::endl; //debug
         if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
             {
                 // add AN_g1 to vector

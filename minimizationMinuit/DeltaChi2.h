@@ -61,6 +61,13 @@ std::vector<double> YToZTilde(std::vector<double>                 const& y,
 std::vector<double> ZTildeToY(std::vector<double>                 const& zTilde,
                               Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
 
+std::vector<double> FindZTildeLimit(int                                 const& i,
+                                    std::vector<double>                 const& finalParams,
+                                    Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
+
+int FindDeltaChi2Limit(std::vector<double>                 const& finalParams,
+                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
+
 std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           const& StructureFunctions,
                                          Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
                                          std::vector<double>                 const& finalParams,
@@ -79,3 +86,11 @@ std::vector<double> CalculateZikPlusMinus(StructureFunctionsFcn               co
                                                        std::string                         const& sign,
                                                        double                              const& deltaZmax,
                                                        double                              const& deltaZstepsize);
+
+double CalculateZiPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
+                            Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
+                            int                                 const& i,
+                            std::vector<double>                 const& finalParams,
+                            std::map<std::string, double>       const& Xi90RescaledMap,
+                            std::string                         const& sign,
+                            double                              const& deltaZstepsize);
