@@ -45,7 +45,7 @@ const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingP
 /**
  * @brief change if debug messages should be written to the terminal
  */
-const int DebugVerbosity = 0;
+const int DebugVerbosity = 2;
 
 
 

@@ -9,6 +9,7 @@
 
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
+#include "HelperFunctions.h"
 
 #include <string>
 #include <map>
@@ -173,7 +174,10 @@ std::vector<double> StructureFunctionsFcn::combineData(std::map<std::string, std
 
 double StructureFunctionsFcn::betaFunction(double const & x, double const& y) const
 {
-    assert(x  >= 0. & y  >= 0.);
+    //assert(x  >= 0. & y  >= 0.);
+    //DebugString("betaFunction - x = "+std::to_string(x)+", y = "+std::to_string(y)); //debug
+    if (x <= 0. || y <= 0.)
+        DebugString("betaFunction - x = "+std::to_string(x)+", y = "+std::to_string(y)); //debug
 
     return (std::tgamma(x) * std::tgamma(y)) / std::tgamma(x + y);
 }
@@ -221,24 +225,18 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
 
     const double A_G_Had = (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
 
-    /*
-    //debug v
-    std::cout << "§ Parameters:" << std::endl << params[0];
-    for (int i=1; i<NumberOfFreeParams; i++) 
-        std::cout << ", " << params[i];
-    std::cout << std::endl;
+    DebugString("Parameters:", true, true, 3); //debug
+    DebugVectorDoubles(params, true, true, 3); //debug
 
-    std::cout << "§ lhsHadG, lhsHadQ, lhsPLQ: " << std::endl;
-    std::cout << "§ " << lhsHadG << ", " << lhsHadQ << ", " << lhsPLQ << std::endl;
+    DebugString("lhsHadG, lhsHadQ, lhsPLQ: ", true, true, 3);
+    DebugString(std::to_string(lhsHadG) + ", " + std::to_string(lhsHadQ) + ", " + std::to_string(lhsPLQ), true, true, 3);
 
     if (params[7] != 0)
     {
-        std::cout << "§ helperFunction(1,params[7]), helperFunction(2,params[7]), helperFunction(3,params[7]), helperFunction(4,params[7]): " << std::endl;
-        std::cout << "§ " << helperFunction(1,params[7]) << ", " << helperFunction(2,params[7]) << ", " << helperFunction(3,params[7]) << ", " << helperFunction(4,params[7]) << std::endl;
+        DebugString("helperFunction(1,params[7]), helperFunction(2,params[7]), helperFunction(3,params[7]), helperFunction(4,params[7]): ", true, true, 3);
+        DebugString(std::to_string(helperFunction(1,params[7])) + ", " + std::to_string(helperFunction(2,params[7])) + ", " + std::to_string(helperFunction(3,params[7])) + ", " + std::to_string(helperFunction(4,params[7])), true, true, 3);
     }
-    std::cout << std:: endl;
-    //debug ^
-    */
+    DebugString("", true, false, 3); //debug
 
     return A_G_Had;
 }

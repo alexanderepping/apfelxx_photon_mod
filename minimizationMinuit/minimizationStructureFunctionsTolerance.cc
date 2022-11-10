@@ -180,6 +180,113 @@ int main()
     DebugString("DeltaChi2 = " + std::to_string(DeltaChi2), true, true, 1); //debug
 #endif //CalculateDeltaChi2
 
+/**
+ * Calculation Error PDFs
+ */
+    std::vector<std::vector<double>> errorParamsPlus;
+    std::vector<std::vector<double>> errorParamsMinus;
+
+    // std::cout << "debug: before the for loop" << std::endl; //debug
+    for (int k=0; k<NumberOfFreeParams; k++)
+    {
+        std::vector<double> tempPlus;
+        std::vector<double> tempMinus;
+        // std::cout << "debug: before the second for loop" << std::endl; //debug
+        for (int i=0; i<NumberOfFreeParams; i++)
+        {
+            tempPlus.push_back(finalParams[i] + std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
+            tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
+        }
+        errorParamsPlus.push_back(tempPlus);
+        errorParamsMinus.push_back(tempMinus);
+    }
+
+    // std::cout << "debug: before errorParams" << std::endl; //debug
+    std::map<std::string, std::vector<std::vector<double>>> errorParams = {{"+", errorParamsPlus},
+                                                                           {"-", errorParamsMinus}};
+
+
+
+/**
+ * prepare Data Output for Error PDFs
+ */
+    // make finalParametersMap into vector
+    std::vector<std::vector<double>> finalErrorParametersPlus;
+    std::vector<std::vector<double>> finalErrorParametersMinus;
+
+    // std::cout << "debug: before for-loop in outputprep" << std::endl; //debug
+    for (int k=0; k<NumberOfFreeParams; k++)
+    {
+        // get the finalErrorParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
+        std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], true);
+        std::map<int, double> finalErrorParametersMapMinus = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsMinus[k], true);
+
+        // std::cout << "debug: before 2nd for-loop" << std::endl; //debug
+
+        std::vector<double> finalErrorParametersPlusTemp;
+        std::vector<double> finalErrorParametersMinusTemp;
+
+        // copy data finalErrorParameters from Map into vector
+        for (int i=0; i<finalErrorParametersMapPlus.size(); i++)
+        {
+            // std::cout << "debug: in 2nd for-loop 01" << std::endl; //debug
+            finalErrorParametersPlusTemp.push_back(finalErrorParametersMapPlus.at(i));
+            finalErrorParametersMinusTemp.push_back(finalErrorParametersMapMinus.at(i));
+            // std::cout << "debug: in 2nd for-loop 02" << std::endl; //debug
+        }
+
+        // std::cout << "debug: after 2nd for-loop" << std::endl; //debug
+
+        // save finalErrorParameters...Temp in the "big" vector
+        finalErrorParametersPlus.push_back(finalErrorParametersPlusTemp);
+        finalErrorParametersMinus.push_back(finalErrorParametersMinusTemp);
+
+        // std::cout << "debug: before if" << std::endl; //debug
+        if (INITIALPDFS_9GDUS <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_5GQ) // if the InitialPDFs use Main0
+            {
+                // add AN_g1 to vector
+                finalErrorParametersPlus[k].push_back(StructureFunctions.MomentumSumRule0(finalErrorParametersPlus[k]));
+                finalErrorParametersMinus[k].push_back(StructureFunctions.MomentumSumRule0(finalErrorParametersMinus[k]));
+            }
+        else if (INITIALPDFS_SAL8 <= usedInitialPDFs && usedInitialPDFs <= INITIALPDFS_SAL3) // if the InitialPDFs use MainSAL
+            {
+                // add A_G_Had to vector
+                finalErrorParametersPlus[k].push_back(StructureFunctions.MomentumSumRuleSAL(finalErrorParametersPlus[k], Qin));
+                finalErrorParametersMinus[k].push_back(StructureFunctions.MomentumSumRuleSAL(finalErrorParametersMinus[k], Qin));
+            }
+    }
+
+
+    
+/**
+ * save results in resultsDataStruct
+ */
+    results.finalErrorParametersPlus = finalErrorParametersPlus;
+    results.finalErrorParametersMinus = finalErrorParametersMinus;
+    results.DeltaChi2 = DeltaChi2;
+    results.IncludeErrorPDFs = true;
+#endif //ErrorPDFs
+    
+
+/**
+ * Output
+ */
+    FileOutputMinimization(StructureFunctions, results, results.IncludeErrorPDFs, outputFile);
+    TermOutputMinimization(StructureFunctions, results, results.IncludeErrorPDFs);
+
+#ifdef ErrorPDFs
+    std::cout << "Hessian Matrix: " << std::endl << Hessian << std::endl << std::endl;
+    std::cout << "Eigenvalues: "    << std::endl << EigenSolverHessian.eigenvalues() << std::endl << std::endl;
+    std::cout << "Eigenvectors: "   << std::endl << EigenSolverHessian.eigenvectors() << std::endl << std::endl;
+#endif //ErrorPDFs
+
+    // output
+    std::cout << "minimum: " << min << std::endl;
+
+
+    return 0;
+}
+
 
 /**
  * Calculation Error PDFs
