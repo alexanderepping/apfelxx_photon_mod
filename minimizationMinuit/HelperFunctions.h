@@ -10,10 +10,26 @@
 #include "/usr/local/include/minuit-cpp/FCNBase.hh"
 
 #include "StructureFunctionsFcn.h"
-#include "ResultsFunctions.h"
 #include "configMinuit.h"
 
+#include <string>
 #include <vector>
+#include <map>
+
+/**
+ * @brief struct, containing all the important results like final Parameters (with or wothout ErrorPDFs), chi2, etc.
+ */
+struct resultsDataStruct {
+    std::vector<double>                 finalParameters;
+    std::vector<std::vector<double>>    finalErrorParametersPlus;
+    std::vector<std::vector<double>>    finalErrorParametersMinus;
+    double                              chi2;
+    std::map<std::string, double>       chi2PerExperiment;
+    double                              DeltaChi2;
+    bool                                IncludeErrorPDFs = false;
+};
+
+
 
 /**
  * @brief takes the result-data and writes them to a file. Can output with or without Error PDFs.

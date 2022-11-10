@@ -21,6 +21,5 @@
 #include "experimentalData.h"
 #include "StructureFunctionsFcn.h"
 #include "ErrorPDFs.h"
-#include "OutputFunctions.h"
-#include "ResultsFunctions.h"
+#include "HelperFunctions.h"
 #include "DeltaChi2.h"

@@ -5,9 +5,8 @@
  * GitHub: https://github.com/alexanderepping/apfelxx_photon_mod
  */
 
-#include "OutputFunctions.h"
+#include "HelperFunctions.h"
 #include "StructureFunctionsFcn.h"
-#include "ResultsFunctions.h"
 #include "configMinuit.h"
 
 #include <vector>
