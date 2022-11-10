@@ -112,19 +112,19 @@ std::map< std::string, Eigen::MatrixXd> CalculateHessianMap(StructureFunctionsFc
                                                          std::vector<double>   const& a0,
                                                          double                const& h) 
 {
-    const int numberParams = a0.size();
+    const int NumberOfFreeParams = NumberOfFreeParams;
     std::map<std::string, Eigen::MatrixXd> Hessian;
 
     for (std::string DataSet : function.IncludedExpData())
-        Hessian[DataSet] = Eigen::MatrixXd(numberParams, numberParams);
-    Hessian["All"] = Eigen::MatrixXd(numberParams, numberParams);
+        Hessian[DataSet] = Eigen::MatrixXd(NumberOfFreeParams, NumberOfFreeParams);
+    Hessian["All"] = Eigen::MatrixXd(NumberOfFreeParams, NumberOfFreeParams);
 
-        //Hessian[DataSet] = Eigen::MatrixXd::Zero(numberParams, numberParams);
-    //Hessian["All"] = Eigen::MatrixXd::Zero(numberParams, numberParams);
+        //Hessian[DataSet] = Eigen::MatrixXd::Zero(NumberOfFreeParams, NumberOfFreeParams);
+    //Hessian["All"] = Eigen::MatrixXd::Zero(NumberOfFreeParams, NumberOfFreeParams);
 
-    for (int i=0; i<a0.size(); i++)
+    for (int i=0; i<NumberOfFreeParams; i++)
     {
-        for (int j=i; j<a0.size(); j++)
+        for (int j=i; j<NumberOfFreeParams; j++)
         {
             std::map<std::string, double> SD = SecondDerivativeMap(function, a0, i, j, h);
 

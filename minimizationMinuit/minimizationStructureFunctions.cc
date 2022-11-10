@@ -119,11 +119,11 @@ int main()
 /**
  * Calculation Hessian
  */
-    const std::map<std::string, Eigen::MatrixXd> Hessian = CalculateHessianMap(StructureFunctions, finalParams);
-    const Eigen::MatrixXd HessianAll = Hessian.at("All");
+    const std::map<std::string, Eigen::MatrixXd> HessianMap = CalculateHessianMap(StructureFunctions, finalParams);
+    const Eigen::MatrixXd Hessian = Hessian.at("All");
     // std::cout << "debug: calculated Hessian" << std::endl; //debug
 
-    Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(HessianAll);
+    Eigen::EigenSolver<Eigen::MatrixXd> EigenSolverHessian(Hessian);
     // std::cout << "debug: made the Eigensolver" << std::endl; //debug
 
 
@@ -140,7 +140,7 @@ int main()
     std::map<int, std::vector<std::vector<double>>> zikPlusMinusMap;
     std::vector<std::vector<double>> ziPlusMinus;
 
-    for (int i=0; i<finalParams.size(); i++)
+    for (int i=0; i<NumberOfFreeParams; i++)
     {
 
         zikPlusMinusMap[i] = CalculateZikPlusMinus(StructureFunctions, EigenSolverHessian, i, finalParams, Xi90RescaledMap);
@@ -176,12 +176,12 @@ int main()
     std::vector<std::vector<double>> errorParamsMinus;
 
     // std::cout << "debug: before the for loop" << std::endl; //debug
-    for (int k=0; k<finalParams.size(); k++)
+    for (int k=0; k<NumberOfFreeParams; k++)
     {
         std::vector<double> tempPlus;
         std::vector<double> tempMinus;
         // std::cout << "debug: before the second for loop" << std::endl; //debug
-        for (int i=0; i<finalParams.size(); i++)
+        for (int i=0; i<NumberOfFreeParams; i++)
         {
             tempPlus.push_back(finalParams[i] + std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
             tempMinus.push_back(finalParams[i] - std::sqrt(DeltaChi2 / std::real(EigenSolverHessian.eigenvalues()[k])) * std::real(EigenSolverHessian.eigenvectors()(k,i)));
@@ -204,7 +204,7 @@ int main()
     std::vector<std::vector<double>> finalErrorParametersMinus;
 
     // std::cout << "debug: before for-loop in outputprep" << std::endl; //debug
-    for (int k=0; k<finalParams.size(); k++)
+    for (int k=0; k<NumberOfFreeParams; k++)
     {
         // get the finalErrorParametersMap; ...Parameters are the vectors etc. with all possible parameters of the InitialPDFsMain function
         std::map<int, double> finalErrorParametersMapPlus  = StructureFunctions.InitialPDFs(0.5, Qin, errorParamsPlus[k], true);
@@ -264,7 +264,7 @@ int main()
     TermOutputMinimization(StructureFunctions, results, results.IncludeErrorPDFs);
 
 #ifdef ErrorPDFs
-    std::cout << "Hessian Matrix: " << std::endl << HessianAll << std::endl << std::endl;
+    std::cout << "Hessian Matrix: " << std::endl << Hessian << std::endl << std::endl;
     std::cout << "Eigenvalues: "    << std::endl << EigenSolverHessian.eigenvalues() << std::endl << std::endl;
     std::cout << "Eigenvectors: "   << std::endl << EigenSolverHessian.eigenvectors() << std::endl << std::endl;
 #endif //ErrorPDFs

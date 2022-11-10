@@ -12,6 +12,7 @@
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
 
+#include <Eigen/Eigenvalues>
 #include <string>
 #include <vector>
 #include <map>
@@ -28,6 +29,17 @@ struct resultsDataStruct {
     double                              DeltaChi2;
     bool                                IncludeErrorPDFs = false;
 };
+
+
+
+/** @brief print debug message to terminal */
+void DebugString(std::string const& message, bool const& endl=true, bool const& prefix=true, int const& requiredVerbosity=2);
+
+/** @brief print debug vector of doubles to terminal */
+void DebugVectorDoubles(std::vector<double> const& vector, bool const& endl=true, bool const& prefix=true, int const& requiredVerbosity=2);
+
+/** @brief print debug vector of strings to terminal */
+void DebugVectorString(std::vector<std::string> const& vector, bool const& endl=true, bool const& prefix=true, int const& requiredVerbosity=2);
 
 
 
@@ -60,3 +72,21 @@ int FileOutputMinimization(StructureFunctionsFcn const& StructureFunctions,
 int TermOutputMinimization(StructureFunctionsFcn const& StructureFunctions,
                            resultsDataStruct     const& results,
                            bool                  const& PrintErrorPDFs);
+
+
+
+/**
+ * @brief outputs the elements of the Hessian in such a way, that it is easy to just copy them into a file so that they don't have to be calculated every time.
+ * note, that the Hessian changes, if the parameters are changed!
+ * 
+ * @param Hessian: the Hessian Matrix
+ */
+void TermOutputHessian(Eigen::MatrixXd const& Hessian);
+
+
+
+/**
+ * @brief returns a precalculated Hessian, which reduces the runtime, because you don't have to calculate it.
+ * note, that the Hessian changes, if the parameters are changed and the precalculated Hessian might not be correct anymore.
+ */
+Eigen::MatrixXd PrecalculatedHessian();

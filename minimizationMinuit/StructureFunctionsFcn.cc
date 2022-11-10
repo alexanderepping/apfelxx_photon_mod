@@ -224,7 +224,7 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     /*
     //debug v
     std::cout << "§ Parameters:" << std::endl << params[0];
-    for (int i=1; i<params.size(); i++) 
+    for (int i=1; i<NumberOfFreeParams; i++) 
         std::cout << ", " << params[i];
     std::cout << std::endl;
 

@@ -28,22 +28,24 @@ const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
  */
 #define LO                      // change which perturbation order is used
 #define ErrorPDFs               // change if ErrorPDFs should be calculated
-//#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
+#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
 
 /**
  * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2
  */
 #ifndef CalculateDeltaChi2
-//const double DeltaChi2 = 1.;
-//const double DeltaChi2 = 4.490891;
 const double DeltaChi2 = 48.433018;
-
 #endif //CalculateDeltaChi2
 
 /**
  * @brief path of the file where data should be saved
  */
 const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+
+/**
+ * @brief change if debug messages should be written to the terminal
+ */
+const int DebugVerbosity = 0;
 
 
 
@@ -68,6 +70,12 @@ const std::vector<std::string> IncludedExperimentalData = {"ALEPH1", "ALEPH2", "
  * @brief the total momentum / result of MomentumSumRule0
  */
 const double totalMomentum = 1.;
+
+
+/**
+ * @brief string to put in front of every debug output
+ */
+const std::string DebugPrefix = "§  ";
 
 
 /**
@@ -245,3 +253,8 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
                                                                     {INITIALPDFS_SAL4VADIM,             {"B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL"}},
                                                                     {INITIALPDFS_SAL4,                  {"K_S", "B_G_HAD", "A_Q_HAD", "B_Q_HAD"}},
                                                                     {INITIALPDFS_SAL3,                  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD"}}};
+
+/**
+ * @brief defining, how many free parameters there are
+ */
+const int NumberOfFreeParams = initialParams.at(usedInitialPDFs).size();

@@ -65,8 +65,9 @@ std::vector<double> FindZTildeLimit(int                                 const& i
                                     std::vector<double>                 const& finalParams,
                                     Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
 
-int FindDeltaChi2Limit(std::vector<double>                 const& finalParams,
-                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
+void FindDeltaChi2Limit(std::vector<double>                const& finalParams,
+                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
+                       int                                 const& localRequiredVerbosity=2);
 
 std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           const& StructureFunctions,
                                          Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
@@ -77,15 +78,6 @@ std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           con
 double FindZikPlusMinus(std::vector<double> const& chi2kData,
                         std::vector<double> const& zikData,
                         double              const& Xi90Rescaled);
-
-std::vector<double> CalculateZikPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
-                                                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
-                                                       int                                 const& i,
-                                                       std::vector<double>                 const& finalParams,
-                                                       std::map<std::string, double>       const& Xi90RescaledMap,
-                                                       std::string                         const& sign,
-                                                       double                              const& deltaZmax,
-                                                       double                              const& deltaZstepsize);
 
 double CalculateZiPlusMinus(StructureFunctionsFcn               const& StructureFunctions,
                             Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,

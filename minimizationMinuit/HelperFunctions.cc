@@ -9,10 +9,59 @@
 #include "StructureFunctionsFcn.h"
 #include "configMinuit.h"
 
+#include <Eigen/Eigenvalues>
 #include <vector>
 #include <iostream>
 #include <fstream>
 
+
+void DebugString(std::string const& message, bool const& endl, bool const& prefix, int const& requiredVerbosity)
+{
+    if (DebugVerbosity >= requiredVerbosity)
+    {
+        if (prefix)
+            std::cout << DebugPrefix;
+        std::cout << message;
+        if (endl)
+            std::cout << std::endl;
+    }
+}
+
+void DebugVectorDoubles(std::vector<double> const& vector, bool const& endl, bool const& prefix, int const& requiredVerbosity)
+{
+    if (DebugVerbosity >= requiredVerbosity)
+    {
+        if (prefix)
+            std::cout << DebugPrefix;
+        for (int i=0; i<vector.size(); i++) 
+        {
+            if (i != vector.size()-1)
+                std::cout << std::to_string(vector[i]) << ", ";
+            else
+                std::cout << std::to_string(vector[i]);
+        }
+        if (endl)
+            std::cout << std::endl;
+    }
+}
+
+void DebugVectorString(std::vector<std::string> const& vector, bool const& endl, bool const& prefix, int const& requiredVerbosity)
+{
+    if (DebugVerbosity >= requiredVerbosity)
+    {
+        if (prefix)
+            std::cout << DebugPrefix;
+        for (int i=0; i<vector.size(); i++) 
+        {
+            if (i != vector.size()-1)
+                std::cout << vector[i] << ", ";
+            else
+                std::cout << vector[i];
+        }
+        if (endl)
+            std::cout << std::endl;
+    }
+}
 
 int FileOutputMinimization(StructureFunctionsFcn const& StructureFunctions,
                            resultsDataStruct     const& results,
@@ -228,4 +277,54 @@ int TermOutputMinimization(StructureFunctionsFcn const& StructureFunctions,
         std::cout << std::endl;
 
         return 0;
+}
+
+void TermOutputHessian(Eigen::MatrixXd const& Hessian)
+{
+    for (int i=0; i<Hessian.innerSize(); i++)
+        for (int j=0; j<Hessian.innerSize(); j++)
+            DebugString("Hessian("+std::to_string(i) + ", "+std::to_string(j) + ") = " + std::to_string(Hessian(i,j)) + ";", true, false, 1);
+}
+Eigen::MatrixXd PrecalculatedHessian()
+{
+#ifdef LO
+    Eigen::MatrixXd Hessian(NumberOfFreeParams, NumberOfFreeParams);
+    if (usedInitialPDFs == INITIALPDFS_SAL3)
+    {
+        Hessian(0, 0) = 12.3034;
+        Hessian(0, 1) = 59.0161;
+        Hessian(0, 2) = -52.4119;
+        Hessian(1, 0) = 59.0161;
+        Hessian(1, 1) = 11570.5;
+        Hessian(1, 2) = -14398.0;
+        Hessian(2, 0) = -52.4119;
+        Hessian(2, 1) = -14398.0;
+        Hessian(2, 2) = 20965.8;
+    }
+    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    {
+        Hessian(0, 0) = 12.918952;
+        Hessian(0, 1) = 33.834566;
+        Hessian(0, 2) = -17.225163;
+        Hessian(0, 3) = 5.593674;
+        Hessian(1, 0) = 33.834566;
+        Hessian(1, 1) = 2393.713372;
+        Hessian(1, 2) = -2160.927266;
+        Hessian(1, 3) = 3339.290884;
+        Hessian(2, 0) = -17.225163;
+        Hessian(2, 1) = -2160.927266;
+        Hessian(2, 2) = 2777.751032;
+        Hessian(2, 3) = -4563.768410;
+        Hessian(3, 0) = 5.593674;
+        Hessian(3, 1) = 3339.290884;
+        Hessian(3, 2) = -4563.768410;
+        Hessian(3, 3) = 7979.411564;
+    }
+    else if (usedInitialPDFs == INITIALPDFS_SAL5)
+    {
+
+    }
+#endif //LO
+
+    return Hessian;
 }
