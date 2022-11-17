@@ -17,35 +17,31 @@
 ///////////////////////////////////////
 // commonly changed
 ///////////////////////////////////////
+
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-//const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL4VADIM";
 const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
 
 /**
  * @brief change some settings
  */
 #define LO                      // change which perturbation order is used
-#define ErrorPDFs               // change if ErrorPDFs should be calculated
-#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated
-
-/**
- * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2
- */
-#ifndef CalculateDeltaChi2
-const double DeltaChi2 = 48.433018;
-#endif //CalculateDeltaChi2
+#define CalculateErrorPDFs      // change if ErrorPDFs should be calculated
+#define CalculateFinalParams    // change if finalParams should be calculated or precalculated should be used
+#define CalculateHessian        // change if Hessian should be calculated or precalculated should be used, only used if CalculateFinalParams is not defined
+#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated or precalculated should be used
 
 /**
  * @brief path of the file where data should be saved
  */
-const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+//const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5HO.txt";
 
 /**
  * @brief change if debug messages should be written to the terminal
  */
-const int DebugVerbosity = 2;
+const int DebugVerbosity = 1;
 
 
 
@@ -132,9 +128,11 @@ const double Qin          = 1.3;
 #endif //HO
 
 
+
 ///////////////////////////////////////
-// initialPDF parameter settings
+// InitialPDF Names etc
 ///////////////////////////////////////
+
 /**
  * @brief enumerating the different Initial PDFs
  */
@@ -152,6 +150,7 @@ enum enumInitialPDFs { // InitialPDFs related to InitialPDFsMain0
                        INITIALPDFS_SAL4,        // same as SAL6 w/out PL part
                        INITIALPDFS_SAL3};       // same as SAL5 w/out PL part
 
+
 /**
  * @brief names of the InitialPDFs
  */
@@ -166,10 +165,48 @@ const std::map<std::string, int> initialPDFsNames = {{"INITIALPDFS_9GDUS",      
                                                      {"INITIALPDFS_SAL4",       INITIALPDFS_SAL4},
                                                      {"INITIALPDFS_SAL3",       INITIALPDFS_SAL3}};
 
+
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
 const int usedInitialPDFs = initialPDFsNames.at(nameUsedInitialPDFs);
+
+
+
+///////////////////////////////////////
+// DeltaChi2 Values
+///////////////////////////////////////
+
+/**
+ * @brief Map of Delta Chi^2, used to calculate the ErrorPDFs, for different InitialPDFs
+ */
+const std::map<int, double> DeltaChi2Map = {
+#ifdef LO
+        {INITIALPDFS_SAL5,             14.2932},
+        {INITIALPDFS_SAL4VADIM,        14.4173},
+        {INITIALPDFS_SAL3,             51.5881}
+#endif //LO
+
+#ifdef HO
+        {INITIALPDFS_SAL5,             8.65906},
+        {INITIALPDFS_SAL4VADIM,        9.13941},
+        {INITIALPDFS_SAL3,             17.6415}
+#endif //HO
+        };
+
+
+/**
+ * @brief Delta Chi^2, used to calculate the ErrorPDFs, if there is no #define CalculateDeltaChi2
+ */
+#ifndef CalculateDeltaChi2
+const double DeltaChi2 = DeltaChi2Map.at(usedInitialPDFs);
+#endif //CalculateDeltaChi2
+
+
+
+///////////////////////////////////////
+// InitialPDF parameter settings
+///////////////////////////////////////
 
 /**
  * @brief initial parameters for the PDFs
@@ -186,6 +223,7 @@ const std::map<int, std::vector<double>> initialParams = {{INITIALPDFS_9GDUS,   
                                                           {INITIALPDFS_SAL4,            {0.5, 0.5, 0.5, 0.5}},
                                                           {INITIALPDFS_SAL3,            {0.5, 0.5, 0.5}}};
 
+
 /**
  * @brief initial errors for the parameters for the PDFs
  */
@@ -200,6 +238,7 @@ const std::map<int, std::vector<double>> initialParamsErrors = {{INITIALPDFS_9GD
                                                                 {INITIALPDFS_SAL4VADIM,         {0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_SAL4,              {0.1, 0.1, 0.1, 0.1}},
                                                                 {INITIALPDFS_SAL3,              {0.1, 0.1, 0.1}}};
+
 
 /**
  * @brief upper bounds for the initial parameters for the PDFs.
@@ -220,6 +259,7 @@ const std::map<int, std::vector<double>> initialParamsUBounds = {{INITIALPDFS_9G
                                                                  {INITIALPDFS_SAL4,             { 1.,  1., 40.,  1.}},
                                                                  {INITIALPDFS_SAL3,             { 1., 40.,  1.}}};
 
+
 /**
  * @brief lower bounds for the initial parameters for the PDFs.
  * bounds come from the fact that the gamma function only takes values bigger than zero,
@@ -239,6 +279,7 @@ const std::map<int, std::vector<double>> initialParamsLBounds = {{INITIALPDFS_9G
                                                                  {INITIALPDFS_SAL4,             { 0., -1.,  0., -1.}},
                                                                  {INITIALPDFS_SAL3,             {-1.,  0., -1.}}};
 
+
 /**
  * @brief names of the parameters
  */
@@ -253,6 +294,7 @@ const std::map<int, std::vector<std::string>> initialParamsNames = {{INITIALPDFS
                                                                     {INITIALPDFS_SAL4VADIM,             {"B_G_HAD", "A_Q_HAD", "B_Q_HAD", "A_Q_PL"}},
                                                                     {INITIALPDFS_SAL4,                  {"K_S", "B_G_HAD", "A_Q_HAD", "B_Q_HAD"}},
                                                                     {INITIALPDFS_SAL3,                  {"B_G_HAD", "A_Q_HAD", "B_Q_HAD"}}};
+
 
 /**
  * @brief defining, how many free parameters there are

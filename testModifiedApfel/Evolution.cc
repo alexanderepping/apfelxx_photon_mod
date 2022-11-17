@@ -17,19 +17,19 @@
 // definitions, can be changed by user
 ////////////////////////////////////////////////////////////
 
-const std::string name = "SAL5LO";
+const std::string name = "SAL5HO";
 
 // Name of the input file with the parameters etc
 //const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_25/dataInitialPDFs"+name+".txt";
+const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
 
 // Name of the output file
 //const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
-const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_25/dataEvolvedPDFs"+name+".txt";
+const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
 
 
 // Decide whether LO or HO should be used
-#define LO
+#define HO
 
 // Array of final scale values for which data should be output
 double arr_mu[] = {std::sqrt(2.)}; 
@@ -131,7 +131,7 @@ InputFileDataStruct GetData(std::string InputFileName){
 
     // NumberOfFreeParams
     if (InputFileData.NameInputPDF.substr(0, InputFileData.NameInputPDF.find("SAL")+3) == "INITIALPDFS_SAL")
-      InputFileData.NumberOfFreeParams = std::stoi(InputFileData.NameInputPDF.substr(InputFileData.NameInputPDF.find("SAL")+3));
+      InputFileData.NumberOfFreeParams = std::stoi(InputFileData.NameInputPDF.substr(InputFileData.NameInputPDF.find("SAL")+3, 1));
     else
     {
       std::cerr << "This type of Initial PDF is not implemented yet!\n";

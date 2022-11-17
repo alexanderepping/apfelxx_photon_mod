@@ -60,11 +60,14 @@ int main()
             userParameters.SetUpperLimit(initialParamsNames.at(usedInitialPDFs)[i], initialParamsUBounds.at(usedInitialPDFs)[i]); 
     };
 
+#ifdef CalculateFinalParams
     // create Migrad minimizer
     MinuitCpp::MnMigrad migrad(StructureFunctions, userParameters);
 
     // minimize
     MinuitCpp::FunctionMinimum min = migrad();
+#endif //CalculateFinalParams
+
 
     
 /**
@@ -72,10 +75,17 @@ int main()
  */
     // get the finalParams; ...Params are vectors etc. with not defined number of parameters
     std::vector<double> finalParams;
+
+#ifdef CalculateFinalParams
     for (int i=0; i<NumberOfFreeParams; i++)
     {
         finalParams.push_back(min.UserParameters().Parameters()[i].Value());
     }
+#endif //CalculateFinalParams
+
+#ifndef CalculateFinalParams
+    finalParams = PrecalculatedFinalParams();
+#endif //CalculateFinalParams
 
     // get chi2 of finalParams and chi2 for every experiment for finalParams
     const std::map<std::string, double> chi2PerExperiment = StructureFunctions.Chi2PerExperiment(finalParams);
@@ -107,20 +117,36 @@ int main()
 
 
 
-#ifdef ErrorPDFs
+#ifdef CalculateErrorPDFs
 /**
  * just small, first output of minimization results (repeated later again, but bad behaviours or sth else can be already seen here)
  */
     TermOutputMinimization(StructureFunctions, results, false);
+
+#ifdef CalculateFinalParams
     std::cout << "minimum: " << min << std::endl; 
+#endif //CalculateFinalParams
 
 
 
 /**
  * Calculation Hessian
  */
-    const Eigen::MatrixXd Hessian = CalculateHessian(StructureFunctions, finalParams);
-    // const Eigen::MatrixXd Hessian = PrecalculatedHessian();
+    if (DebugVerbosity > 1)
+    {
+        DebugString("Changed Apfel-Verbosity from " + std::to_string(apfel::GetVerbosityLevel()), false); //debug
+        apfel::SetVerbosityLevel(1);
+        DebugString(" to " + std::to_string(apfel::GetVerbosityLevel()), true, false); //debug
+    }
+
+    DebugString("before calculating Hessian"); //debug
+#ifdef CalculateHessian
+    const Eigen::MatrixXd Hessian = CalculateHessianMatrix(StructureFunctions, finalParams);
+#endif //CalculateHessian
+#ifndef CalculateHessian
+    const Eigen::MatrixXd Hessian = PrecalculatedHessian();
+#endif //CalculateHessian
+    DebugString("before calculating Hessian"); //debug
 
     TermOutputHessian(Hessian); //debug
 
@@ -135,6 +161,13 @@ int main()
 /**
  * Calculating the Tolerance, DeltaChi2
  */
+    if (DebugVerbosity >= 1 && apfel::GetVerbosityLevel() < 1)
+    {
+        DebugString("Changed Apfel-Verbosity from " + std::to_string(apfel::GetVerbosityLevel()), false); //debug
+        apfel::SetVerbosityLevel(1);
+        DebugString(" to " + std::to_string(apfel::GetVerbosityLevel()), true, false); //debug
+    }
+
 #ifdef CalculateDeltaChi2
     // calculating the Xi90Rescaled for all experiments
     std::map<std::string, double> Xi90RescaledMap;
@@ -262,7 +295,7 @@ int main()
     results.finalErrorParametersMinus = finalErrorParametersMinus;
     results.DeltaChi2 = DeltaChi2;
     results.IncludeErrorPDFs = true;
-#endif //ErrorPDFs
+#endif //CalculateErrorPDFs
     
 
 /**
@@ -271,11 +304,13 @@ int main()
     FileOutputMinimization(StructureFunctions, results, results.IncludeErrorPDFs, outputFile);
     TermOutputMinimization(StructureFunctions, results, results.IncludeErrorPDFs);
 
-#ifdef ErrorPDFs
+#ifdef CalculateErrorPDFs
     std::cout << "Hessian Matrix: " << std::endl << Hessian << std::endl << std::endl;
     std::cout << "Eigenvalues: "    << std::endl << EigenSolverHessian.eigenvalues() << std::endl << std::endl;
     std::cout << "Eigenvectors: "   << std::endl << EigenSolverHessian.eigenvectors() << std::endl << std::endl;
-#endif //ErrorPDFs
+#endif //CalculateErrorPDFs
+
+    TermOutputHessian(Hessian); //debug
 
     return 0;
 }

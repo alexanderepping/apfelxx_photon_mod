@@ -61,14 +61,6 @@ std::vector<double> YToZTilde(std::vector<double>                 const& y,
 std::vector<double> ZTildeToY(std::vector<double>                 const& zTilde,
                               Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
 
-std::vector<double> FindZTildeLimit(int                                 const& i,
-                                    std::vector<double>                 const& finalParams,
-                                    Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian);
-
-void FindDeltaChi2Limit(std::vector<double>                const& finalParams,
-                       Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
-                       int                                 const& localRequiredVerbosity=2);
-
 std::map<std::string, double> CalculateChi2k(StructureFunctionsFcn           const& StructureFunctions,
                                          Eigen::EigenSolver<Eigen::MatrixXd> const& EigenSolverHessian,
                                          std::vector<double>                 const& finalParams,

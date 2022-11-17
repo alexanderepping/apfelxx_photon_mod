@@ -15,10 +15,11 @@ dirApfel = "/home/alexander/Uni/apfelxx_photon_mod/"
 ###################
 # Change Options
 ###################
-dirName = dirApfel+"results/Bestandsaufnahme_2022_10_06/"
+dirName = dirApfel+"results/Bestandsaufnahme_2022_11_13/"
 
-input_file = dirThisFile+"dataInitialPDFs.txt"
-#input_file = dirName+"dataInitialPDFsSAL3LO.txt"
+#input_file = dirThisFile+"dataInitialPDFs.txt"
+input_file = dirName+"dataInitialPDFsSAL5HO.txt"
+#input_file = dirName+"dataInitialPDFsSAL4VADIMHO.txt"
 startingLine = 1 # line in which # INITIALPDFS_... is written, usually 1
 
 ratioError = False

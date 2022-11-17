@@ -9,7 +9,7 @@ dirThisFile = os.path.dirname(__file__) + "/"
 dirApfel = "/home/alexander/Uni/apfelxx_photon_mod/"
 dirReference = dirApfel+"results/ReferenceResults/"
 
-dirBestandsaufnahme = dirApfel+"results/Bestandsaufnahme_2022_10_25/"
+dirBestandsaufnahme = dirApfel+"results/Bestandsaufnahme_2022_11_13/"
 dirBestandsaufnahme2 = dirApfel+"results/Calculations_2022_10_13/"
 dirResults = dirApfel+"results/"
 dirCurrent = dirBestandsaufnahme
@@ -21,16 +21,29 @@ dirCurrent = dirBestandsaufnahme
 ##############################
 data_SAL3LO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL3LO.txt",
                                  "DataColumn": 1}                   
-data_SAL4VadimLO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VadimLO.txt",
+data_SAL4VadimLO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VADIMLO.txt",
                                  "DataColumn": 1}                   
 data_SAL5LO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL5LO.txt",
                                  "DataColumn": 1}                   
 data_SAL3HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL3HO.txt",
                                  "DataColumn": 1}                   
-data_SAL4VadimHO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VadimHO.txt",
+data_SAL4VadimHO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VADIMHO.txt",
                                  "DataColumn": 1}                   
 data_SAL5HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL5HO.txt",
                                  "DataColumn": 1}                   
+
+error_SAL3LO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL3LO.txt",
+                                 "DataColumn": 4}                   
+error_SAL4VadimLO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VADIMLO.txt",
+                                 "DataColumn": 4}                   
+error_SAL5LO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL5LO.txt",
+                                 "DataColumn": 4}                   
+error_SAL3HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL3HO.txt",
+                                 "DataColumn": 4}                   
+error_SAL4VadimHO              = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL4VADIMHO.txt",
+                                 "DataColumn": 4}                   
+error_SAL5HO                   = {"FilePath":   dirCurrent+"dataEvolvedPDFsSAL5HO.txt",
+                                 "DataColumn": 4}                   
 
 data_EvolvedPDFs1             = {"FilePath":   dirThisFile+"dataEvolvedPDFs.txt",
                                  "DataColumn": 1}                   

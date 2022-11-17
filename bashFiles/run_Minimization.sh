@@ -30,9 +30,7 @@ echo ""
 echo "Compiling the Minimization program!"
 
 # making the program
-#time g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -I/usr/include/boost -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc ErrorPDFs.cc DeltaChi2.cc HelperFunctions.cc experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp 
-# the minimizationStructureFunctionsTolerance program
-time g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -I/usr/include/boost -o minimizationStructureFunctions minimizationStructureFunctionsTolerance.cc StructureFunctionsFcn.cc ErrorPDFs.cc DeltaChi2.cc HelperFunctions.cc experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp 
+time g++ -std=c++17 -I/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/include -I/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/include -I/usr/include/eigen3 -I/usr/include/boost -o minimizationStructureFunctions minimizationStructureFunctions.cc StructureFunctionsFcn.cc HessianMatrix.cc DeltaChi2.cc HelperFunctions.cc experimentalData.h -L/home/alexander/Uni/apfelxx_photon_mod/myApfelModified/lib -lapfelxx -L/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/lib -lLHAPDF -L/home/alexander/Uni/minuit-cpp/build/lib/ -lminuit-cpp 
 
 echo ""
 echo ""

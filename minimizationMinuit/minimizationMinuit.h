@@ -20,6 +20,6 @@
 #include "configMinuit.h"
 #include "experimentalData.h"
 #include "StructureFunctionsFcn.h"
-#include "ErrorPDFs.h"
+#include "HessianMatrix.h"
 #include "HelperFunctions.h"
 #include "DeltaChi2.h"

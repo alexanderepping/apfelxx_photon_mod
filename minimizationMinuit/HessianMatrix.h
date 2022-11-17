@@ -73,6 +73,6 @@ std::map<std::string, Eigen::MatrixXd> CalculateHessianMap(StructureFunctionsFcn
  * 
  * @return Hessian Matrix
  */
-Eigen::MatrixXd CalculateHessian(StructureFunctionsFcn const& function,
-                                 std::vector<double>   const& a0,
-                                 double                const& h=0.005);
+Eigen::MatrixXd CalculateHessianMatrix(StructureFunctionsFcn const& function,
+                                       std::vector<double>   const& a0,
+                                       double                const& h=0.005);

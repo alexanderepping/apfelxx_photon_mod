@@ -19,16 +19,16 @@
 ////////////////////////////////////////////////////////////
 
 // Name of the input file with the parameters etc
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataInitialPDFsSAL5HOErrors.txt";
+//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5LO.txt";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
-//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_10_06/dataStructureFunctionsSAL5HOErrors.txt";
+//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
+const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL5LO.txt";
 
 // Decide whether LO or HO should be used
-//#define LO
-#define HO
+#define LO
+//#define HO
 
 
 
@@ -129,7 +129,7 @@ InputFileDataStruct GetData(std::string InputFileName){
 
     // NumberOfFreeParams
     if (InputFileData.NameInputPDF.substr(0, InputFileData.NameInputPDF.find("SAL")+3) == "INITIALPDFS_SAL")
-      InputFileData.NumberOfFreeParams = std::stoi(InputFileData.NameInputPDF.substr(InputFileData.NameInputPDF.find("SAL")+3));
+      InputFileData.NumberOfFreeParams = std::stoi(InputFileData.NameInputPDF.substr(InputFileData.NameInputPDF.find("SAL")+3, 1));
     else
     {
       std::cerr << "This type of Initial PDF is not implemented yet!\n";
@@ -199,7 +199,7 @@ InputFileDataStruct GetData(std::string InputFileName){
     // check if file includes chi2 for each experiment
     std::getline(InputFile, temp); 
 
-    bool hasChi2ForEachExp = False;
+    bool hasChi2ForEachExp = false;
     if (temp.find("experimentalDataSet") != std::string::npos)
       hasChi2ForEachExp = true;
 

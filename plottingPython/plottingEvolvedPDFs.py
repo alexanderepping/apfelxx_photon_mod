@@ -33,8 +33,18 @@ dpi = 200
 
 # input data sets settings
 # some DataSets can be found in plottingEvolvedPDFsDataSets.py
-DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO, "SAL4VadimHO": data_SAL4VadimHO, "SAL5HO": data_SAL5HO}
-ErrorDataSets = {}
+
+#DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO, "SAL4VadimHO": data_SAL4VadimHO, "SAL5HO": data_SAL5HO}
+#ErrorDataSets = {}
+
+# DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO}
+# ErrorDataSets = {"SAL3HO": error_SAL3HO}
+
+DataSets = {"SAL": data_SAL, "SAL4VadimHO": data_SAL4VadimHO}
+ErrorDataSets = {"SAL4VadimHO": error_SAL4VadimHO}
+
+# DataSets = {"SAL": data_SAL, "SAL5HO": data_SAL5HO}
+# ErrorDataSets = {"SAL5HO": error_SAL5HO}
 
 #DataSets = {"SAL": data_EvolvedPDFs2, "SAL5HO": data_EvolvedPDFs1}
 #ErrorDataSets = {"SAL5HO": data_EvolvedPDFs4}

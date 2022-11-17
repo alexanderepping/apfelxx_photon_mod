@@ -86,6 +86,13 @@ void TermOutputHessian(Eigen::MatrixXd const& Hessian);
 
 
 /**
+ * @brief returns a precalculated set of finalParams, which reduces the runtime, because you don't have to calculate it.
+ */
+std::vector<double> PrecalculatedFinalParams();
+
+
+
+/**
  * @brief returns a precalculated Hessian, which reduces the runtime, because you don't have to calculate it.
  * note, that the Hessian changes, if the parameters are changed and the precalculated Hessian might not be correct anymore.
  */
