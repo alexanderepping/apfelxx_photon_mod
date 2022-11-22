@@ -223,13 +223,13 @@ double StructureFunctionsFcn::MomentumSumRuleSAL(std::vector<double> const& para
     else
         lhsPLQ  = params[6] / 3.;
 
-    const double A_G_Had = (rhs - 2 * ((1+1+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
+    const double A_G_Had = (rhs - 2. * ((1.+1.+params[0])*lhsHadQ + (EQ2_u+EQ2_d+EQ2_s)*lhsPLQ)) / lhsHadG;
 
     DebugString("Parameters:", true, true, 3); //debug
     DebugVectorDoubles(params, true, true, 3); //debug
 
-    DebugString("lhsHadG, lhsHadQ, lhsPLQ: ", true, true, 3);
-    DebugString(std::to_string(lhsHadG) + ", " + std::to_string(lhsHadQ) + ", " + std::to_string(lhsPLQ), true, true, 3);
+    DebugString("lhsHadG, lhsHadQ, lhsPLQ, rhs: ", true, true, 3);
+    DebugString(std::to_string(lhsHadG) + ", " + std::to_string(lhsHadQ) + ", " + std::to_string(lhsPLQ) + ", " + std::to_string(rhs), true, true, 3);
 
     if (params[7] != 0)
     {

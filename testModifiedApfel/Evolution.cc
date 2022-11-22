@@ -20,12 +20,12 @@
 const std::string name = "SAL5HO";
 
 // Name of the input file with the parameters etc
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
+const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
 
 // Name of the output file
-//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
-const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
+const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
+//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
 
 
 // Decide whether LO or HO should be used
@@ -76,6 +76,83 @@ struct InputFileDataStruct {
 ////////////////////////////////////////////////////////////
 // functions
 ////////////////////////////////////////////////////////////
+
+//debug MomentumSumRule
+const int numberOfIntegrationSteps = 5000000;
+
+void MomentumSumRulePDFs(std::function<double(int const& flavor, double const& x)> const& pdfsEvo, std::function<double(int const& flavor, double const& x)> const& pdfsSAL, int const& nsteps, double const& Q)
+{
+
+  const std::map<int, double> quarkCharges2 = {{1, 1./9.}, {2, 4./9.}, 
+                                                {3, 1./9.}, {4, 4./9.}, 
+                                                {5, 1./9.}, {6, 4./9.}};
+  std::vector<double> vec_MomEvo{0., 0., 0., 0., 0., 0., 0., 0.};
+  std::vector<double> vec_MomSAL{0., 0., 0., 0., 0., 0., 0., 0.};
+
+  for (int flavors = 0; flavors<=6; flavors++)
+  {
+    // std::cout << std::endl; //debug
+    // std::cout << "flavor = " << std::to_string(flavors) << std::endl; //debug
+    // std::cout << "|                                                                                                   1|" << std::endl; //debug
+    // std::cout << "|         1         2         3         4         5         6         7         8         9         0|" << std::endl; //debug
+    // std::cout << "|         0         0         0         0         0         0         0         0         0         0|" << std::endl; //debug
+    // std::cout << "|"; //debug
+    double flavorMomEvo = 0.;
+    double flavorMomSAL = 0.;
+    double currentX;
+    double factor = 2.;
+    if (flavors == 0)
+      factor = 1.;
+
+    for (int i_nsteps = 1; i_nsteps <= nsteps; i_nsteps++)
+    {
+      currentX = (- 0.5 + i_nsteps * 1.) / (1. * nsteps);
+      int n = i_nsteps * 100. / nsteps;
+      // if (n*1. == 100. * i_nsteps / (1. * nsteps))
+      //   std::cout << "#"; //debug
+        //std::cout << "currentX = " << std::to_string(n) << std::endl; //debug
+
+      if (not std::isnan(pdfsEvo(flavors, currentX)))
+        flavorMomEvo += 1. / nsteps * pdfsEvo(flavors, currentX) * factor;
+
+      if (not std::isnan(pdfsSAL(flavors, currentX)))
+        flavorMomSAL += 1. / nsteps * pdfsSAL(flavors, currentX) * factor;
+    };
+    // std::cout << "|" << std::endl; //debug
+    
+    vec_MomEvo[flavors] = flavorMomEvo;
+    vec_MomEvo[7] += flavorMomEvo;
+    vec_MomSAL[flavors] = flavorMomSAL;
+    vec_MomSAL[7] += flavorMomSAL;
+
+    //std::cout << "     Momentum of particle " << std::to_string(flavors) << ": " << std::to_string(flavorMom) << std::endl; //debug
+  };
+
+  const double rhsSAL = 1. + 2. / (3. * M_PI) * log( Q * Q / 4. ); 
+
+  // double rhs3 = 0; 
+  // double rhs4 = 0; 
+  // double rhs5 = 0; 
+
+  // for (int i =1; i<=3; i++)
+  //   rhs3 += 3. * quarkCharges2.at(i); 
+  // for (int i =1; i<=4; i++)
+  //   rhs4 += 3. * quarkCharges2.at(i); 
+  // for (int i =1; i<=5; i++)
+  //   rhs5 += 3. * quarkCharges2.at(i); 
+
+  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 3: " << std::to_string(rhs3) << std::endl;
+  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 4: " << std::to_string(rhs4) << std::endl;
+  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 5: " << std::to_string(rhs5) << std::endl;
+
+  std::cout << "     Total Momentum Evolved PDFs:          " << std::to_string(vec_MomEvo[7]) << std::endl;
+  std::cout << "     Total Momentum SAL PDFs:              " << std::to_string(vec_MomSAL[7]) << std::endl;
+
+  std::cout << "     Total Momentum should be (SAL eq.21): " << std::to_string(rhsSAL) << std::endl;
+  // std::cout << "     Total Momentum should be (Nf = 3):    " << std::to_string(rhs3 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
+  // std::cout << "     Total Momentum should be (Nf = 4):    " << std::to_string(rhs4 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
+  // std::cout << "     Total Momentum should be (Nf = 5):    " << std::to_string(rhs5 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
+};
 
 double SinglePDF(double const& x, std::vector<double> Parameters, double const& eQ2) {
   return Parameters[0] * pow(x, Parameters[1]) * pow((1. - x), Parameters[2]) 
@@ -381,28 +458,28 @@ int main()
     const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFs{*EvolvedPDFs, 50, 1, 1000, 3, pto, as};
     const apfel::TabulateObject<apfel::Set<apfel::Distribution>> TabulatedPDFsSAL{*EvolvedPDFsSAL, 50, 1, 1000, 3, pto, as};
 
-      for (int i_mu=0; i_mu<vectorX.size(); i_mu++)
+    for (int i_mu=0; i_mu<vectorX.size(); i_mu++)
+    {
+      const std::map<int, apfel::Distribution> tpdfs    = apfel::QCDEvToPhys(TabulatedPDFs.Evaluate(arr_mu[i_mu]).GetObjects());
+      const std::map<int, apfel::Distribution> tpdfsSAL = apfel::QCDEvToPhys(TabulatedPDFsSAL.Evaluate(arr_mu[i_mu]).GetObjects());
+
+      for (int flavor=0; flavor<=6; flavor++)
       {
-        const std::map<int, apfel::Distribution> tpdfs    = apfel::QCDEvToPhys(TabulatedPDFs.Evaluate(arr_mu[i_mu]).GetObjects());
-        const std::map<int, apfel::Distribution> tpdfsSAL = apfel::QCDEvToPhys(TabulatedPDFsSAL.Evaluate(arr_mu[i_mu]).GetObjects());
-
-        for (int flavor=0; flavor<=6; flavor++)
+        for (int i_x=0; i_x<vectorX[i_mu][flavor].size(); i_x++)
         {
-          for (int i_x=0; i_x<vectorX[i_mu][flavor].size(); i_x++)
-          {
-            // calculating deltaX according to nCTEQ15 eq. (2.33)
-            vectorX[i_mu][flavor][i_x] = tpdfs.at(flavor).Evaluate(xlha2[i_x]);
-            vectorXSAL[i_mu][flavor][i_x] = tpdfsSAL.at(flavor).Evaluate(xlha2[i_x]);
-          }
+          // calculating deltaX according to nCTEQ15 eq. (2.33)
+          vectorX[i_mu][flavor][i_x] = tpdfs.at(flavor).Evaluate(xlha2[i_x]);
+          vectorXSAL[i_mu][flavor][i_x] = tpdfsSAL.at(flavor).Evaluate(xlha2[i_x]);
+        }
 
-          for (int i_x=0; i_x<vectorXTerm[i_mu][flavor].size(); i_x++)
-          {
-            // calculating deltaX according to nCTEQ15 eq. (2.33)
-            vectorXTerm[i_mu][flavor][i_x] = tpdfs.at(flavor).Evaluate(xlha2[i_x]);
-            vectorXSALTerm[i_mu][flavor][i_x] = tpdfsSAL.at(flavor).Evaluate(xlha2[i_x]);
-          }
+        for (int i_x=0; i_x<vectorXTerm[i_mu][flavor].size(); i_x++)
+        {
+          // calculating deltaX according to nCTEQ15 eq. (2.33)
+          vectorXTerm[i_mu][flavor][i_x] = tpdfs.at(flavor).Evaluate(xlha2[i_x]);
+          vectorXSALTerm[i_mu][flavor][i_x] = tpdfsSAL.at(flavor).Evaluate(xlha2[i_x]);
         }
       }
+    }
 
 
 

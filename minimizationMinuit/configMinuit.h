@@ -41,7 +41,7 @@ const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/B
 /**
  * @brief change if debug messages should be written to the terminal
  */
-const int DebugVerbosity = 1;
+const int DebugVerbosity = 2;
 
 
 
