@@ -21,7 +21,7 @@ installLHAPDF () {
 installApfel
 
 # Changing into directory
-cd $CURRENT_APFEL_TEST 
+cd $CURRENT_APFEL_PROG 
 cd ..
 cd minimizationMinuit
 

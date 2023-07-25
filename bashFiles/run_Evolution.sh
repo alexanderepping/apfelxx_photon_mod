@@ -38,7 +38,7 @@ echo "Running the Evolution.cc program!"
 echo ""
 
 # Changing into directory
-cd $CURRENT_APFEL_TEST
+cd $CURRENT_APFEL_PROG
 
 # temporary file to void unwanted console outputs 
 voidOutput='voidOutput.txt' 

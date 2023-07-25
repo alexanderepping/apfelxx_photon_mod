@@ -5,7 +5,7 @@ export APFELXX=~/Uni/apfelxx_photon_mod
 export LD_LIBRARY_PATH=$APFELXX/myApfelModified/lib:$LD_LIBRARY_PATH
 export PATH=$APFELXX/myApfelModified/bin:$PATH
 export CURRENT_APFEL=$APFELXX/myApfelModified
-export CURRENT_APFEL_TEST=$APFELXX/testModifiedApfel;;
+export CURRENT_APFEL_PROG=$APFELXX/mainPrograms;;
 
 
 

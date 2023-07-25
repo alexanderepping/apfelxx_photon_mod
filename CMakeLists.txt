@@ -26,6 +26,6 @@ add_library(apfelxx SHARED ${LIB_APFELXX_FILES})
 set_target_properties(apfelxx PROPERTIES LIBRARY_OUTPUT_DIRECTORY ./lib)
 
 #example for compiling executable
-add_executable(evolution "${CMAKE_CURRENT_SOURCE_DIR}/testModifiedApfel/Evolution.cc")
+add_executable(evolution "${CMAKE_CURRENT_SOURCE_DIR}/mainPrograms/Evolution.cc")
 target_link_libraries(evolution apfelxx ${LHAPDF_LIB})
 set_target_properties(evolution PROPERTIES RUNTIME_OUTPUT_DIRECTORY ./bin)

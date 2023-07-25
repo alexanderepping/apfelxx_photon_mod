@@ -42,8 +42,9 @@ Folder containing various plots from various programs.
 ### plottingPython
 Folder containing various python files to plot the data collected from the Evolution.cc program. It also contains a program to make an array of logarithmic values.
 
-### testModifiedApfel
+### mainPrograms
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
+Programs for calculation of Evolution and StructureFunctions
 
 
 ## compiling using cmake
