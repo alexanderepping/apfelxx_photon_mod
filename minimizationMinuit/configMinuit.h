@@ -21,22 +21,22 @@
 /**
  * @brief Defining the name of the used InitialPDFs. see enumInitialPDFs
  */
-const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL3";
+const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
 
 /**
  * @brief change some settings
  */
-#define LO                      // change which perturbation order is used
+#define HO                      // change which perturbation order is used
 #define CalculateErrorPDFs      // change if ErrorPDFs should be calculated
 #define CalculateFinalParams    // change if finalParams should be calculated or precalculated should be used
-#define CalculateHessian        // change if Hessian should be calculated or precalculated should be used, only used if CalculateFinalParams is not defined
-#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated or precalculated should be used
+//#define CalculateHessian        // change if Hessian should be calculated or precalculated should be used, only used if CalculateFinalParams is not defined
+//#define CalculateDeltaChi2      // change if DeltaChi2 should be calculated or precalculated should be used
 
 /**
  * @brief path of the file where data should be saved
  */
-//const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5HO.txt";
+const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
+//const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5HO.txt";
 
 /**
  * @brief change if debug messages should be written to the terminal

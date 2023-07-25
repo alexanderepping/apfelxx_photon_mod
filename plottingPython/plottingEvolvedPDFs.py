@@ -34,17 +34,19 @@ dpi = 200
 # input data sets settings
 # some DataSets can be found in plottingEvolvedPDFsDataSets.py
 
-#DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO, "SAL4VadimHO": data_SAL4VadimHO, "SAL5HO": data_SAL5HO}
-#ErrorDataSets = {}
+# DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO, "SAL4VadimHO": data_SAL4VadimHO, "SAL5HO": data_SAL5HO}
+# ErrorDataSets = {}
 
-# DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO}
-# ErrorDataSets = {"SAL3HO": error_SAL3HO}
+#DataSets = {"SAL": data_SAL, "GRVLO": data_GRVLOSqrt2_Exact, "SAL3LO": data_SAL3LO, "SAL5LO": data_SAL5LO}
+#ErrorDataSets = {"SAL3LO": error_SAL3LO, "SAL5LO": error_SAL5LO}
+#DataSets = {"SAL": data_SAL, "GRVHO": data_GRVHOSqrt2_Exact, "SAL3HO": data_SAL3HO, "SAL5HO": data_SAL5HO}
+#ErrorDataSets = {"SAL3HO": error_SAL3HO, "SAL5HO": error_SAL5HO}
 
-DataSets = {"SAL": data_SAL, "SAL4VadimHO": data_SAL4VadimHO}
-ErrorDataSets = {"SAL4VadimHO": error_SAL4VadimHO}
+# DataSets = {"SAL": data_SAL, "SAL4VadimHO": data_SAL4VadimHO}
+# ErrorDataSets = {"SAL4VadimHO": error_SAL4VadimHO}
 
-# DataSets = {"SAL": data_SAL, "SAL5HO": data_SAL5HO}
-# ErrorDataSets = {"SAL5HO": error_SAL5HO}
+DataSets = {"SAL": data_SAL, "SAL5HO": data_SAL5HO}
+ErrorDataSets = {"SAL5HO": error_SAL5HO}
 
 #DataSets = {"SAL": data_EvolvedPDFs2, "SAL5HO": data_EvolvedPDFs1}
 #ErrorDataSets = {"SAL5HO": data_EvolvedPDFs4}
@@ -177,7 +179,11 @@ for particle in range(rangeParticles+1):
                     subplt[i].plot(xVals, DataSets[Set]["Data"][particle]/DataSets[CompareSet]["Data"][particle],  label=DataSets[Set]["Label"])
         # plot the data:
         else:
+            maxval = 0
             for Set in DataSets.keys():
+                if maxval < max(DataSets[Set]["Data"][particle]):
+                    maxval=max(DataSets[Set]["Data"][particle])
+
                 subplt[i].plot(xVals, DataSets[Set]["Data"][particle],  label=DataSets[Set]["Label"])
                 # plot ErrorPDFs
                 if Set in ErrorDataSets.keys():
@@ -185,6 +191,8 @@ for particle in range(rangeParticles+1):
                 else: 
                     subplt[i].fill_between(xVals, DataSets[Set]["Data"][particle], DataSets[Set]["Data"][particle], alpha=0.2)
 
+
+        subplt[i].set_ylim(bottom = 0, top = maxval)
         subplt[i].set_title(namesPlots[particle]+" PDF")
         subplt[i].tick_params('x', labelbottom=True)
         subplt[i].legend(loc=legendLoc[particle])

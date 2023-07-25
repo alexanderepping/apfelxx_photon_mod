@@ -91,12 +91,6 @@ void MomentumSumRulePDFs(std::function<double(int const& flavor, double const& x
 
   for (int flavors = 0; flavors<=6; flavors++)
   {
-    // std::cout << std::endl; //debug
-    // std::cout << "flavor = " << std::to_string(flavors) << std::endl; //debug
-    // std::cout << "|                                                                                                   1|" << std::endl; //debug
-    // std::cout << "|         1         2         3         4         5         6         7         8         9         0|" << std::endl; //debug
-    // std::cout << "|         0         0         0         0         0         0         0         0         0         0|" << std::endl; //debug
-    // std::cout << "|"; //debug
     double flavorMomEvo = 0.;
     double flavorMomSAL = 0.;
     double currentX;
@@ -108,9 +102,6 @@ void MomentumSumRulePDFs(std::function<double(int const& flavor, double const& x
     {
       currentX = (- 0.5 + i_nsteps * 1.) / (1. * nsteps);
       int n = i_nsteps * 100. / nsteps;
-      // if (n*1. == 100. * i_nsteps / (1. * nsteps))
-      //   std::cout << "#"; //debug
-        //std::cout << "currentX = " << std::to_string(n) << std::endl; //debug
 
       if (not std::isnan(pdfsEvo(flavors, currentX)))
         flavorMomEvo += 1. / nsteps * pdfsEvo(flavors, currentX) * factor;
@@ -118,40 +109,19 @@ void MomentumSumRulePDFs(std::function<double(int const& flavor, double const& x
       if (not std::isnan(pdfsSAL(flavors, currentX)))
         flavorMomSAL += 1. / nsteps * pdfsSAL(flavors, currentX) * factor;
     };
-    // std::cout << "|" << std::endl; //debug
     
     vec_MomEvo[flavors] = flavorMomEvo;
     vec_MomEvo[7] += flavorMomEvo;
     vec_MomSAL[flavors] = flavorMomSAL;
     vec_MomSAL[7] += flavorMomSAL;
-
-    //std::cout << "     Momentum of particle " << std::to_string(flavors) << ": " << std::to_string(flavorMom) << std::endl; //debug
   };
 
   const double rhsSAL = 1. + 2. / (3. * M_PI) * log( Q * Q / 4. ); 
-
-  // double rhs3 = 0; 
-  // double rhs4 = 0; 
-  // double rhs5 = 0; 
-
-  // for (int i =1; i<=3; i++)
-  //   rhs3 += 3. * quarkCharges2.at(i); 
-  // for (int i =1; i<=4; i++)
-  //   rhs4 += 3. * quarkCharges2.at(i); 
-  // for (int i =1; i<=5; i++)
-  //   rhs5 += 3. * quarkCharges2.at(i); 
-
-  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 3: " << std::to_string(rhs3) << std::endl;
-  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 4: " << std::to_string(rhs4) << std::endl;
-  // std::cout << "                 Nc * sum_f e_f^2 for Nf = 5: " << std::to_string(rhs5) << std::endl;
 
   std::cout << "     Total Momentum Evolved PDFs:          " << std::to_string(vec_MomEvo[7]) << std::endl;
   std::cout << "     Total Momentum SAL PDFs:              " << std::to_string(vec_MomSAL[7]) << std::endl;
 
   std::cout << "     Total Momentum should be (SAL eq.21): " << std::to_string(rhsSAL) << std::endl;
-  // std::cout << "     Total Momentum should be (Nf = 3):    " << std::to_string(rhs3 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
-  // std::cout << "     Total Momentum should be (Nf = 4):    " << std::to_string(rhs4 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
-  // std::cout << "     Total Momentum should be (Nf = 5):    " << std::to_string(rhs5 / (3. * M_PI) * log( Q * Q / 4. ) + 1.) << std::endl;
 };
 
 double SinglePDF(double const& x, std::vector<double> Parameters, double const& eQ2) {

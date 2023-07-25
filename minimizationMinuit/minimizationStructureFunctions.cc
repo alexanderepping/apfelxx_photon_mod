@@ -169,10 +169,14 @@ int main()
     }
 
 #ifdef CalculateDeltaChi2
-    // calculating the Xi90Rescaled for all experiments
+    // calculating the Xi90Rescaled for each experiments
     std::map<std::string, double> Xi90RescaledMap;
     for (std::string DataSet : StructureFunctions.IncludedExpData())
         Xi90RescaledMap[DataSet] = Xi90Rescaled(StructureFunctions.ExperimentalData().at(DataSet).at("Q2Data").size(), chi2PerExperiment.at(DataSet));
+
+    // output the Xi90Rescaled, Xi90 and Xi50
+    for (std::string DataSet : StructureFunctions.IncludedExpData())
+        DebugString("DataSet: " + DataSet + ", Xi90Rescaled: " + std::to_string(Xi90RescaledMap[DataSet]) + ", Xi90: " + std::to_string(XiP(90,StructureFunctions.ExperimentalData().at(DataSet).at("Q2Data").size())) + ", Xi50: " + std::to_string(XiP(50,StructureFunctions.ExperimentalData().at(DataSet).at("Q2Data").size()))); //debug
 
     std::vector<std::vector<double>> ziPlusMinus;
     for (int i=0; i<NumberOfFreeParams; i++)

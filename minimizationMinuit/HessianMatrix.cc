@@ -31,12 +31,16 @@ std::map<std::string, double> SecondDerivativeMap(StructureFunctionsFcn const& f
     };
 
 #ifdef StandardCentralDifferences
-    std::function<std::map<std::string, double>(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a0) -> std::map<std::string, double> 
+/**
+ * FirstDerivative = [X²({a_1,...,a_i+h,...a_n}) - X²({a_1,...,a_i-h,...a_n})]/[2h], 
+ * where a is a1(a0, j, +1) or a1(a0, j, -1) and i=parameter1 and j=parameter2
+*/
+    std::function<std::map<std::string, double>(std::vector<double> const&)> FirstDerivative = [&] (std::vector<double> const& a) -> std::map<std::string, double> 
         {
             DebugString("        in FirstDerivative - debug 01"); //debug
-            std::map<std::string, double> map1 = function.Chi2PerExperiment(a1(a0, parameter1, 1));
+            std::map<std::string, double> map1 = function.Chi2PerExperiment(a1(a, parameter1, 1));
             DebugString("        in FirstDerivative - debug 02"); //debug
-            std::map<std::string, double> map2 = function.Chi2PerExperiment(a1(a0, parameter1, -1));
+            std::map<std::string, double> map2 = function.Chi2PerExperiment(a1(a, parameter1, -1));
             DebugString("        in FirstDerivative - debug 03"); //debug
             std::map<std::string, double> map3;
 
@@ -50,8 +54,10 @@ std::map<std::string, double> SecondDerivativeMap(StructureFunctionsFcn const& f
         };
 
     DebugString("      in SecondDerivativeMap - debug 02"); //debug
+    // map1 = [X²({a0_1,...,a0_i+h,...,a0_j+h,...a0_n}) - X²({a0_1,...,a0_i-h,...,a0_j+h,...a0_n})]/[2h], where i=parameter1 and j=parameter2
     std::map<std::string, double> map1 = FirstDerivative(a1(a0, parameter2, 1));
     DebugString("      in SecondDerivativeMap - debug 03"); //debug
+    // map2 = [X²({a0_1,...,a0_i+h,...,a0_j-h,...a0_n}) - X²({a0_1,...,a0_i-h,...,a0_j-h,...a0_n})]/[2h], where i=parameter1 and j=parameter2
     std::map<std::string, double> map2 = FirstDerivative(a1(a0, parameter2, -1));
     DebugString("      in SecondDerivativeMap - debug 04"); //debug
     std::map<std::string, double> map3;
@@ -137,7 +143,6 @@ std::map< std::string, Eigen::MatrixXd> CalculateHessianMap(StructureFunctionsFc
         {
             DebugString("    in second for-loop - j = "+std::to_string(j)+", before SD"); //debug
             std::map<std::string, double> SD = SecondDerivativeMap(function, a0, i, j, h);
-
             DebugString("    in second for-loop - j = "+std::to_string(j)+", after SD"); //debug
 
             for (std::string DataSet : function.IncludedExpData())
