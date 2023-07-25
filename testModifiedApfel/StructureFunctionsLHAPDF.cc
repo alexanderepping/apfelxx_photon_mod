@@ -29,6 +29,7 @@
 
 // used to write to files
 #include<fstream>
+#include <stdlib.h>
 
 
 
@@ -39,16 +40,16 @@
 // name of the used LHAPDF set
 //const std::string NameLHAPDFSet = "GRVLO_nCTEQ15Parameters";
 const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
-      //const std::string NameLHAPDFSet = "GRVLO_GRVParameters";
-      //const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
+//const std::string NameLHAPDFSet = "GRVLO_GRVParameters";
+//const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
 
 #define asGRV
 
 // Name of the output file for the Evolved PDFs
-const std::string OutputFileEvolved = "/home/alexander/Uni/apfelxx_photon_mod/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
+const std::string OutputFileEvolved = getenv("APFELXX")+"/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileStructureFunctions = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
+const std::string OutputFileStructureFunctions = getenv("APFELXX")+"/plottingPython/dataStructureFunctions.txt";
 
 
 

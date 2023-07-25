@@ -12,6 +12,7 @@
 #include <map>
 #include <vector>
 #include <functional> 
+#include <stdlib.h>
 
 
 ///////////////////////////////////////
@@ -35,8 +36,8 @@ const std::string nameUsedInitialPDFs = "INITIALPDFS_SAL5";
 /**
  * @brief path of the file where data should be saved
  */
-const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-//const std::string outputFile = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5HO.txt";
+const std::string outputFile = getenv("APFELXX")+"/plottingPython/dataInitialPDFs.txt";
+//const std::string outputFile = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5HO.txt";
 
 /**
  * @brief change if debug messages should be written to the terminal

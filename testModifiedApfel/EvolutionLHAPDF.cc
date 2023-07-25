@@ -10,6 +10,7 @@
 
 // used to write to files
 #include<fstream>
+#include <stdlib.h>
 
 
 
@@ -20,20 +21,24 @@
 //----Name of the used LHAPDF set----
 //----Only use GRVParameters, if explicitly needed----
 //const std::string NameLHAPDFSet = "GRVLO_nCTEQ15Parameters";
-//const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
-      const std::string NameLHAPDFSet = "GRVLO_GRVParameters";
-      //const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
+const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
+//const std::string NameLHAPDFSet = "GRVLO_GRVParameters";
+//const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
 
 //----Change the way alpha_s is calculated----
 //#define asApfel
 #define asGRV
 
 //----Name of the output file----
-const std::string OutputFile = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
+const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataEvolvedPDFs.txt";
 
 //----Array of final scale values for which data should be output----
 double arr_mu[] = {std::sqrt(2.)}; 
 
+
+///////////////////////////////////////
+// definitions
+///////////////////////////////////////
 //----Vector of test values of x (xlha used for console output, xlha2 used for file output and plotting)----
 std::vector<double> xlha{1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 3e-1, 5e-1, 7e-1, 9e-1};
 std::vector<double> xlha2{0.0001, 0.0002, 0.00030000000000000003, 0.0004, 0.0005, 0.0006000000000000001, 0.0007, 0.0008, 0.0009000000000000001, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009000000000000001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9};
@@ -166,15 +171,15 @@ int main()
 
   for (int i_mu=0; i_mu<sizeof(arr_mu)/sizeof(arr_mu[0]); i_mu++)
   {
-    std::string OutputFileName = OutputFile;
+    std::string TempOutputFileName = OutputFileName;
 
     // renaming all files except the first
     if (i_mu != 0)
-      OutputFileName.insert(OutputFile.find("."), std::to_string(i_mu));
+      TempOutputFileName.insert(OutputFileName.find("."), std::to_string(i_mu));
 
     // opening output file
     std::ofstream file;
-    file.open(OutputFileName);
+    file.open(TempOutputFileName);
 
     // print basic information on the following data
     file << "# mu value:" << std::endl;

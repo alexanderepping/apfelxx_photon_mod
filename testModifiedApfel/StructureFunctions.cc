@@ -11,6 +11,7 @@
 // used to write to files
 #include<fstream>
 #include<iostream>
+#include <stdlib.h>
 
 
 
@@ -19,12 +20,12 @@
 ////////////////////////////////////////////////////////////
 
 // Name of the input file with the parameters etc
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5LO.txt";
+//const std::string InputFileName = getenv("APFELXX")+"/plottingPython/dataInitialPDFs.txt";
+const std::string InputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5LO.txt";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataStructureFunctions.txt";
-const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL5LO.txt";
+//const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataStructureFunctions.txt";
+const std::string OutputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL5LO.txt";
 
 // Decide whether LO or HO should be used
 #define LO
@@ -37,7 +38,7 @@ const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/resul
 ////////////////////////////////////////////////////////////
 
 // array of final scale values for which data should be output (mu^2)
-//                 |  0,1,2:ALEPH  |  3,4,5:AMY
+//                         |  0,1,2:ALEPH  |  3,4,5:AMY
 //const double arr_mu2[] = {9.9, 20.7, 284, 6.8, 73, 390};   
 const double arr_mu2[] = {1.86, 1.9, 2.4, 2.8, 3.7, 3.76, 4.3, 5.0, 5.1, 5.3, 5.9, 6.8, 7.5, 8.9, 9.0, 9.2, 9.9, 10.7, 10.8, 12.0, 14.5, 14.7, 15.3, 16.0, 17.3, 17.5, 17.8, 20.7, 23.0, 23.1, 24.0, 30.0, 45.0, 59.0, 67.2, 73.0, 80.0, 100.0, 135.0, 284.0, 390.0, 780.0};
 
@@ -101,11 +102,11 @@ std::map<int, double> InitialPDFs(double const& x, double const& Q, std::vector<
           { 6, 0.}};
 }
 
-InputFileDataStruct GetData(std::string InputFileName){
+InputFileDataStruct GetData(std::string inputFileName){
 
   InputFileDataStruct InputFileData;
 
-  InputFileData.FileName = InputFileName;
+  InputFileData.FileName = inputFileName;
 
   std::fstream InputFile;
   InputFile.open(InputFileData.FileName, std::ios::in);

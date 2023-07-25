@@ -10,6 +10,7 @@
 
 // used to write to files
 #include<fstream>
+#include <stdlib.h>
 
 
 
@@ -20,12 +21,12 @@
 const std::string name = "SAL5HO";
 
 // Name of the input file with the parameters etc
-const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataInitialPDFs.txt";
-//const std::string InputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
+const std::string InputFileName =  getenv("APFELXX")+"/plottingPython/dataInitialPDFs.txt";
+//const std::string InputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
 
 // Name of the output file
-const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/plottingPython/dataEvolvedPDFs.txt";
-//const std::string OutputFileName = "/home/alexander/Uni/apfelxx_photon_mod/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
+const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataEvolvedPDFs.txt";
+//const std::string OutputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
 
 
 // Decide whether LO or HO should be used
@@ -150,11 +151,11 @@ std::map<int, double> InitialPDFs(double const& x, double const& Q, std::vector<
 }
 
 
-InputFileDataStruct GetData(std::string InputFileName){
+InputFileDataStruct GetData(std::string inputFileName){
 
   InputFileDataStruct InputFileData;
 
-  InputFileData.FileName = InputFileName;
+  InputFileData.FileName = inputFileName;
 
   std::fstream InputFile;
   InputFile.open(InputFileData.FileName, std::ios::in);

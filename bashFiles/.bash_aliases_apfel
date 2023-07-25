@@ -1,19 +1,20 @@
 ###################
 # apfelxx
 ###################
-export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myApfelModified/lib:$LD_LIBRARY_PATH
-export PATH=~/Uni/apfelxx_photon_mod/myApfelModified/bin:$PATH
-export CURRENT_APFEL=~/Uni/apfelxx_photon_mod/myApfelModified
-export CURRENT_APFEL_TEST=~/Uni/apfelxx_photon_mod/testModifiedApfel;;
+export APFELXX=~/Uni/apfelxx_photon_mod
+export LD_LIBRARY_PATH=$APFELXX/myApfelModified/lib:$LD_LIBRARY_PATH
+export PATH=$APFELXX/myApfelModified/bin:$PATH
+export CURRENT_APFEL=$APFELXX/myApfelModified
+export CURRENT_APFEL_TEST=$APFELXX/testModifiedApfel;;
 
 
 
 ###################
 # lhapdf
 ###################
-export LD_LIBRARY_PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/lib:$LD_LIBRARY_PATH
-export PATH=~/Uni/apfelxx_photon_mod/myLHAPDFModified/bin:$PATH
-export CURRENT_LHAPDF=~/Uni/apfelxx_photon_mod/myLHAPDFModified;;
+export LD_LIBRARY_PATH=$APFELXX/myLHAPDFModified/lib:$LD_LIBRARY_PATH
+export PATH=$APFELXX/myLHAPDFModified/bin:$PATH
+export CURRENT_LHAPDF=$APFELXX/myLHAPDFModified;;
 
 
 
