@@ -27,30 +27,32 @@ outputFileName = dirCurrent + "dataEvolvedPDFsAllHO.txt"
 
 # plot settings
 saveFig = False
-pltName = dirCurrent + "plotEvolvedPDFsAllHO"
-scale   = 1.75
+savePDF = True
+#pltName = dirThisFile + "plotTest"
+#pltName = dirBestandsaufnahme3 + "plotEvolvedPDFs"+name+"only"
+pltName = dirBestandsaufnahme3 + "plotInitialPDFs"+order
+scale= 1.75
+sizeHochkant = 15
 dpi = 200
+
+plotHochkant = True
 
 # input data sets settings
 # some DataSets can be found in plottingEvolvedPDFsDataSets.py
 
-# DataSets = {"SAL": data_SAL, "SAL3HO": data_SAL3HO, "SAL4VadimHO": data_SAL4VadimHO, "SAL5HO": data_SAL5HO}
-# ErrorDataSets = {}
+#DataSets      = {name+", 2 GeV²": data_EvolvedPDFsSqrt2_1, name+", 10 GeV²": data_EvolvedPDFsSqrt10_1}
+#ErrorDataSets = {name+", 2 GeV²": data_EvolvedPDFsSqrt2_4, name+", 10 GeV²": data_EvolvedPDFsSqrt10_4}
 
-#DataSets = {"SAL": data_SAL, "GRVLO": data_GRVLOSqrt2_Exact, "SAL3LO": data_SAL3LO, "SAL5LO": data_SAL5LO}
-#ErrorDataSets = {"SAL3LO": error_SAL3LO, "SAL5LO": error_SAL5LO}
-#DataSets = {"SAL": data_SAL, "GRVHO": data_GRVHOSqrt2_Exact, "SAL3HO": data_SAL3HO, "SAL5HO": data_SAL5HO}
-#ErrorDataSets = {"SAL3HO": error_SAL3HO, "SAL5HO": error_SAL5HO}
+#DataSets      = {"APFEL++, (1.3)² GeV²": data_EvolvedPDFs13_1, 
+#                 "APFEL++, 10 GeV²": data_EvolvedPDFsSqrt10_1, 
+#                 "GRV, (1.3)² GeV²": data_EvolvedPDFs13_2, 
+#                 "GRV, 10 GeV²": data_EvolvedPDFsSqrt10_2}
+#ErrorDataSets = {}
 
-# DataSets = {"SAL": data_SAL, "SAL4VadimHO": data_SAL4VadimHO}
-# ErrorDataSets = {"SAL4VadimHO": error_SAL4VadimHO}
-
-DataSets = {"SAL": data_SAL, "SAL5HO": data_SAL5HO}
-ErrorDataSets = {"SAL5HO": error_SAL5HO}
-
-#DataSets = {"SAL": data_EvolvedPDFs2, "SAL5HO": data_EvolvedPDFs1}
-#ErrorDataSets = {"SAL5HO": data_EvolvedPDFs4}
-
+DataSets      = {"SAL5"+order+", (1.3)² GeV²": data_EvolvedPDFs13_SAL5, 
+                 "SAL4"+order+", (1.3)² GeV²": data_EvolvedPDFs13_SAL4, 
+                 "SAL3"+order+", (1.3)² GeV²": data_EvolvedPDFs13_SAL3}
+ErrorDataSets = {}
 
 
 ###################
@@ -82,7 +84,8 @@ for Set in DataSets.keys():
         DataSets[Set]["DataColumn"] = 1 # set 1 as default
 
     if not "Label" in DataSets[Set]:
-        DataSets[Set]["Label"] = "Data Set: " + str(Set) # make default Label
+        #DataSets[Set]["Label"] = "Data Set: " + str(Set) # make default Label
+        DataSets[Set]["Label"] = str(Set) # make default Label
 
     numXVals = DataSets[Set]["NumXVals"]
 
@@ -156,12 +159,19 @@ if writeFile and sameXVals and sameMuVal and not plotRatio:
 # prepare plot and plot
 ########################
 # setting up the layout of the plot
-fig, axs = plt.subplots(2, 3, sharex=True, figsize=(12*scale,7*scale))
-subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1], axs[1,2]]
+if plotHochkant:
+    fig, axs = plt.subplots(3, 2, sharex=True, figsize=(sizeHochkant, sizeHochkant))
+    subplt = [axs[2,1], axs[0,1], axs[0,0], axs[1,0], axs[1,1], axs[2,0]]
+else:
+    fig, axs = plt.subplots(2, 3, sharex=True, figsize=(12*scale,7*scale))
+    subplt = [axs[0,2], axs[0,0], axs[1,0], axs[0,1], axs[1,1], axs[1,2]]
 
 namesPlots = ["gluon", "down quark", "up quark", "strange quark", "charm quark", "bottom quark", "singlet"]
 yLabelsPlots = ["g", "d", "u", "s", "c", "b", "\Sigma(x)"]
-legendLoc = 7*["upper right"]
+#legendLoc = 7*["upper right"]
+legendLoc = 7*["upper left"]
+legendLoc[0] = "upper right" #gluon
+#legendLoc[3] = "upper right" #strange
 
 # plot the values for the imported pdfs/ratios
 i = 0
@@ -192,7 +202,13 @@ for particle in range(rangeParticles+1):
                     subplt[i].fill_between(xVals, DataSets[Set]["Data"][particle], DataSets[Set]["Data"][particle], alpha=0.2)
 
 
-        subplt[i].set_ylim(bottom = 0, top = maxval)
+        if i == 4:
+            subplt[i].set_ylim(bottom = -0.01, top = 0.01)
+        else:
+            subplt[i].set_ylim(bottom = 0, top = 1.1*maxval)
+
+
+#        subplt[i].set_ylim(bottom = 0, top = 1.1*maxval)
         subplt[i].set_title(namesPlots[particle]+" PDF")
         subplt[i].tick_params('x', labelbottom=True)
         subplt[i].legend(loc=legendLoc[particle])
@@ -210,6 +226,7 @@ plt.xlim(left=10**(-4), right=1)
 if saveFig:
     if plotRatio or plotRatioAlt:
         pltName += "_ratio"
-    plt.savefig(pltName+".pdf", bbox_inches='tight', dpi=dpi)
+    if savePDF:
+        plt.savefig(pltName+".pdf", bbox_inches='tight', dpi=dpi)
     plt.savefig(pltName+".png", bbox_inches='tight', dpi=dpi)
 plt.show()

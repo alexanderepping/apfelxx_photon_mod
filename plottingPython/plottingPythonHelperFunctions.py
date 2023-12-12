@@ -20,6 +20,7 @@ def InitialPDFdownSAL(x, params):
     A_pl  = params[6]
     B_pl  = params[7]
     return A_had * x**B_had * (1-x)**C_had + 1/9 * A_pl * x * (x**2 + (1-x)**2)/(1-B_pl*np.log(1-x))
+    #return A_had * x**B_had * (1-x)**C_had
 
 def InitialPDFupSAL(x, params):
     A_had = params[3]
@@ -28,6 +29,7 @@ def InitialPDFupSAL(x, params):
     A_pl  = params[6]
     B_pl  = params[7]
     return A_had * x**B_had * (1-x)**C_had + 4/9 * A_pl * x * (x**2 + (1-x)**2)/(1-B_pl*np.log(1-x))
+    #return A_had * x**B_had * (1-x)**C_had
 
 def InitialPDFstrangeSAL(x, params):
     K     = params[0]
@@ -37,6 +39,7 @@ def InitialPDFstrangeSAL(x, params):
     A_pl  = params[6]
     B_pl  = params[7]
     return K * A_had * x**B_had * (1-x)**C_had + 1/9 * A_pl * x * (x**2 + (1-x)**2)/(1-B_pl*np.log(1-x))
+    #return K * A_had * x**B_had * (1-x)**C_had
 
 
 ###################

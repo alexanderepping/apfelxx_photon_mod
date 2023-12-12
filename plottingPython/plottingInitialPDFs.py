@@ -15,15 +15,15 @@ dirApfel = "/home/alexander/Uni/apfelxx_photon_mod/"
 ###################
 # Change Options
 ###################
-dirName = dirApfel+"results/Bestandsaufnahme_2022_11_13/"
+dirName = dirApfel+"results/Bestandsaufnahme_2023_10_16/"
 
 #input_file = dirThisFile+"dataInitialPDFs.txt"
-input_file = dirName+"dataInitialPDFsSAL5HO.txt"
-#input_file = dirName+"dataInitialPDFsSAL4VADIMHO.txt"
+input_file = dirName+"dataInitialPDFsSAL4HO.txt"
+#input_file = dirName+"dataInitialPDFsSAL4HO.txt"
 startingLine = 1 # line in which # INITIALPDFS_... is written, usually 1
 
 ratioError = False
-showSALInitialPDFs = False #SALInitialPDFs are at sqrt2 GeV, whereas out InitialPDFs are most likely at 1.3 GeV
+showSALInitialPDFs = True #SALInitialPDFs are at sqrt2 GeV, whereas out InitialPDFs are most likely at 1.3 GeV
 
 save_fig = False
 pltname=dirThisFile+"../plots/plotInitialPDFsSAL3LO_woutOPAL2"
@@ -31,6 +31,7 @@ pltname=dirThisFile+"../plots/plotInitialPDFsSAL3LO_woutOPAL2"
 scale = 1.75
 dpi = 200 # default is 100
 
+plotHochkant = True
 
 
 ###################
@@ -139,12 +140,16 @@ if (InitialPDFsType == "SAL"):
             InitialPDF = BigDataDictionary[i]["InitialPDF"]
         
             subplt[i].plot(x, InitialPDF(x, Parameters), label="Apfel++ result")
+            #subplt[i].plot(x, BigDataDictionary[2]["InitialPDF"](x, Parameters), label="no PL")
+            #subplt[i].plot(x, BigDataDictionary[3]["InitialPDF"](x, Parameters), label="PL")
 
             if ErrorPDFs: #plot ErrorPDFs
                 subplt[i].fill_between(x, LowerErrorPDF(InitialPDF, x, Parameters, ErrorParametersPlus, ErrorParametersMinus), UpperErrorPDF(InitialPDF, x, Parameters, ErrorParametersPlus, ErrorParametersMinus), alpha=0.2)
 
             if showSALInitialPDFs: #plot SAL InitialPDFs
                 subplt[i].plot(x, InitialPDF(x, SALParameters), label="SAL result")
+                #subplt[i].plot(x, BigDataDictionary[2]["InitialPDF"](x, SALParameters), label="SAL no PL")
+                #subplt[i].plot(x, BigDataDictionary[3]["InitialPDF"](x, SALParameters), label="SAL PL")
 
         else: #plot Errro-Ratio
             subplt[i].plot(x, DeltaErrorPDF(InitialPDF, x, ErrorParametersPlus, ErrorParametersMinus)/InitialPDF(x, Parameters), label="ratio DeltaError/Apfel")

@@ -19,13 +19,14 @@
 // definitions, can be changed by user
 ////////////////////////////////////////////////////////////
 
+const std::string ApfelPath =  getenv("APFELXX");
 // Name of the input file with the parameters etc
-//const std::string InputFileName = getenv("APFELXX")+"/plottingPython/dataInitialPDFs.txt";
-const std::string InputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataInitialPDFsSAL5LO.txt";
+//const std::string InputFileName = ApfelPath+"/plottingPython/dataInitialPDFs.txt";
+const std::string InputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_08_31/dataInitialPDFsSAL5LO.txt";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-//const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataStructureFunctions.txt";
-const std::string OutputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL5LO.txt";
+//const std::string OutputFileName = ApfelPath+"/plottingPython/dataStructureFunctions.txt";
+const std::string OutputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_08_31/dataStructureFunctionsSAL5LO.txt";
 
 // Decide whether LO or HO should be used
 #define LO

@@ -14,12 +14,13 @@ from experimentalData import *
 ###########################
 # variables changeable by user
 dirThisFile = os.path.dirname(__file__) + "/"
-input_dir = dirThisFile + "../results/Bestandsaufnahme_2022_11_13/"
+#input_dir = dirThisFile + "../results/Bestandsaufnahme_2022_11_13/"
+input_dir = dirThisFile + "../results/Bestandsaufnahme_2023_08_31/"
 
+ErrorPDFs           = ["SAL4"]
 input_fileSAL3      = input_dir + "dataStructureFunctionsSAL3HO.txt"
-input_fileSAL4VADIM = input_dir + "dataStructureFunctionsSAL4VADIMHO.txt"
-input_fileSAL5      = input_dir + "dataStructureFunctionsSAL5HO.txt"
-ErrorPDFs           = ["SAL4VADIM"]
+input_fileSAL4      = input_dir + "dataStructureFunctionsSAL4HO.txt"
+#input_fileSAL5      = input_dir + "dataStructureFunctionsSAL5HO.txt"
 
 # All DataSets and Energies:
 #       DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, OPAL2_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA, TPC_DATA]
@@ -27,8 +28,8 @@ ErrorPDFs           = ["SAL4VADIM"]
 #       Energies = [1.86, 1.9, 2.4, 2.8, 3.7, 3.76, 4.3, 5.0, 5.1, 5.3, 5.9, 6.8, 7.5, 8.9, 9.0, 9.2, 9.9, 10.7, 10.8, 12.0, 14.5, 14.7, 15.3, 16.0, 17.3, 17.5, 17.8, 20.7, 23.0, 23.1, 24.0, 30.0, 45.0, 59.0, 67.2, 73.0, 80.0, 100.0, 135.0, 284.0, 390.0, 780.0]
 
 # Used DataSets and Energies:
-DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA]
-NamesSets= ["ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"]
+DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, OPAL2_less_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA]
+NamesSets= ["ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2_less", "PLUTO", "TASSO", "TOPAZ"]
 #DataSets = [ALEPH1_DATA, ALEPH2_DATA]
 #NamesSets= ["ALEPH1", "ALEPH2"]
 
@@ -47,11 +48,11 @@ c = 1.75
 ###########################
 # definitions
 ###########################
-input_files = {"SAL3" : input_fileSAL3, "SAL4VADIM" : input_fileSAL4VADIM, "SAL5" : input_fileSAL5}
+input_files = {"SAL3" : input_fileSAL3, "SAL4" : input_fileSAL4}
 
 # loading basic information on the following data, should be the same for all input files
-mu2_vals   =     np.loadtxt(open(input_files[input_files.keys()[0]]), delimiter=",", unpack=False, skiprows=1, max_rows=1)
-num_x_vals = int(np.loadtxt(open(input_files[input_files.keys()[0]]), delimiter=",", unpack=True, skiprows=3, max_rows=1))
+mu2_vals   =     np.loadtxt(open(input_files[list(input_files.keys())[0]]), delimiter=",", unpack=False, skiprows=1, max_rows=1)
+num_x_vals = int(np.loadtxt(open(input_files[list(input_files.keys())[0]]), delimiter=",", unpack=True,  skiprows=3, max_rows=1))
 
 mu_vals = np.sqrt(mu2_vals)
 
@@ -150,7 +151,7 @@ for i in range(len(DataSets)):
                     subplt[l].fill_between(x[key][i_mu], SF[key][i_mu] - DeltaSF[key][i_mu], SF[key][i_mu] + DeltaSF[key][i_mu], alpha=0)
 
             # Plot SAL Structure functions (are the same values for SAL3, SAL4 etc)
-            subplt[l].plot(x[input_files.keys()[0]][i_mu], SAL[input_files.keys()[0]][i_mu], label="SAL, original")
+            subplt[l].plot(x[list(input_files.keys())[0]][i_mu], SAL[list(input_files.keys())[0]][i_mu], label="SAL, original")
 
             subplt[l].errorbar(xData[l+m], F2Gamma[l+m], yerr=F2GammaErr[l+m], linestyle=" ", marker="+", color="red", capsize=6, linewidth=1.65, label=NamesSets[i])
 
@@ -176,6 +177,33 @@ for i in range(len(DataSets)):
 
             #x-ticks on all axis
             subplt[l].tick_params('x', labelbottom=True)
+
+        ## Find maxval and minval for top and bottom of plot
+            maxval = 0
+            minval = 0
+            # SAL3, 4 and 5
+            for key in input_files.keys():
+                if maxval < max(SF[key][i_mu][1:]):
+                    maxval=max(SF[key][i_mu][1:])
+                if minval > min(SF[key][i_mu]):
+                    minval=min(SF[key][i_mu])
+            # SAL
+            if maxval < max(SAL[list(input_files.keys())[0]][i_mu][1:]):
+                maxval=max(SAL[list(input_files.keys())[0]][i_mu][1:])
+            if minval > min(SAL[list(input_files.keys())[0]][i_mu]):
+                minval=min(SAL[list(input_files.keys())[0]][i_mu])
+            # Data points
+            F2Plus  = np.array(F2Gamma[l+m]) + np.array(F2GammaErr[l+m])
+            F2Minus = np.array(F2Gamma[l+m]) - np.array(F2GammaErr[l+m])
+            if maxval < max(F2Plus):
+                maxval = max(F2Plus)
+            if minval > min(F2Minus):
+                minval = min(F2Minus)
+
+
+
+
+            subplt[l].set_ylim(bottom = minval-0.1, top = maxval+0.1)
 
             # labels for axis
             if l == min([len(EnergiesTemp)-m,3])-1:

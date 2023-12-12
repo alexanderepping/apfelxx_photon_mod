@@ -45,11 +45,13 @@ const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
 
 #define asGRV
 
+const std::string ApfelPath =  getenv("APFELXX");
+
 // Name of the output file for the Evolved PDFs
-const std::string OutputFileEvolved = getenv("APFELXX")+"/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
+const std::string OutputFileEvolved = ApfelPath+"/myLHAPDFModified/share/LHAPDF/Evolved"+NameLHAPDFSet+"/Evolved"+NameLHAPDFSet+"_0000.dat";
 
 // Name of the output file for the Structure Functions of the Evolved PDFs
-const std::string OutputFileStructureFunctions = getenv("APFELXX")+"/plottingPython/dataStructureFunctions.txt";
+const std::string OutputFileStructureFunctions = ApfelPath+"/plottingPython/dataStructureFunctions.txt";
 
 
 

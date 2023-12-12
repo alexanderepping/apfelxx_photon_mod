@@ -21,19 +21,23 @@
 //----Name of the used LHAPDF set----
 //----Only use GRVParameters, if explicitly needed----
 //const std::string NameLHAPDFSet = "GRVLO_nCTEQ15Parameters";
-const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
+//const std::string NameLHAPDFSet = "GRVHO_nCTEQ15Parameters";
 //const std::string NameLHAPDFSet = "GRVLO_GRVParameters";
-//const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
+const std::string NameLHAPDFSet = "GRVHO_GRVParameters";
 
 //----Change the way alpha_s is calculated----
 //#define asApfel
 #define asGRV
 
 //----Name of the output file----
-const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataEvolvedPDFs.txt";
+const std::string ApfelPath =  getenv("APFELXX");
+//const std::string OutputFileName = ApfelPath+"/plottingPython/dataEvolvedPDFs.txt";
+const std::string OutputFileName = ApfelPath+"/plottingPython/dataEvolvedPDFsGRVHOasGRV28_sqrt20.txt";
 
 //----Array of final scale values for which data should be output----
-double arr_mu[] = {std::sqrt(2.)}; 
+//double arr_mu[] = {std::sqrt(2.), std::sqrt(10.)}; 
+// double arr_mu[] = {1.3, std::sqrt(10.)}; 
+double arr_mu[] = {std::sqrt(20.)}; 
 
 
 ///////////////////////////////////////
@@ -98,6 +102,7 @@ int main()
   // Calculate alpha_s
   /////////////////////////////////////
 
+  #ifdef asApfel
   // Construct alpha_s object
   apfel::AlphaQCD a{asref, Qref, Masses, Thresholds, pto};
 
@@ -107,12 +112,12 @@ int main()
   const apfel::TabulateObject<double> Alphas{a, 100, 0.9, 1001, 3};
 
   //----calculate alphas(Q) using the evolution calculated by apfel----
-  #ifdef asApfel
   const auto as = [&] (double const& mu) -> double{ return Alphas.Evaluate(mu); };
   #endif
 
   //----calculate Alphas(Q) using equation(2.11) given in                  ----
-  //----Glück & Reya - Physical Review D, Volume 28, Number 11 (1983.12.01)----
+  //----Glück & Reya       - Physical Review D, Volume 28, Number 11 (1983.12.01) (28)----
+  //----Glück, Reya & Vogt - Physical Review D, Volume 46, Number 05 (1902.09.01) (46)----
   #ifdef asGRV
   const auto as = [&] (double const& mu) -> double
   {
@@ -134,10 +139,14 @@ int main()
 
     double lnQ2Lambda2 = log((mu * mu) / (lambdas.at(pto)[nf]*lambdas.at(pto)[nf])); 
 
-    return 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); 
+    // double result46 = 4*M_PI*(1/(beta0 * lnQ2Lambda2) - beta1 / (beta0 * beta0 * beta0) * log(lnQ2Lambda2)/(lnQ2Lambda2*lnQ2Lambda2)); // Volume 46
+    // return result46; 
+
+    double result28  = 4*M_PI/(beta0 * lnQ2Lambda2 + beta1 / beta0 * log(lnQ2Lambda2)); // Volume 28
+    return result28; 
   };
   #endif
-  
+
 
 
   /////////////////////////////////////
@@ -196,7 +205,12 @@ int main()
     std::cout << "____________________________________________________________" << std::endl;
     std::cout << "____________________________________________________________" << std::endl;
     std::cout << "\nmu = " << mu << " GeV\n" << std::endl;
+  #ifdef asApfel
     std::cout << "APFEL++: AlphaQCD(Q) = " << Alphas.Evaluate(mu) << std::endl;
+  #endif //asApfel
+  #ifdef asGRV
+    std::cout << "APFEL++: AlphaQCD(Q) = " << as(mu) << std::endl;
+  #endif //asGRV
     std::cout << "LHAPDF:  AlphaQCD(Q) = " << dist->alphasQ(mu) << std::endl;
 
 

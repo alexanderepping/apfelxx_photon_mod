@@ -14,7 +14,7 @@ from experimentalData import *
 # variables changeable by user
 dirThisFile = os.path.dirname(__file__) + "/"
 #input_file = dirThisFile+"dataStructureFunctions.txt"
-input_file = dirThisFile+"../results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL4VADIMHO.txt"
+input_file = dirThisFile+"../results/Bestandsaufnahme_2022_11_13/dataStructureFunctionsSAL4HO.txt"
 
 # All DataSets and Energies:
 #       DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, OPAL2_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA, TPC_DATA]
@@ -22,8 +22,8 @@ input_file = dirThisFile+"../results/Bestandsaufnahme_2022_11_13/dataStructureFu
 #       Energies = [1.86, 1.9, 2.4, 2.8, 3.7, 3.76, 4.3, 5.0, 5.1, 5.3, 5.9, 6.8, 7.5, 8.9, 9.0, 9.2, 9.9, 10.7, 10.8, 12.0, 14.5, 14.7, 15.3, 16.0, 17.3, 17.5, 17.8, 20.7, 23.0, 23.1, 24.0, 30.0, 45.0, 59.0, 67.2, 73.0, 80.0, 100.0, 135.0, 284.0, 390.0, 780.0]
 
 # Used DataSets and Energies:
-#DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA]
-#NamesSets= ["ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "PLUTO", "TASSO", "TOPAZ"]
+#DataSets = [ALEPH1_DATA, ALEPH2_DATA, AMY_DATA, DELPHI_DATA, JADE_DATA, L3_DATA, OPAL1_DATA, OPAL2_less_DATA, PLUTO_DATA, TASSO_DATA, TOPAZ_DATA]
+#NamesSets= ["ALEPH1", "ALEPH2", "AMY", "DELPHI", "JADE", "L3", "OPAL1", "OPAL2_less", "PLUTO", "TASSO", "TOPAZ"]
 DataSets = [ALEPH1_DATA, ALEPH2_DATA]
 NamesSets= ["ALEPH1", "ALEPH2"]
 

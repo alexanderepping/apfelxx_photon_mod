@@ -294,7 +294,7 @@ std::vector<double> PrecalculatedFinalParams()
 #ifdef LO
     if (usedInitialPDFs == INITIALPDFS_SAL3)
         finalParams = {-0.384581, 0.439775, 0.256241};
-    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    else if (usedInitialPDFs == INITIALPDFS_SAL4)
         finalParams = {-0.224452, 0.436453, 0.570871, 0.320468};
     else if (usedInitialPDFs == INITIALPDFS_SAL5)
         finalParams = {-0.202210, 0.524953, 0.665115, 0.348421, 0.648468};
@@ -303,7 +303,7 @@ std::vector<double> PrecalculatedFinalParams()
 #ifdef HO
     if (usedInitialPDFs == INITIALPDFS_SAL3)
         finalParams = {-0.182473, 0.483074, 0.285813};
-    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    else if (usedInitialPDFs == INITIALPDFS_SAL4)
         finalParams = {-0.215028, 0.491192, 0.505920, 0.247174};
     else if (usedInitialPDFs == INITIALPDFS_SAL5)
         finalParams = {-0.272855, 0.591875, 0.610880, 0.297112, 1.116165};
@@ -329,7 +329,7 @@ Eigen::MatrixXd PrecalculatedHessian()
         Hessian(2, 1) = -14398.0000;
         Hessian(2, 2) =  20965.8000;
     }
-    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    else if (usedInitialPDFs == INITIALPDFS_SAL4)
     {
         Hessian(0, 0) =    12.918952;
         Hessian(0, 1) =    33.834566;
@@ -391,7 +391,7 @@ Eigen::MatrixXd PrecalculatedHessian()
         Hessian(2, 1) = -12871.692718;
         Hessian(2, 2) = 19336.950953;
     }
-    else if (usedInitialPDFs == INITIALPDFS_SAL4VADIM)
+    else if (usedInitialPDFs == INITIALPDFS_SAL4)
     {
         Hessian(0, 0) = 18.776399;
         Hessian(0, 1) = 115.308802;

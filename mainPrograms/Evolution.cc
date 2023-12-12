@@ -18,22 +18,26 @@
 // definitions, can be changed by user
 ////////////////////////////////////////////////////////////
 
-const std::string name = "SAL5HO";
-
-// Name of the input file with the parameters etc
-const std::string InputFileName =  getenv("APFELXX")+"/plottingPython/dataInitialPDFs.txt";
-//const std::string InputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataInitialPDFs"+name+".txt";
-
-// Name of the output file
-const std::string OutputFileName = getenv("APFELXX")+"/plottingPython/dataEvolvedPDFs.txt";
-//const std::string OutputFileName = getenv("APFELXX")+"/results/Bestandsaufnahme_2022_11_13/dataEvolvedPDFs"+name+".txt";
-
+const std::string name = "SAL4HO";
 
 // Decide whether LO or HO should be used
 #define HO
 
+std::string ApfelPath = getenv("APFELXX");
+
+// Name of the input file with the parameters etc
+// const std::string InputFileName =  ApfelPath+"/plottingPython/dataInitialPDFs.txt";
+// const std::string InputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_08_31/dataInitialPDFs"+name+".txt";
+const std::string InputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_10_16/dataInitialPDFs"+name+".txt";
+
+// Name of the output file
+// const std::string OutputFileName = ApfelPath+"/plottingPython/dataEvolvedPDFs.txt";
+// const std::string OutputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_08_31/dataEvolvedPDFs"+name+"_sqrt10.txt";
+const std::string OutputFileName = ApfelPath+"/results/Bestandsaufnahme_2023_10_16/dataEvolvedPDFs"+name+"_sqrt20_VFNS.txt";
+
 // Array of final scale values for which data should be output
-double arr_mu[] = {std::sqrt(2.)}; 
+//double arr_mu[] = {1.3}; 
+double arr_mu[] = {std::sqrt(20.)}; 
 
 
 
@@ -358,7 +362,7 @@ int main()
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // Evolving PDFs and Calculating Structure Functions for ErrorParameters
+  // Evolving PDFs
   ///////////////////////////////////////////////////////////////////////////
     if (InputFileData.HasErrors)
     {
@@ -370,6 +374,7 @@ int main()
       const auto InPDFsPlus  = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(InitialPDFs(x, Q, InputFileData.FinalErrorParametersPlus[i])); };
       const auto InPDFsMinus = [&] (double const& x, double const& Q) -> std::map<int, double>{ return apfel::PhysToQCDEv(InitialPDFs(x, Q, InputFileData.FinalErrorParametersMinus[i])); };
 
+    auto test = InputFileData.FinalErrorParametersMinus[i];
       // Initialise and Build DglapObjects
       auto EvolvedPDFsPlus  = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFsPlus,  Qin, pto, as);
       auto EvolvedPDFsMinus = BuildDglap(InitializeDglapObjectsQCD(g, Masses, Thresholds), InPDFsMinus, Qin, pto, as);

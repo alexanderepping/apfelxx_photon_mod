@@ -77,4 +77,5 @@ double CalculateZiPlusMinus(StructureFunctionsFcn               const& Structure
                             std::vector<double>                 const& finalParams,
                             std::map<std::string, double>       const& Xi90RescaledMap,
                             std::string                         const& sign,
-                            double                              const& deltaZstepsize);
+                            double                              const& deltaZstepsize=100,
+                            double                              const& precision=0.000001);

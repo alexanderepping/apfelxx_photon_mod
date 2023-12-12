@@ -116,7 +116,7 @@ namespace apfel
         // add inhomogeneous part to the homogeneous 
         std::map<int, Distribution> tempMap;
 
-        // loop through map of rhsGeneral and only add the inhomogeneous part (Distributions) at some keys
+        // loop through map of rhsGeneral and only add the inhomogeneous part (Distributions) 
         for (int particleComb=0; particleComb!=static_cast<int>(rhsGeneral.GetObjects().size()); ++particleComb)
           {
             Grid const& rhsGrid = rhsGeneral.GetObjects().at(particleComb).GetGrid();

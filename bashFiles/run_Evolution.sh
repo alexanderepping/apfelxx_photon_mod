@@ -58,7 +58,7 @@ make clean > $voidOutput
 rm $voidOutput
 
 cd $CURRENT_APFEL && cd .. && cd plottingPython
-python3 plottingEvolvedPDFs.py &
+#python3 plottingEvolvedPDFs.py &
 
 
 echo ""

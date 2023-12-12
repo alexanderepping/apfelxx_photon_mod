@@ -29,7 +29,7 @@ dirName = dirApfel+"results/Bestandsaufnahme_2022_11_13/"
 
 #input_file = dirThisFile+"dataInitialPDFs.txt"
 input_file = dirName+"dataInitialPDFsSAL5HO.txt"
-# input_file = dirName+"dataInitialPDFsSAL4VADIMHO.txt"
+# input_file = dirName+"dataInitialPDFsSAL4HO.txt"
 
 plotWhichPart = "PL"
 

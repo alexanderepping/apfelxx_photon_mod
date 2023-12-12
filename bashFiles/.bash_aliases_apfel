@@ -5,7 +5,7 @@ export APFELXX=~/Uni/apfelxx_photon_mod
 export LD_LIBRARY_PATH=$APFELXX/myApfelModified/lib:$LD_LIBRARY_PATH
 export PATH=$APFELXX/myApfelModified/bin:$PATH
 export CURRENT_APFEL=$APFELXX/myApfelModified
-export CURRENT_APFEL_PROG=$APFELXX/mainPrograms;;
+export CURRENT_APFEL_PROG=$APFELXX/mainPrograms
 
 
 
@@ -14,7 +14,7 @@ export CURRENT_APFEL_PROG=$APFELXX/mainPrograms;;
 ###################
 export LD_LIBRARY_PATH=$APFELXX/myLHAPDFModified/lib:$LD_LIBRARY_PATH
 export PATH=$APFELXX/myLHAPDFModified/bin:$PATH
-export CURRENT_LHAPDF=$APFELXX/myLHAPDFModified;;
+export CURRENT_LHAPDF=$APFELXX/myLHAPDFModified
 
 
 

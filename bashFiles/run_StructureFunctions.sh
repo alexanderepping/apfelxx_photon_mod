@@ -58,7 +58,7 @@ make clean > $voidOutput
 rm $voidOutput
 
 cd $CURRENT_APFEL && cd .. && cd plottingPython
-python3 plottingStructureFunctions.py &
+#python3 plottingStructureFunctions.py &
 
 
 echo ""
