@@ -46,7 +46,7 @@ Folder containing various python files to plot the data collected from the Evolu
 Modified versions of the examples found in [vbertone/APFEL_EXAMPLES](https://github.com/vbertone/APFEL_Examples).
 Programs for calculation of Evolution and StructureFunctions
 
-
+<!---
 ## compiling using cmake
 in the main folder use
 ```
@@ -56,3 +56,4 @@ make
 - fresh installation: remove `CMakeCache.txt` and the folder `CMakeFiles`
 - executables can be added in the `CMakeLists.txt` 
 - to switch the `LHAPDF`-installation just change your `PATH` variable to point to the correct `lhapdf-config`
+--->
